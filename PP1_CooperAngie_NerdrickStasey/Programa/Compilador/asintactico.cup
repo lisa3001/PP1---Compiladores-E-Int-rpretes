@@ -1,0 +1,203 @@
+package compilador;
+
+// Importación de clases
+import java_cup.runtime.*;
+import java.io.FileReader;
+   
+/* 
+  Esta sección del código se agrega a la clase resultante
+*/
+parser code {:
+    
+    /*Entrada: Es un mensaje de error de tipo String y el símbolo de tipo Object 
+      Salida: No tiene
+      Error encontrado.
+      Se hace un Override al método report_error de la clase lr_parser de CUP 
+    */
+    public void report_error(String message, Object info) {
+        StringBuilder m = new StringBuilder("Error");
+        if (info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {                
+                m.append(" in line "+(s.left+1));
+                if (s.right >= 0)
+                    m.append(", column "+(s.right+1));
+            }
+        }
+        m.append(" : "+message);
+        System.err.println(m);
+    }
+   
+    /*Entrada: Es un mensaje de error de tipo String y el símbolo de tipo Object 
+      Salida: No tiene 
+      Error de donde el sistema no se puede recuper
+       Se hace un Override al método report_fatal_error de la clase lr_parser de CUP
+    */
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+    }
+
+    /* Se ejecuta el método main para ejecutar el analizador léxico y el analizador
+       sintáctico. Se envía como parámetro la tabla de símbolos.
+    */
+    public static void main(String[] args){
+        try {
+            AnalizadorSintactico asin = new AnalizadorSintactico(
+                    new AnalizadorLexico( new FileReader(args[0])));
+            Object result = asin.parse().value;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+:};
+   
+
+   
+// ------------Declaracion de terminales y no terminales
+   
+/* TERMINALES
+   Se listan todos los tokens que se vayan a utilizar para la elaboración de
+   producciones, estos son obtenidos por el analizador lexico. 
+*/
+terminal           IDENTIFIER,
+                   MINUS, PLUS, DIVIDE, MULTI, MODULE, POWER, PLUS_PLUS, MINUS_MINUS,
+                   GREATER, GREATER_EQUAL, MINOR, MINOR_EQUAL, EQUAL_EQUAL, DIFFERENT, AND, OR,
+                   OPEN_PAREN, CLOSE_PAREN, TRUE, FALSE, NULL, OPEN_BRACKET, CLOSE_BRACKET, COMMA,
+                   INT, FLOAT, BOOL, CHAR, STRING, EQUAL, FINAL, FOR, RETURN, READ, PRINT, NOT,
+                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK,
+                   MAIN;
+terminal Integer   INTEGER;
+terminal Double    DECIMAL;
+terminal String    CHARCHAIN;
+terminal Character CHARACTER;
+
+/*NO TERMINALES 
+  Se listas todos los no terminales que se elaboran en las producciones. Se utiliza Object
+  para indicar que estos no tienen un tipo definido, pudiendo ser un entero o String.
+*/
+
+non terminal Object operation, relational_operator, additive_operation, additive_operator,
+                    multiplicative_operation, multiplicative_operator, unary_operation,
+                    unary_operator, basic_operation, empty,
+                    sentences, call_function, 
+                    block, create_function, parameters, parameter_list, 
+                    main_function,assing_var, negation, 
+                    init_program;
+
+   
+/* -------------Precedencia y producciones
+   
+/*PRECEDENCIA
+
+  En este caso se utiliza la precedencia para eliminar la ambiguedad que se genera en la producción type,
+  al tener un INT que hace referencia al tipo entero y un INT[] que hace referencia al tipo arreglo.
+*/
+  precedence right INT;
+  precedence right ELIF; 
+  precedence right ELSE; 
+  
+
+/* PRODUCCIONES   
+ 
+/* 
+  El programa inicia con la producción init_program, esta indica que se pueden crear funciones y luego
+  utilizar la función main, o solo hacer uso de esta última. A partir de esta se desencadena el uso
+  de las demás producciones.
+*/
+
+    start with init_program;
+
+    init_program ::= create_function main_function
+                   | main_function
+                   ;
+
+    main_function ::= INT MAIN OPEN_PAREN CLOSE_PAREN block
+                    ;
+
+    create_function ::= create_function type IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block
+                      | type IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block
+                      ;
+
+    parameters ::= empty
+                 | parameters COMMA type IDENTIFIER
+                 | type IDENTIFIER
+                 ;
+
+    block ::=  OPEN_KEY sentences CLOSE_KEY
+            |  error CLOSE_KEY
+            ; 
+
+    sentences ::= empty
+               | operation FINAL sentences
+               | RETURN operation FINAL
+               | error sentences
+               ;
+
+    operation ::= operation relational_operator additive_operation
+                | additive_operation
+                ;
+
+    relational_operator ::= GREATER
+                          | GREATER_EQUAL
+                          | MINOR
+                          | MINOR_EQUAL
+                          | EQUAL_EQUAL
+                          | DIFFERENT
+                          ;
+
+    additive_operation ::= additive_operation additive_operator multiplicative_operation
+                         | multiplicative_operation
+                         ;
+
+    additive_operator   ::= MINUS
+                          | PLUS
+                          | OR
+                          ;    
+
+    multiplicative_operation ::= multiplicative_operation multiplicative_operator unary_operation
+                               | unary_operation 
+                               ;
+
+    multiplicative_operator ::= DIVIDE
+                              | MULTI
+                              | POWER
+                              | MODULE
+                              | AND
+                              ; 
+
+    unary_operation ::= unary_operator unary_operation
+                      | basic_operation
+                      ;
+
+    unary_operator ::= MINUS_MINUS
+                     | PLUS_PLUS
+                     | MINUS
+                     ;
+
+    basic_operation ::= INTEGER
+                      | DECIMAL
+                      | CHARCHAIN
+                      | CHARACTER
+                      | IDENTIFIER
+                      | TRUE
+                      | FALSE
+                      | negation OPEN_PAREN operation CLOSE_PAREN 
+                      | call_function
+                      | NULL
+                      ;
+
+   parameter_list ::= parameter_list COMMA operation
+                     | operation
+                     ;
+
+    call_function ::= IDENTIFIER OPEN_PAREN parameter_list CLOSE_PAREN
+                    | IDENTIFIER OPEN_PAREN CLOSE_PAREN
+                    ;
+
+    empty ::=
+            ;
+
+
+    negation ::= empty
+		           | NOT
+		;
