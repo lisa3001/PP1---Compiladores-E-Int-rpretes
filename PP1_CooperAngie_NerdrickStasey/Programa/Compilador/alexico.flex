@@ -55,7 +55,7 @@ JUMP = \r|\n|\r\n
 WHITESPACE = [ \t]|{JUMP}
 InputCharacter = [^\r\n]
 
-/* comments */
+//comments
 COMMENT = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
 TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
@@ -151,10 +151,9 @@ CommentContent       = ( [^*] | \*+ [^\*] )*
                     return symbol(sym.CHARACTER, yytext()); }
   {IDENTIFIER}   {   GuardarToken(yytext()); 
                     return symbol(sym.IDENTIFIER, yytext()); }
-  {Comment}      { /* ignora el espacio */ } 
+  {COMMENT}      { /* ignora el espacio */ } 
   {WHITESPACE}   { /* ignora el espacio */ } 
 }
 
-/* Si el token contenido en la entrada no coincide con ninguna regla
-    entonces se marca un token ilegal */
+//Si el token contenido en la entrada no coincide con ninguna regla entonces se marca un token ilegal
 [^]              {System.err.print("\nError Léxico -> Caracter ilegal <"+yytext()+"> Línea: "+yyline+" Columna: "+yycolumn+"\n"); }
