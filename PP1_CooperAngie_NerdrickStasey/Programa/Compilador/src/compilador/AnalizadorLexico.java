@@ -4,6 +4,7 @@ package compilador;
 
 import java_cup.runtime.*;
 import java.io.Reader;
+import java.util.ArrayList;
       
 
 /**
@@ -296,6 +297,8 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private boolean zzEOFDone;
 
   /* user code: */
+    ArrayList<String> identifiers = new ArrayList<String>();
+
     //  Guarda el tipo de token 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
@@ -305,6 +308,16 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
     private Symbol symbol(int type, Object value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
+
+    private void GuardarToken (String t){
+        if (identifiers.size() == 0 || identifiers.indexOf(t) < 0){
+            System.out.print(t + " -> IDENTIFIER |Se guardará en la tabla de símbolos con nombre, tipo, valor, ámbito y rol \n");
+            identifiers.add(t);
+        }else{
+            System.out.print(t + " -> IDENTIFIER \n");
+        }
+    }
+
 
 
   /**
@@ -688,7 +701,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
           }
         case 52: break;
         case 3: 
-          { System.out.print(yytext() + " -> IDENTIFIER\n"); 
+          { GuardarToken(yytext()); 
                     return symbol(sym.IDENTIFIER, yytext());
           }
         case 53: break;

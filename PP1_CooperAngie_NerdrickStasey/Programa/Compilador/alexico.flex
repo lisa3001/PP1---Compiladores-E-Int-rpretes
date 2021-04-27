@@ -2,6 +2,7 @@ package compilador;
 
 import java_cup.runtime.*;
 import java.io.Reader;
+import java.util.ArrayList;
       
 %% //opciones
     
@@ -12,9 +13,12 @@ import java.io.Reader;
 %line //Contador de lineas yyline
 %column //Contador de columna yycolumn
 %cup
+
    
 
 %{
+    ArrayList<String> identifiers = new ArrayList<String>();
+
     //  Guarda el tipo de token 
     private Symbol symbol(int type) {
         return new Symbol(type, yyline, yycolumn);
@@ -24,6 +28,16 @@ import java.io.Reader;
     private Symbol symbol(int type, Object value) {
         return new Symbol(type, yyline, yycolumn, value);
     }
+
+    private void GuardarToken (String t){
+        if (identifiers.size() == 0 || identifiers.indexOf(t) < 0){
+            System.out.print(t + " -> IDENTIFIER |Se guardará en la tabla de símbolos con nombre, tipo, valor, ámbito y rol \n");
+            identifiers.add(t);
+        }else{
+            System.out.print(t + " -> IDENTIFIER \n");
+        }
+    }
+
 %}
    
 
@@ -135,7 +149,7 @@ CommentContent       = ( [^*] | \*+ [^\*] )*
                     return symbol(sym.CHARCHAIN, yytext()); }
   {CHARACTER}    {   System.out.print(yytext() + " -> CHARACTER\n"); 
                     return symbol(sym.CHARACTER, yytext()); }
-  {IDENTIFIER}   {   System.out.print(yytext() + " -> IDENTIFIER\n"); 
+  {IDENTIFIER}   {   GuardarToken(yytext()); 
                     return symbol(sym.IDENTIFIER, yytext()); }
   {Comment}      { /* ignora el espacio */ } 
   {WHITESPACE}   { /* ignora el espacio */ } 
