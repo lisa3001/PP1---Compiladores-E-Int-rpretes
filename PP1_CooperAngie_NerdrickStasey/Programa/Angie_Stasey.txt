@@ -56,7 +56,7 @@ WHITESPACE = [ \t]|{JUMP}
 InputCharacter = [^\r\n]
 
 /* comments */
-COMMENT = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
 TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
 // Comment can be the last line of the file, without line terminator.
