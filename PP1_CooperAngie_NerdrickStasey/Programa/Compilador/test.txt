@@ -1,18 +1,12 @@
-int residuo (int num){  
-	int prube = 12 - num;
-	int d[3];
-	return num + 10 * num; 
-}
-
-int main () {  
-	int res = residuo(11) + 1;
-	if not (2 < 3 ){
-	   res = res + 1;
+/*
+  Pruebas de funcionalidad para la documentación
+*/
+int main () {
+	string oracion = "Arroz con pollo";  
+	string opcion;
+	read(opcion);
+	if(opcion == 1){
+	   return "Sí";
 	}
-	elif (34 + 11 == 45){
-	  return true;	
-	}
-	elif (34 + 11 == 45){
-	  return true;	
-	}
+	return "No";
 }
