@@ -64,7 +64,7 @@ terminal           IDENTIFIER,
                    GREATER, GREATER_EQUAL, MINOR, MINOR_EQUAL, EQUAL_EQUAL, DIFFERENT, AND, OR,
                    OPEN_PAREN, CLOSE_PAREN, TRUE, FALSE, NULL, OPEN_BRACKET, CLOSE_BRACKET, COMMA,
                    INT, FLOAT, BOOL, CHAR, STRING, EQUAL, FINAL, FOR, RETURN, READ, PRINT, NOT,
-                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK,
+                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK, COMMENT,
                    MAIN;
 terminal Integer   INTEGER;
 terminal Double    DECIMAL;
@@ -141,6 +141,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL sentences 
                | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL sentences 
                | error sentences
+               | COMMENT
                ;
 
     for_structure ::= create_var FINAL operation FINAL operation FINAL ;
