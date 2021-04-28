@@ -64,7 +64,7 @@ terminal           IDENTIFIER,
                    GREATER, GREATER_EQUAL, MINOR, MINOR_EQUAL, EQUAL_EQUAL, DIFFERENT, AND, OR,
                    OPEN_PAREN, CLOSE_PAREN, TRUE, FALSE, NULL, OPEN_BRACKET, CLOSE_BRACKET, COMMA,
                    INT, FLOAT, BOOL, CHAR, STRING, EQUAL, FINAL, FOR, RETURN, READ, PRINT, NOT,
-                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK, COMMENT,
+                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK, COMMENT, QUESTION, POINT_POINT,
                    MAIN;
 terminal Integer   INTEGER;
 terminal Double    DECIMAL;
@@ -81,7 +81,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                     unary_operator, basic_operation, empty, create_var, type, 
                     sentences, call_function, createArray, arrayList, modifyArrayElement, 
                     block, create_function, parameters, parameter_list, for_structure, if_structure, else_structure, 
-                    elif_structure, main_function, assing_var, negation, 
+                    elif_structure, main_function, assing_var, negation, if_ternary,
                     init_program;
 
    
@@ -135,6 +135,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                | modifyArrayElement FINAL sentences
                | createArray FINAL sentences
                | if_structure
+               | if_ternary FINAL sentences
                | FOR OPEN_PAREN for_structure CLOSE_PAREN block sentences
                | RETURN operation FINAL
                | BREAK FINAL
@@ -236,6 +237,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
 
     createArray ::= type IDENTIFIER OPEN_BRACKET INTEGER CLOSE_BRACKET
                     | type IDENTIFIER OPEN_BRACKET CLOSE_BRACKET EQUAL OPEN_BRACKET arrayList CLOSE_BRACKET
+                    | type IDENTIFIER OPEN_BRACKET INTEGER CLOSE_BRACKET EQUAL OPEN_BRACKET arrayList CLOSE_BRACKET
                     ;
 
     create_var ::= type IDENTIFIER EQUAL operation
@@ -248,6 +250,9 @@ non terminal Object operation, relational_operator, additive_operation, additive
     negation ::= empty
 		| NOT
 		;
+
+    if_ternary ::= operation QUESTION operation POINT_POINT operation
+                   ;
 
     type ::= INT
            | FLOAT

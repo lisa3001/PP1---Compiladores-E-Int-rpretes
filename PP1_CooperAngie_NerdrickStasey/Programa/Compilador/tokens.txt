@@ -6,7 +6,23 @@ main -> MAIN
 string -> STRING
 oracion -> IDENTIFIER
 = -> EQUAL
-"Arroz con pollo" -> CHARCHAIN
+"Arroz con carne" -> CHARCHAIN
+; -> FINAL
+int -> INT
+p -> IDENTIFIER
+[ -> OPEN_BRACKET
+4 -> INTEGER
+] -> CLOSE_BRACKET
+= -> EQUAL
+[ -> OPEN_BRACKET
+1 -> INTEGER
+, -> COMMA
+2 -> INTEGER
+, -> COMMA
+3 -> INTEGER
+, -> COMMA
+4 -> INTEGER
+] -> CLOSE_BRACKET
 ; -> FINAL
 string -> STRING
 opcion -> IDENTIFIER

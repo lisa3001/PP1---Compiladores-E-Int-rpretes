@@ -2,7 +2,8 @@
   Pruebas de funcionalidad para la documentación
 */
 int main () {
-	string oracion = "Arroz con pollo";  
+	string oracion = "Arroz con carne"; 
+	int p[4] = [1, 2, 3, 4];
 	string opcion;
 	read(opcion);
 	if(opcion == 1){
