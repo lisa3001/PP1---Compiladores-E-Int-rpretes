@@ -5,6 +5,8 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.FileWriter;
+import java.io.BufferedWriter ;
 
 
 public class Compilador {
@@ -28,7 +30,7 @@ public class Compilador {
             System.out.println("2) Ejecutar el programa.");
             System.out.println("3) Salir.");
             System.out.print("-----------------------------------------------\n");
-            System.out.print("Opcion: ");
+            System.out.print("Opción: ");
             valor = in.nextInt();
             System.out.print("\n");
             switch (valor) {
@@ -72,6 +74,15 @@ public class Compilador {
                     del programa
                     */
                     String[] archivoPrueba = {"test.txt"};
+                    try {     
+                        FileWriter fichero = new FileWriter("tokens.txt", false); 
+                        BufferedWriter writer = new BufferedWriter (fichero);
+                        writer.write("");
+                        writer.close();
+
+                      } catch (Exception ew) {
+                        ew.printStackTrace();
+                      }
                     AnalizadorSintactico.main(archivoPrueba);
                     break;
                 }
