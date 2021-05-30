@@ -101,8 +101,6 @@ CommentContent       = ( [^*] | \*+ [^\*] )*
         System.out.print("= -> EQUAL\n");
         guardarTokenTxt("= -> EQUAL\n", "tokens.txt");
         return symbol(sym.EQUAL);}
-  "?" {System.out.print("? -> QUESTION\n"); guardarTokenTxt("? -> QUESTION\n", "tokens.txt"); return symbol(sym.QUESTION);}
-  ":" {System.out.print(": -> POINT_POINT\n"); guardarTokenTxt(": -> POINT_POINT\n", "tokens.txt"); return symbol(sym.POINT_POINT);}
 
   "{" {
         System.out.print("{ -> OPEN_KEY\n"); 

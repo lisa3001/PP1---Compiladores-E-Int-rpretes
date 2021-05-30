@@ -38,13 +38,13 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\12\1\7\1\11\1\11\1\10\22\0\1\12\1\35\1\5"+
-    "\3\0\1\36\1\6\1\26\1\27\1\14\1\30\1\15\1\31\1\1"+
-    "\1\13\1\2\11\3\1\21\1\16\1\34\1\17\1\33\1\20\1\0"+
-    "\32\4\1\24\1\0\1\25\3\0\1\41\1\56\1\57\1\51\1\47"+
-    "\1\53\1\61\1\60\1\42\1\4\1\62\1\54\1\40\1\43\1\44"+
-    "\1\52\1\4\1\46\1\55\1\45\1\50\5\4\1\22\1\37\1\23"+
-    "\1\32\6\0\1\11\u1fa2\0\1\11\1\11\udfd6\0";
+    "\11\0\1\12\1\7\1\11\1\11\1\10\22\0\1\12\1\33\1\5"+
+    "\3\0\1\34\1\6\1\24\1\25\1\14\1\26\1\15\1\27\1\1"+
+    "\1\13\1\2\11\3\1\0\1\16\1\32\1\17\1\31\2\0\32\4"+
+    "\1\22\1\0\1\23\3\0\1\37\1\54\1\55\1\47\1\45\1\51"+
+    "\1\57\1\56\1\40\1\4\1\60\1\52\1\36\1\41\1\42\1\50"+
+    "\1\4\1\44\1\53\1\43\1\46\5\4\1\20\1\35\1\21\1\30"+
+    "\6\0\1\11\u1fa2\0\1\11\1\11\udfd6\0";
 
   /** 
    * Translates characters to character classes
@@ -59,17 +59,16 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\2\2\1\3\2\1\2\4\1\5\1\6"+
     "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
-    "\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26"+
-    "\1\1\1\27\1\30\13\3\2\0\1\31\1\0\1\4"+
-    "\1\0\1\32\1\33\1\34\1\35\1\36\1\37\1\40"+
-    "\2\3\1\41\15\3\1\42\1\43\2\0\1\3\1\44"+
-    "\1\45\10\3\1\46\5\3\2\0\1\4\1\47\1\50"+
-    "\1\51\1\52\1\3\1\53\1\54\4\3\1\55\1\3"+
-    "\1\56\1\3\1\57\1\60\1\61\1\3\1\62\1\63"+
-    "\1\64";
+    "\1\17\1\20\1\21\1\22\1\23\1\24\1\1\1\25"+
+    "\1\26\13\3\2\0\1\27\1\0\1\4\1\0\1\30"+
+    "\1\31\1\32\1\33\1\34\1\35\1\36\2\3\1\37"+
+    "\15\3\1\40\1\41\2\0\1\3\1\42\1\43\10\3"+
+    "\1\44\5\3\2\0\1\4\1\45\1\46\1\47\1\50"+
+    "\1\3\1\51\1\52\4\3\1\53\1\3\1\54\1\3"+
+    "\1\55\1\56\1\57\1\3\1\60\1\61\1\62";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[116];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -94,24 +93,24 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\63\0\146\0\231\0\314\0\377\0\u0132\0\63"+
-    "\0\u0165\0\u0198\0\u01cb\0\63\0\63\0\u01fe\0\63\0\63"+
-    "\0\63\0\63\0\63\0\63\0\63\0\63\0\u0231\0\u0264"+
-    "\0\63\0\u0297\0\u02ca\0\u02fd\0\63\0\63\0\u0330\0\u0363"+
-    "\0\u0396\0\u03c9\0\u03fc\0\u042f\0\u0462\0\u0495\0\u04c8\0\u04fb"+
-    "\0\u052e\0\u0561\0\377\0\63\0\u0594\0\u05c7\0\u05fa\0\63"+
-    "\0\63\0\63\0\63\0\63\0\63\0\63\0\u062d\0\u0660"+
-    "\0\314\0\u0693\0\u06c6\0\u06f9\0\u072c\0\u075f\0\u0792\0\u07c5"+
-    "\0\u07f8\0\u082b\0\u085e\0\u0891\0\u08c4\0\u08f7\0\u0561\0\63"+
-    "\0\u092a\0\u095d\0\u0990\0\314\0\314\0\u09c3\0\u09f6\0\u0a29"+
-    "\0\u0a5c\0\u0a8f\0\u0ac2\0\u0af5\0\u0b28\0\314\0\u0b5b\0\u0b8e"+
-    "\0\u0bc1\0\u0bf4\0\u0c27\0\u0c5a\0\u0c8d\0\u0c8d\0\314\0\314"+
-    "\0\314\0\314\0\u0cc0\0\314\0\314\0\u0cf3\0\u0d26\0\u0d59"+
-    "\0\u0d8c\0\314\0\u0dbf\0\314\0\u0df2\0\314\0\314\0\314"+
-    "\0\u0e25\0\314\0\314\0\314";
+    "\0\0\0\61\0\142\0\223\0\304\0\365\0\u0126\0\61"+
+    "\0\u0157\0\u0188\0\u01b9\0\61\0\61\0\u01ea\0\61\0\61"+
+    "\0\61\0\61\0\61\0\61\0\u021b\0\u024c\0\61\0\u027d"+
+    "\0\u02ae\0\u02df\0\61\0\61\0\u0310\0\u0341\0\u0372\0\u03a3"+
+    "\0\u03d4\0\u0405\0\u0436\0\u0467\0\u0498\0\u04c9\0\u04fa\0\u052b"+
+    "\0\365\0\61\0\u055c\0\u058d\0\u05be\0\61\0\61\0\61"+
+    "\0\61\0\61\0\61\0\61\0\u05ef\0\u0620\0\304\0\u0651"+
+    "\0\u0682\0\u06b3\0\u06e4\0\u0715\0\u0746\0\u0777\0\u07a8\0\u07d9"+
+    "\0\u080a\0\u083b\0\u086c\0\u089d\0\u052b\0\61\0\u08ce\0\u08ff"+
+    "\0\u0930\0\304\0\304\0\u0961\0\u0992\0\u09c3\0\u09f4\0\u0a25"+
+    "\0\u0a56\0\u0a87\0\u0ab8\0\304\0\u0ae9\0\u0b1a\0\u0b4b\0\u0b7c"+
+    "\0\u0bad\0\u0bde\0\u0c0f\0\u0c0f\0\304\0\304\0\304\0\304"+
+    "\0\u0c40\0\304\0\304\0\u0c71\0\u0ca2\0\u0cd3\0\u0d04\0\304"+
+    "\0\u0d35\0\304\0\u0d66\0\304\0\304\0\304\0\u0d97\0\304"+
+    "\0\304\0\304";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[116];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -137,57 +136,57 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
     "\2\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11"+
     "\1\2\1\10\1\12\1\13\1\14\1\15\1\16\1\17"+
     "\1\20\1\21\1\22\1\23\1\24\1\25\1\26\1\27"+
-    "\1\30\1\31\1\32\1\33\1\34\1\35\1\36\1\37"+
-    "\1\5\1\40\1\41\1\5\1\42\1\43\1\44\2\5"+
-    "\1\45\1\46\1\5\1\47\1\50\1\51\3\5\64\0"+
-    "\1\52\62\0\1\52\2\4\61\0\3\5\33\0\23\5"+
-    "\5\53\1\54\55\53\7\55\3\0\51\55\7\0\1\10"+
-    "\66\0\1\56\1\57\62\0\1\60\65\0\1\61\73\0"+
-    "\1\62\63\0\1\63\50\0\1\64\62\0\1\65\62\0"+
-    "\1\66\45\0\3\5\33\0\1\5\1\67\21\5\2\0"+
-    "\3\5\33\0\3\5\1\70\7\5\1\71\7\5\2\0"+
-    "\3\5\33\0\4\5\1\72\3\5\1\73\12\5\2\0"+
-    "\3\5\33\0\6\5\1\74\14\5\2\0\3\5\33\0"+
-    "\7\5\1\75\13\5\2\0\3\5\33\0\14\5\1\76"+
-    "\6\5\2\0\3\5\33\0\6\5\1\77\14\5\2\0"+
-    "\3\5\33\0\1\5\1\100\2\5\1\101\7\5\1\102"+
-    "\6\5\2\0\3\5\33\0\5\5\1\103\15\5\2\0"+
-    "\3\5\33\0\4\5\1\104\1\5\1\105\14\5\2\0"+
-    "\3\5\33\0\20\5\1\106\2\5\2\0\2\107\65\0"+
-    "\1\110\54\0\7\56\1\10\1\11\52\56\14\111\1\112"+
-    "\46\111\2\0\3\5\33\0\2\5\1\113\20\5\2\0"+
-    "\3\5\33\0\5\5\1\114\15\5\2\0\3\5\33\0"+
-    "\5\5\1\115\15\5\2\0\3\5\33\0\14\5\1\116"+
-    "\6\5\2\0\3\5\33\0\10\5\1\117\12\5\2\0"+
-    "\3\5\33\0\1\5\1\120\3\5\1\121\15\5\2\0"+
-    "\3\5\33\0\2\5\1\122\12\5\1\123\5\5\2\0"+
-    "\3\5\33\0\2\5\1\124\20\5\2\0\3\5\33\0"+
-    "\14\5\1\125\6\5\2\0\3\5\33\0\6\5\1\126"+
-    "\14\5\2\0\3\5\33\0\4\5\1\127\16\5\2\0"+
-    "\3\5\33\0\6\5\1\130\14\5\2\0\3\5\33\0"+
-    "\4\5\1\131\16\5\2\0\3\5\33\0\7\5\1\132"+
-    "\13\5\2\0\3\5\33\0\1\5\1\133\21\5\14\111"+
-    "\1\134\46\111\13\135\1\136\1\112\46\135\2\0\3\5"+
-    "\33\0\3\5\1\137\17\5\2\0\3\5\33\0\14\5"+
-    "\1\140\6\5\2\0\3\5\33\0\7\5\1\141\13\5"+
-    "\2\0\3\5\33\0\11\5\1\142\11\5\2\0\3\5"+
-    "\33\0\10\5\1\143\12\5\2\0\3\5\33\0\13\5"+
-    "\1\144\7\5\2\0\3\5\33\0\7\5\1\145\13\5"+
-    "\2\0\3\5\33\0\3\5\1\146\17\5\2\0\3\5"+
-    "\33\0\15\5\1\147\5\5\2\0\3\5\33\0\1\5"+
-    "\1\150\21\5\2\0\3\5\33\0\2\5\1\151\20\5"+
-    "\2\0\3\5\33\0\14\5\1\152\6\5\2\0\3\5"+
-    "\33\0\1\5\1\153\21\5\2\0\3\5\33\0\6\5"+
-    "\1\154\14\5\13\111\1\10\1\134\46\111\14\135\1\112"+
-    "\46\135\2\0\3\5\33\0\6\5\1\155\14\5\2\0"+
-    "\3\5\33\0\5\5\1\156\15\5\2\0\3\5\33\0"+
-    "\7\5\1\157\13\5\2\0\3\5\33\0\5\5\1\160"+
-    "\15\5\2\0\3\5\33\0\3\5\1\161\17\5\2\0"+
-    "\3\5\33\0\22\5\1\162\2\0\3\5\33\0\3\5"+
-    "\1\163\17\5\2\0\3\5\33\0\21\5\1\164\1\5";
+    "\1\30\1\31\1\32\1\33\1\34\1\35\1\5\1\36"+
+    "\1\37\1\5\1\40\1\41\1\42\2\5\1\43\1\44"+
+    "\1\5\1\45\1\46\1\47\3\5\62\0\1\50\60\0"+
+    "\1\50\2\4\57\0\3\5\31\0\23\5\5\51\1\52"+
+    "\53\51\7\53\3\0\47\53\7\0\1\10\64\0\1\54"+
+    "\1\55\60\0\1\56\63\0\1\57\67\0\1\60\61\0"+
+    "\1\61\50\0\1\62\60\0\1\63\60\0\1\64\43\0"+
+    "\3\5\31\0\1\5\1\65\21\5\2\0\3\5\31\0"+
+    "\3\5\1\66\7\5\1\67\7\5\2\0\3\5\31\0"+
+    "\4\5\1\70\3\5\1\71\12\5\2\0\3\5\31\0"+
+    "\6\5\1\72\14\5\2\0\3\5\31\0\7\5\1\73"+
+    "\13\5\2\0\3\5\31\0\14\5\1\74\6\5\2\0"+
+    "\3\5\31\0\6\5\1\75\14\5\2\0\3\5\31\0"+
+    "\1\5\1\76\2\5\1\77\7\5\1\100\6\5\2\0"+
+    "\3\5\31\0\5\5\1\101\15\5\2\0\3\5\31\0"+
+    "\4\5\1\102\1\5\1\103\14\5\2\0\3\5\31\0"+
+    "\20\5\1\104\2\5\2\0\2\105\63\0\1\106\52\0"+
+    "\7\54\1\10\1\11\50\54\14\107\1\110\44\107\2\0"+
+    "\3\5\31\0\2\5\1\111\20\5\2\0\3\5\31\0"+
+    "\5\5\1\112\15\5\2\0\3\5\31\0\5\5\1\113"+
+    "\15\5\2\0\3\5\31\0\14\5\1\114\6\5\2\0"+
+    "\3\5\31\0\10\5\1\115\12\5\2\0\3\5\31\0"+
+    "\1\5\1\116\3\5\1\117\15\5\2\0\3\5\31\0"+
+    "\2\5\1\120\12\5\1\121\5\5\2\0\3\5\31\0"+
+    "\2\5\1\122\20\5\2\0\3\5\31\0\14\5\1\123"+
+    "\6\5\2\0\3\5\31\0\6\5\1\124\14\5\2\0"+
+    "\3\5\31\0\4\5\1\125\16\5\2\0\3\5\31\0"+
+    "\6\5\1\126\14\5\2\0\3\5\31\0\4\5\1\127"+
+    "\16\5\2\0\3\5\31\0\7\5\1\130\13\5\2\0"+
+    "\3\5\31\0\1\5\1\131\21\5\14\107\1\132\44\107"+
+    "\13\133\1\134\1\110\44\133\2\0\3\5\31\0\3\5"+
+    "\1\135\17\5\2\0\3\5\31\0\14\5\1\136\6\5"+
+    "\2\0\3\5\31\0\7\5\1\137\13\5\2\0\3\5"+
+    "\31\0\11\5\1\140\11\5\2\0\3\5\31\0\10\5"+
+    "\1\141\12\5\2\0\3\5\31\0\13\5\1\142\7\5"+
+    "\2\0\3\5\31\0\7\5\1\143\13\5\2\0\3\5"+
+    "\31\0\3\5\1\144\17\5\2\0\3\5\31\0\15\5"+
+    "\1\145\5\5\2\0\3\5\31\0\1\5\1\146\21\5"+
+    "\2\0\3\5\31\0\2\5\1\147\20\5\2\0\3\5"+
+    "\31\0\14\5\1\150\6\5\2\0\3\5\31\0\1\5"+
+    "\1\151\21\5\2\0\3\5\31\0\6\5\1\152\14\5"+
+    "\13\107\1\10\1\132\44\107\14\133\1\110\44\133\2\0"+
+    "\3\5\31\0\6\5\1\153\14\5\2\0\3\5\31\0"+
+    "\5\5\1\154\15\5\2\0\3\5\31\0\7\5\1\155"+
+    "\13\5\2\0\3\5\31\0\5\5\1\156\15\5\2\0"+
+    "\3\5\31\0\3\5\1\157\17\5\2\0\3\5\31\0"+
+    "\22\5\1\160\2\0\3\5\31\0\3\5\1\161\17\5"+
+    "\2\0\3\5\31\0\21\5\1\162\1\5";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[3672];
+    int [] result = new int[3528];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -225,13 +224,13 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\5\1\1\11\3\1\2\11\1\1\10\11"+
+    "\1\0\1\11\5\1\1\11\3\1\2\11\1\1\6\11"+
     "\2\1\1\11\3\1\2\11\13\1\2\0\1\11\1\0"+
     "\1\1\1\0\7\11\21\1\1\11\2\0\21\1\2\0"+
     "\27\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[116];
+    int [] result = new int[114];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -366,7 +365,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
     char [] map = new char[0x10000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 134) {
+    while (i < 132) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -709,307 +708,299 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
         case 1: 
           { System.err.print("\nError Léxico -> Caracter ilegal <"+yytext()+"> Línea: "+yyline+" Columna: "+yycolumn+"\n");
           }
-        case 53: break;
+        case 51: break;
         case 2: 
           { System.out.print(yytext()+ " -> INTEGER\n"); 
                     guardarTokenTxt(yytext()+ " -> INTEGER\n", "tokens.txt");
                     return symbol(sym.INTEGER, new Integer(yytext()));
           }
-        case 54: break;
+        case 52: break;
         case 3: 
           { GuardarToken(yytext()); 
                     guardarTokenTxt(yytext()+ " -> IDENTIFIER\n", "tokens.txt");
                     return symbol(sym.IDENTIFIER, yytext());
           }
-        case 55: break;
+        case 53: break;
         case 4: 
           { /* ignora el espacio */
           }
-        case 56: break;
+        case 54: break;
         case 5: 
           { System.out.print("/ -> DIVIDE\n");
         guardarTokenTxt("/ -> DIVIDE\n", "tokens.txt");
         return symbol(sym.DIVIDE);
           }
-        case 57: break;
+        case 55: break;
         case 6: 
           { System.out.print("* -> MULTI\n");
         guardarTokenTxt("* -> MULTI\n", "tokens.txt");
         return symbol(sym.MULTI);
           }
-        case 58: break;
+        case 56: break;
         case 7: 
           { System.out.print(", -> COMMA\n"); 
         guardarTokenTxt(", -> COMMA\n", "tokens.txt");
         return symbol(sym.COMMA);
           }
-        case 59: break;
+        case 57: break;
         case 8: 
           { System.out.print("; -> FINAL\n"); 
         guardarTokenTxt("; -> FINAL\n", "tokens.txt");
         return symbol(sym.FINAL);
           }
-        case 60: break;
+        case 58: break;
         case 9: 
           { System.out.print("= -> EQUAL\n");
         guardarTokenTxt("= -> EQUAL\n", "tokens.txt");
         return symbol(sym.EQUAL);
           }
-        case 61: break;
+        case 59: break;
         case 10: 
-          { System.out.print("? -> QUESTION\n"); guardarTokenTxt("? -> QUESTION\n", "tokens.txt"); return symbol(sym.QUESTION);
-          }
-        case 62: break;
-        case 11: 
-          { System.out.print(": -> POINT_POINT\n"); guardarTokenTxt(": -> POINT_POINT\n", "tokens.txt"); return symbol(sym.POINT_POINT);
-          }
-        case 63: break;
-        case 12: 
           { System.out.print("{ -> OPEN_KEY\n"); 
         guardarTokenTxt("{ -> OPEN_KEY\n", "tokens.txt");
         return symbol(sym.OPEN_KEY);
           }
-        case 64: break;
-        case 13: 
+        case 60: break;
+        case 11: 
           { System.out.print("} -> CLOSE_KEY\n"); 
         guardarTokenTxt("} -> CLOSE_KEY\n", "tokens.txt");
         return symbol(sym.CLOSE_KEY);
           }
-        case 65: break;
-        case 14: 
+        case 61: break;
+        case 12: 
           { System.out.print("[ -> OPEN_BRACKET\n"); 
         guardarTokenTxt("[ -> OPEN_BRACKET\n", "tokens.txt");
         return symbol(sym.OPEN_BRACKET);
           }
-        case 66: break;
-        case 15: 
+        case 62: break;
+        case 13: 
           { System.out.print("] -> CLOSE_BRACKET\n");
         guardarTokenTxt("] -> CLOSE_BRACKET\n", "tokens.txt");
         return symbol(sym.CLOSE_BRACKET);
           }
-        case 67: break;
-        case 16: 
+        case 63: break;
+        case 14: 
           { System.out.print("( -> OPEN_PAREN\n");
         guardarTokenTxt("( -> OPEN_PAREN\n", "tokens.txt");
         return symbol(sym.OPEN_PAREN);
           }
-        case 68: break;
-        case 17: 
+        case 64: break;
+        case 15: 
           { System.out.print(") -> CLOSE_PAREN\n"); 
         guardarTokenTxt(") -> CLOSE_PAREN\n", "tokens.txt");
         return symbol(sym.CLOSE_PAREN);
           }
-        case 69: break;
-        case 18: 
+        case 65: break;
+        case 16: 
           { System.out.print("+ -> PLUS\n");
         guardarTokenTxt("+ -> PLUS\n", "tokens.txt");
         return symbol(sym.PLUS);
           }
-        case 70: break;
-        case 19: 
+        case 66: break;
+        case 17: 
           { System.out.print("- -> MINUS\n");
         guardarTokenTxt("- -> MINUS\n", "tokens.txt");
         return symbol(sym.MINUS);
           }
-        case 71: break;
-        case 20: 
+        case 67: break;
+        case 18: 
           { System.out.print("~ -> MODULE\n");
         guardarTokenTxt("~ -> MODULE\n", "tokens.txt");
         return symbol(sym.MODULE);
           }
-        case 72: break;
-        case 21: 
+        case 68: break;
+        case 19: 
           { System.out.print("> -> GREATER\n");
         guardarTokenTxt("> -> GREATER\n", "tokens.txt");
         return symbol(sym.GREATER);
           }
-        case 73: break;
-        case 22: 
+        case 69: break;
+        case 20: 
           { System.out.print("< -> MINOR\n");
         guardarTokenTxt("< -> MINOR\n", "tokens.txt");
         return symbol(sym.MINOR);
           }
-        case 74: break;
-        case 23: 
+        case 70: break;
+        case 21: 
           { System.out.print("& -> AND\n");
         guardarTokenTxt("& -> AND\n", "tokens.txt");
         return symbol(sym.AND);
           }
-        case 75: break;
-        case 24: 
+        case 71: break;
+        case 22: 
           { System.out.print("| -> OR\n");
         guardarTokenTxt("| -> OR\n", "tokens.txt");
         return symbol(sym.OR);
           }
-        case 76: break;
-        case 25: 
+        case 72: break;
+        case 23: 
           { System.out.print(yytext() + " -> CHARCHAIN\n"); 
                     guardarTokenTxt(yytext()+ " -> CHARCHAIN\n", "tokens.txt");
                     return symbol(sym.CHARCHAIN, yytext());
           }
-        case 77: break;
-        case 26: 
+        case 73: break;
+        case 24: 
           { System.out.print("** -> POWER\n");
         guardarTokenTxt("** -> POWER\n", "tokens.txt");
         return symbol(sym.POWER);
           }
-        case 78: break;
-        case 27: 
+        case 74: break;
+        case 25: 
           { System.out.print("== -> EQUAL_EQUAL\n");
         guardarTokenTxt("== -> EQUAL_EQUAL\n", "tokens.txt");
         return symbol(sym.EQUAL_EQUAL);
           }
-        case 79: break;
-        case 28: 
+        case 75: break;
+        case 26: 
           { System.out.print("++ -> PLUS_PLUS\n");
         guardarTokenTxt("++ -> PLUS_PLUS\n", "tokens.txt");
         return symbol(sym.PLUS_PLUS);
           }
-        case 80: break;
-        case 29: 
+        case 76: break;
+        case 27: 
           { System.out.print("-- -> MINUS_MINUS\n");
         guardarTokenTxt("-- -> MINUS_MINUS\n", "tokens.txt");
         return symbol(sym.MINUS_MINUS);
           }
-        case 81: break;
-        case 30: 
+        case 77: break;
+        case 28: 
           { System.out.print(">= -> GREATER_EQUAL\n");
         guardarTokenTxt(">= -> GREATER_EQUAL\n", "tokens.txt");
         return symbol(sym.GREATER_EQUAL);
           }
-        case 82: break;
-        case 31: 
+        case 78: break;
+        case 29: 
           { System.out.print("<= -> MINOR_EQUAL\n");
         guardarTokenTxt("<= -> MINOR_EQUAL\n", "tokens.txt");
         return symbol(sym.MINOR_EQUAL);
           }
-        case 83: break;
-        case 32: 
+        case 79: break;
+        case 30: 
           { System.out.print("!= -> DIFFERENT\n");
         guardarTokenTxt("!= -> DIFFERENT\n", "tokens.txt");
         return symbol(sym.DIFFERENT);
           }
-        case 84: break;
-        case 33: 
+        case 80: break;
+        case 31: 
           { System.out.print("if -> IF\n"); 
         guardarTokenTxt("if -> IF\n", "tokens.txt");
         return symbol(sym.IF);
           }
-        case 85: break;
-        case 34: 
+        case 81: break;
+        case 32: 
           { System.out.print(yytext()+ " -> DECIMAL\n"); 
                     guardarTokenTxt(yytext()+ " -> DECIMAL\n", "tokens.txt");
                     return symbol(sym.DECIMAL, new Double(yytext()));
           }
-        case 86: break;
-        case 35: 
+        case 82: break;
+        case 33: 
           { System.out.print(yytext() + " -> CHARACTER\n");
                     guardarTokenTxt(yytext()+ " -> CHARACTER\n", "tokens.txt"); 
                     return symbol(sym.CHARACTER, yytext());
           }
-        case 87: break;
-        case 36: 
+        case 83: break;
+        case 34: 
           { System.out.print("int -> INT\n"); 
         guardarTokenTxt("int -> INT\n", "tokens.txt");
         return symbol(sym.INT);
           }
-        case 88: break;
-        case 37: 
+        case 84: break;
+        case 35: 
           { System.out.print("not -> NOT\n"); 
         guardarTokenTxt("not -> NOT\n", "tokens.txt");
         return symbol(sym.NOT);
           }
-        case 89: break;
-        case 38: 
+        case 85: break;
+        case 36: 
           { System.out.print("for -> FOR\n");
         guardarTokenTxt("for -> FOR\n", "tokens.txt");
         return symbol(sym.FOR);
           }
-        case 90: break;
-        case 39: 
+        case 86: break;
+        case 37: 
           { System.out.print("main -> MAIN\n");
         guardarTokenTxt("main -> MAIN\n", "tokens.txt");
         return symbol(sym.MAIN);
           }
-        case 91: break;
-        case 40: 
+        case 87: break;
+        case 38: 
           { System.out.print("null -> NULL\n"); 
         guardarTokenTxt("null -> NULL\n", "tokens.txt");
         return symbol(sym.NULL);
           }
-        case 92: break;
-        case 41: 
+        case 88: break;
+        case 39: 
           { System.out.print("true -> TRUE\n"); 
         guardarTokenTxt("true -> TRUE\n", "tokens.txt");
         return symbol(sym.TRUE);
           }
-        case 93: break;
-        case 42: 
+        case 89: break;
+        case 40: 
           { System.out.print("read -> READ\n");
         guardarTokenTxt("read -> READ\n", "tokens.txt");
          return symbol(sym.READ);
           }
-        case 94: break;
-        case 43: 
+        case 90: break;
+        case 41: 
           { System.out.print("elif -> ELIF\n");
         guardarTokenTxt("elif -> ELIF\n", "tokens.txt");
         return symbol(sym.ELIF);
           }
-        case 95: break;
-        case 44: 
+        case 91: break;
+        case 42: 
           { System.out.print("else -> ELSE\n");
         guardarTokenTxt("else -> ELSE\n", "tokens.txt");
         return symbol(sym.ELSE);
           }
-        case 96: break;
-        case 45: 
+        case 92: break;
+        case 43: 
           { System.out.print("bool -> BOOL\n"); 
         guardarTokenTxt("bool -> BOOL\n", "tokens.txt");
         return symbol(sym.BOOL);
           }
-        case 97: break;
-        case 46: 
+        case 93: break;
+        case 44: 
           { System.out.print("char -> CHAR\n"); 
         guardarTokenTxt("char -> CHAR\n", "tokens.txt");
         return symbol(sym.CHAR);
           }
-        case 98: break;
-        case 47: 
+        case 94: break;
+        case 45: 
           { System.out.print("print -> PRINT\n"); 
         guardarTokenTxt("print -> PRINT\n", "tokens.txt");
         return symbol(sym.PRINT);
           }
-        case 99: break;
-        case 48: 
+        case 95: break;
+        case 46: 
           { System.out.print("false -> FALSE\n"); 
         guardarTokenTxt("false -> FALSE\n", "tokens.txt");
         return symbol(sym.FALSE);
           }
-        case 100: break;
-        case 49: 
+        case 96: break;
+        case 47: 
           { System.out.print("float -> FLOAT\n");
         guardarTokenTxt("float -> FLOAT\n", "tokens.txt");
         return symbol(sym.FLOAT);
           }
-        case 101: break;
-        case 50: 
+        case 97: break;
+        case 48: 
           { System.out.print("break -> BREAK\n");
         guardarTokenTxt("break -> BREAK\n", "tokens.txt");
         return symbol(sym.BREAK);
           }
-        case 102: break;
-        case 51: 
+        case 98: break;
+        case 49: 
           { System.out.print("return -> RETURN\n"); 
         guardarTokenTxt("return -> RETURN\n", "tokens.txt");
         return symbol(sym.RETURN);
           }
-        case 103: break;
-        case 52: 
+        case 99: break;
+        case 50: 
           { System.out.print("string -> STRING\n"); 
         guardarTokenTxt("string -> STRING\n", "tokens.txt");
         return symbol(sym.STRING);
           }
-        case 104: break;
+        case 100: break;
         default: 
           if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
             zzAtEOF = true;

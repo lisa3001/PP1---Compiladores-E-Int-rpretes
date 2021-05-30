@@ -7,7 +7,7 @@ package producciones;
 
 /**
  *
- * @author Angie Cooper
+ * @author snerd
  */
 public abstract class Operation {
     
