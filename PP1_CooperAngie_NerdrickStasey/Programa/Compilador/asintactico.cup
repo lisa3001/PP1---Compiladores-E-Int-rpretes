@@ -201,7 +201,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                | READ:pr OPEN_PAREN IDENTIFIER:id CLOSE_PAREN FINAL sentences:sent
                  {
                     if(sent == null) sent = new Sentences();
-                    Read ff = new Read(id, new int[] {pr.getRow(), pr.getColumn()});
+                    Read ff = new Read((String)id.getValue(), new int[] {pr.getRow(), pr.getColumn()});
                     sent.addSentence(ff);
                     RESULT = sent;
                  }
@@ -390,18 +390,54 @@ non terminal Object operation, relational_operator, additive_operation, additive
                       :}
                      ;
 
-    basic_operation ::= INTEGER
-                      | DECIMAL
-                      | CHARCHAIN
-                      | CHARACTER
-                      | IDENTIFIER
-                      | TRUE
-                      | FALSE
-                      | negation OPEN_PAREN operation CLOSE_PAREN 
-                      | IDENTIFIER OPEN_BRACKET INTEGER CLOSE_BRACKET
-                      | OPEN_BRACKET  arrayList CLOSE_BRACKET 
-                      | call_function
-                      | NULL
+    basic_operation ::= INTEGER:i
+                        {
+                            RESULT = new IntLiteral((int)i.getValue(), new int[] {i.getRow(), i.getCol()});
+                        }
+                      | DECIMAL:f
+                        {
+                            RESULT = new FloatLiteral((float)f.getValue(), new int[] {f.getRow(), f.getCol()});
+                        }
+                      | CHARCHAIN:s
+                        {
+                            RESULT = new StringLiteral((String)s.getValue(), new int[] {s.getRow(), s.getCol()});
+                        }
+                      | CHARACTER:c
+                        {
+                            RESULT = new CharLiteral((char)c.getValue(), new int[] {c.getRow(), c.getCol()});
+                        }
+                      | IDENTIFIER:id
+                        {
+                            RESULT = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getCol()});
+                        }
+                      | TRUE:b
+                        {
+                            RESULT = new BoolLiteral(true, new int[] {b.getRow(), b.getCol()});
+                        }
+                      | FALSE:b
+                        {
+                            RESULT = new BoolLiteral(false, new int[] {b.getRow(), b.getCol()});
+                        }
+                      | negation OPEN_PAREN operation:op CLOSE_PAREN
+                        {
+                            RESULT = op;
+                        } 
+                      | IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET
+                        {
+                            RESULT = new ArrayPositionOperation((String)id.getValue(), (int)i.getValue(),new int[] {id.getRow(), id.getCol()});
+                        } 
+                      | OPEN_BRACKET  arrayList:al CLOSE_BRACKET 
+                        {
+                            RESULT = new ArrayListAssigment(al);
+                        } 
+                      | call_function:cf
+                        {
+                            RESULT = cf;
+                        } 
+                      | NULL:nl
+                        {
+                            RESULT = new NullLiteral(null, new int[] {nl.getRow(), nl.getCol()});
+                        } 
                       ;
 
    parameter_list ::= parameter_list:pl COMMA operation:op
@@ -461,7 +497,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
     createArray ::= type:t IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET
                 {
                     Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
-                    RESULT = new CreateArray(t, identifier, i, null, new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateArray(t, identifier, (int)i.getValue(), null, new int[] {id.getRow(), id.getColumn()});
                 }
                 | type:t IDENTIFIER:id OPEN_BRACKET CLOSE_BRACKET EQUAL OPEN_BRACKET arrayList:al CLOSE_BRACKET
                 {
