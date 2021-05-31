@@ -10,5 +10,11 @@ package producciones;
  * @author snerd
  */
 public class Break extends Sentence {
+    private int position[];
     
+        public Break(int pos[]){
+        position = pos;
+    }
+    
+    public int[] getPosition(){return position;}
 }

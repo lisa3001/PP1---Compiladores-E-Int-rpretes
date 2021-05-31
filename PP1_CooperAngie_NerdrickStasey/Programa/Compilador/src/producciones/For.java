@@ -13,10 +13,10 @@ import java.util.Vector;
  */
 public class For extends Sentence{
     private ForStructure struct;
-    private Vector<Sentence> sentences;
+    private Block sentences;
     private int position[];
     
-    public For(ForStructure pStruct, Vector<Sentence> pSentences, int pos[]){
+    public For(ForStructure pStruct, Block pSentences, int pos[]){
         struct = pStruct;
         sentences = pSentences;
         position = pos;
@@ -24,7 +24,7 @@ public class For extends Sentence{
     
     public ForStructure getStructure(){return struct;}
     
-    public Vector<Sentence> getSentences(){return sentences;}
+    public Block getSentences(){return sentences;}
     
     public int[] getPosition(){return position;}
     

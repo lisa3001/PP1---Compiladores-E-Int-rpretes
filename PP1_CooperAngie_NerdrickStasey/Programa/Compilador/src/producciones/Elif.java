@@ -13,10 +13,10 @@ import java.util.Vector;
  */
 public class Elif extends Sentence {
     private Operation operation;
-    private Vector<Sentence> elifSentences;
+    private Sentences elifSentences;
     private int position[];
     
-    public Elif(Operation pOperation, Vector<Sentence> sentences, int pos[]){
+    public Elif(Operation pOperation, Sentences sentences, int pos[]){
         operation = pOperation;
         elifSentences = sentences;
         position = pos;
@@ -27,5 +27,5 @@ public class Elif extends Sentence {
     
     public int[] getPosition(){return position;}
     
-    public Vector<Sentence> getSentences(){return elifSentences;}
+    public Sentences getSentences(){return elifSentences;}
 }

@@ -130,36 +130,134 @@ non terminal Object operation, relational_operator, additive_operation, additive
             ; 
 
     sentences ::= empty
-               | operation FINAL sentences
-               | create_var FINAL sentences
-               | assing_var FINAL sentences
-               | modifyArrayElement FINAL sentences
-               | createArray FINAL sentences
-               | if_structure
-               | FOR OPEN_PAREN for_structure CLOSE_PAREN block sentences
-               | RETURN operation FINAL sentences
-               | BREAK FINAL
-               | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL sentences
-               | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL sentences
+                 {
+                    RESULT = new Sentences();
+                 }
+               | operation:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | create_var:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | assing_var:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | modifyArrayElement:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | createArray:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | if_structure:op sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    sent.addSentence(op);
+                    RESULT = sent;
+                 }
+               | FOR:fr OPEN_PAREN for_structure:fs CLOSE_PAREN block:bl sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    For ff = new For(fs, bl, new int[] {fr.getRow(), fr.getColumn()});
+                    sent.addSentence(ff);
+                    RESULT = sent;
+                 }
+               | RETURN:rt operation:op FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    Return ff = new Return(op, new int[] {rt.getRow(), rt.getColumn()});
+                    sent.addSentence(ff);
+                    RESULT = sent;
+                 }
+               | BREAK:br FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    Break ff = new Break(new int[] {br.getRow(), br.getColumn()});
+                    sent.addSentence(ff);
+                    RESULT = sent;
+                 }
+               | PRINT:pr OPEN_PAREN operation:op CLOSE_PAREN FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    Print ff = new Print(op, new int[] {pr.getRow(), pr.getColumn()});
+                    sent.addSentence(ff);
+                    RESULT = sent;
+                 }
+               | READ:pr OPEN_PAREN IDENTIFIER:id CLOSE_PAREN FINAL sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    Read ff = new Read(id, new int[] {pr.getRow(), pr.getColumn()});
+                    sent.addSentence(ff);
+                    RESULT = sent;
+                 }
                | error
-               | COMMENT sentences
+                 {
+                    RESULT = new Sentences();
+                 }
+               | COMMENT sentences:sent
+                 {
+                    if(sent == null) sent = new Sentences();
+                    RESULT = sent;
+                 }
                ;
 
-    for_structure ::= create_var FINAL operation FINAL operation ;
+    for_structure ::= create_var:cv FINAL operation:op1 FINAL operation:op2
+                    {
+                      RESULT = new  ForStructure(cv, op1, op2); 
+                    }
+                     ;
 
-    if_structure ::= IF negation OPEN_PAREN operation CLOSE_PAREN OPEN_KEY sentences CLOSE_KEY sentences
-                       	elif_structure
-		        else_structure
+    if_structure ::= IF negation OPEN_PAREN operation:op CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
+                       	elif_structure:elf
+		        else_structure:els
+                        {
+                            RESULT = new If(op, s1, elf, els);
+                        }
                         ;
 
     else_structure ::= empty
-		       |ELSE OPEN_KEY sentences CLOSE_KEY sentences
+                        {
+                           RESULT = null;
+                        }
+		       |ELSE OPEN_KEY sentences:sent CLOSE_KEY
+                        {
+                           RESULT = sent;
+                        }
 		       ;
 
     elif_structure ::= empty
-                       | ELIF negation OPEN_PAREN operation CLOSE_PAREN OPEN_KEY sentences CLOSE_KEY sentences
-		       | elif_structure ELIF negation OPEN_PAREN operation CLOSE_PAREN OPEN_KEY sentences CLOSE_KEY sentences
-                       ;
+                        {
+                          RESULT = new Vector<Elif>(); 
+                        }
+                       | ELIF:elf negation OPEN_PAREN operation:op1 CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
+                        {
+                            Vector<Elif> al = new Vector<Elif>();
+                            Elif elf = new Elif(op1, s1, new int[] {elf.getRow(), elf.getColumn()});
+                            al.add(elf);
+                            RESULT = al;
+                        }
+		       | elif_structure:elfs ELIF negation OPEN_PAREN operation:op1 CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
+                         {
+                            if(elfs == null) elfs = new Vector<Elif>();
+                            Elif elf = new Elif(op1, s1, new int[] {elf.getRow(), elf.getColumn()});
+                            elfs.add(elf);
+                            RESULT = elfs;
+                         }
+                        ;
 
 
     operation ::= operation relational_operator additive_operation
@@ -217,34 +315,91 @@ non terminal Object operation, relational_operator, additive_operation, additive
                       | NULL
                       ;
 
-   parameter_list ::= parameter_list COMMA operation
-                     | operation
+   parameter_list ::= parameter_list:pl COMMA operation:op
+                {
+                    if(pl == null) pl = new ArrayList();
+                    pl.AddOperation(op);
+                    RESULT = pl;
+                 }
+                     | operation:op
+                {
+                    ArrayList pl = new ArrayList();
+                    pl.AddOperation(op);
+                    RESULT = pl;
+                 }
                      ;
 
-    call_function ::= IDENTIFIER OPEN_PAREN parameter_list CLOSE_PAREN
-                    | IDENTIFIER OPEN_PAREN CLOSE_PAREN
+    call_function ::= IDENTIFIER:id OPEN_PAREN parameter_list:pl CLOSE_PAREN
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CallFunction(identifier.getName(), pl, new int[] {id.getRow(), id.getColumn()});
+                }
+                    | IDENTIFIER:id OPEN_PAREN CLOSE_PAREN
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CallFunction(identifier.getName(), null, new int[] {id.getRow(), id.getColumn()});
+                }
                     ;
 
     arrayList ::= empty
-                 | operation
-                 | operation COMMA arrayList
+                 {
+                    RESULT = new ArrayList();
+                 }
+                 | operation:op
+                 {
+                    ArrayList al = new ArrayList();
+                    al.AddOperation(op);
+                    RESULT = al;
+                 }
+                 | operation:op COMMA arrayList:al
+                 {
+                    if(al == null) al = new ArrayList();
+                    al.AddOperation(op);
+                    RESULT = al;
+                 }
                  ;
 
     empty ::=
             ;
 
-    modifyArrayElement ::= IDENTIFIER OPEN_BRACKET INTEGER CLOSE_BRACKET EQUAL operation ;
+    modifyArrayElement ::= IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET EQUAL operation:op
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new ModifyArray(identifier, i, op, new int[] {id.getRow(), id.getColumn()});
+                }
+                ;
 
-    createArray ::= type IDENTIFIER OPEN_BRACKET INTEGER CLOSE_BRACKET
-                    | type IDENTIFIER OPEN_BRACKET CLOSE_BRACKET EQUAL OPEN_BRACKET arrayList CLOSE_BRACKET
-                    ;
+    createArray ::= type:t IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateArray(t, identifier, i, null, new int[] {id.getRow(), id.getColumn()});
+                }
+                | type:t IDENTIFIER:id OPEN_BRACKET CLOSE_BRACKET EQUAL OPEN_BRACKET arrayList:al CLOSE_BRACKET
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateArray(t, identifier, 0, al, new int[] {id.getRow(), id.getColumn()});
+                }
+                ;
 
 
-    create_var ::= type IDENTIFIER EQUAL operation
-                 | type IDENTIFIER
+    create_var ::= type:t IDENTIFIER:d EQUAL operation:op
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateVar(t, identifier, op, new int[] {id.getRow(), id.getColumn()});
+                }
+                 | type:t IDENTIFIER:id
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateVar(t, identifier, null, new int[] {id.getRow(), id.getColumn()});
+                }
                  ;
 
-    assing_var ::= IDENTIFIER EQUAL operation;
+    assing_var ::= IDENTIFIER:id EQUAL operation:op
+                {
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new AssignVar(identifier, op, new int[] {id.getRow(), id.getColumn()});
+                }
+                ;
 
 
     negation ::= empty
@@ -254,22 +409,22 @@ non terminal Object operation, relational_operator, additive_operation, additive
 
     type ::= INT
             {:
-                RESULT = "INT";
+                RESULT = new IntType();
             :}
            | FLOAT
            {:
-                RESULT = "FLOAT";
+                RESULT = new FloatType();
             :}
            | CHAR
             {:
-                RESULT = "CHAR";
+                RESULT = new CharType();
             :}
            | STRING
            {:
-                RESULT = "STRING";
+                RESULT = new StringType();
             :}
            | BOOL
            {:
-                RESULT = "BOOL";
+                RESULT = new BooleanType();
             :}
            ;
