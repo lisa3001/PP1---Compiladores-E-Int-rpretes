@@ -129,21 +129,25 @@ non terminal Object operation, relational_operator, additive_operation, additive
             |  error CLOSE_KEY
             ; 
 
-    sentences ::= empty
-               | operation FINAL sentences
-               | create_var FINAL sentences
-               | assing_var FINAL sentences
-               | modifyArrayElement FINAL sentences
-               | createArray FINAL sentences
+    sentence ::= empty
+               | operation FINAL
+               | create_var FINAL
+               | assing_var FINAL
+               | modifyArrayElement FINAL
+               | createArray FINAL
                | if_structure
-               | FOR OPEN_PAREN for_structure CLOSE_PAREN block sentences
+               | FOR OPEN_PAREN for_structure CLOSE_PAREN block
                | RETURN operation FINAL
                | BREAK FINAL
-               | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL sentences 
-               | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL sentences 
-               | error sentences
+               | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL 
+               | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL 
+               | error
                | COMMENT
                ;
+
+    sentences :: = sentence sentences
+                 | sentence
+                 ;
 
     for_structure ::= create_var FINAL operation FINAL operation ;
 
