@@ -3,6 +3,7 @@ package compilador;
 // Importación de clases
 import java_cup.runtime.*;
 import java.io.FileReader;
+import producciones.*;
    
 /* 
   Esta sección del código se agrega a la clase resultante
@@ -79,7 +80,7 @@ terminal Character CHARACTER;
 non terminal Object operation, relational_operator, additive_operation, additive_operator,
                     multiplicative_operation, multiplicative_operator, unary_operation,
                     unary_operator, basic_operation, empty, create_var, type, 
-                    sentences, sentence, call_function, createArray, arrayList, modifyArrayElement, 
+                    sentences, call_function, createArray, arrayList, modifyArrayElement, 
                     block, create_function, parameters, parameter_list, for_structure, if_structure, else_structure, 
                     elif_structure, main_function, assing_var, negation,
                     init_program;
@@ -260,45 +261,133 @@ non terminal Object operation, relational_operator, additive_operation, additive
                         ;
 
 
-    operation ::= operation relational_operator additive_operation
-                | additive_operation
+    operation ::= operation:op relational_operator:ro additive_operation:ao
+                  {:
+                    if(ro === ">") RESULT = new Greater(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if(ro === ">=") RESULT = new GreaterEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if(ro === "<") RESULT = new Minor(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if(ro === "<=") RESULT = new MinorEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if(ro === "==") RESULT = new EqualEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if(ro === "!=") RESULT = new Different(op, ao, new int[] {ro.getRow(), ro.getColumn()});                    
+                  :}
+                | additive_operation:ao
+                  {:
+                    RESULT = ao;
+                  :}
                 ;
 
-    relational_operator ::= GREATER
-                          | GREATER_EQUAL
-                          | MINOR
-                          | MINOR_EQUAL
-                          | EQUAL_EQUAL
-                          | DIFFERENT
+    relational_operator ::= GREATER:g
+                            {:
+                              RESULT = g;
+                            :}
+                          | GREATER_EQUAL:ge
+                            {:
+                              RESULT = ge;
+                            :}
+                          | MINOR:m
+                            {:
+                              RESULT = m;
+                            :}
+                          | MINOR_EQUAL:me
+                            {:
+                              RESULT = me;
+                            :}
+                          | EQUAL_EQUAL:ee
+                            {:
+                              RESULT = ee;
+                            :}
+                          | DIFFERENT:d
+                            {:
+                              RESULT = d;
+                            :}
                           ;
 
-    additive_operation ::= additive_operation additive_operator multiplicative_operation
-                         | multiplicative_operation
+    additive_operation ::= additive_operation:ao additive_operator:aop multiplicative_operation:mo
+                          {:
+                            if(aop === "-") RESULT = new Minus(ao, mo, new int[] {ro.getRow(), ro.getColumn()});
+                            if(aop === "+") RESULT = new Plus(ao, mo, new int[] {ro.getRow(), ro.getColumn()});
+                            if(aop === "|") RESULT = new Or(ao, mo, new int[] {ro.getRow(), ro.getColumn()});                
+                          :}
+                         | multiplicative_operation:mo
+                          {:
+                            RESULT = mo;
+                          :}
                          ;
 
-    additive_operator   ::= MINUS
-                          | PLUS
-                          | OR
+    additive_operator   ::= MINUS:m
+                            {:
+                              RESULT = m;
+                            :}
+                          | PLUS:p
+                            {:
+                              RESULT = p;
+                            :}
+                          | OR:o
+                            {:
+                              RESULT = o;
+                            :}
                           ;    
 
-    multiplicative_operation ::= multiplicative_operation multiplicative_operator unary_operation
-                               | unary_operation 
+    multiplicative_operation ::= multiplicative_operation:mo multiplicative_operator:mop unary_operation:uo
+                                {:
+                                  if(mop === "/") RESULT = new Divide(mo,uo, new int[] {ro.getRow(), ro.getColumn()});
+                                  if(mop === "*") RESULT = new Multi(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
+                                  if(mop === "**") RESULT = new Power(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
+                                  if(mop === "~") RESULT = new Module(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
+                                  if(mop === "&") RESULT = new And(mo, uo, new int[] {ro.getRow(), ro.getColumn()});                   
+                                :}
+                               | unary_operation:uo
+                                {:
+                                  RESULT = uo;
+                                :}
                                ;
 
-    multiplicative_operator ::= DIVIDE
-                              | MULTI
-                              | POWER
-                              | MODULE
-                              | AND
+    multiplicative_operator ::= DIVIDE:d
+                                {:
+                                  RESULT = d;
+                                :}
+                              | MULTI:m
+                                {:
+                                  RESULT = m;
+                                :}
+                              | POWER:p
+                                {:
+                                  RESULT = p;
+                                :}
+                              | MODULE:mo
+                                {:
+                                  RESULT = mo;
+                                :}
+                              | AND:a
+                                {:
+                                  RESULT = a;
+                                :}
                               ; 
 
-    unary_operation ::= unary_operator unary_operation
-                      | basic_operation
+    unary_operation ::= unary_operator:uop unary_operation:uo
+                        {:
+                          if(uop === "--") RESULT = new MinusMinus(uo, new int[] {ro.getRow(), ro.getColumn()});
+                          if(uop === "++") RESULT = new PlusPlus(uo, new int[] {ro.getRow(), ro.getColumn()});
+                          if(uop === "-") RESULT = new MinusUnary(uo, new int[] {ro.getRow(), ro.getColumn()});                
+                        :}
+                      | basic_operation:ba
+                        {:
+                          RESULT = ba;
+                        :}
                       ;
 
-    unary_operator ::= MINUS_MINUS
-                     | PLUS_PLUS
-                     | MINUS
+    unary_operator ::= MINUS_MINUS:mm
+                      {:
+                        RESULT = mm;
+                      :}
+                     | PLUS_PLUS:pp
+                      {:
+                        RESULT = pp;
+                      :}
+                     | MINUS:m
+                      {:
+                        RESULT = m;
+                      :}
                      ;
 
     basic_operation ::= INTEGER
