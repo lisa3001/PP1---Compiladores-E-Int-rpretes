@@ -79,7 +79,7 @@ terminal Character CHARACTER;
 non terminal Object operation, relational_operator, additive_operation, additive_operator,
                     multiplicative_operation, multiplicative_operator, unary_operation,
                     unary_operator, basic_operation, empty, create_var, type, 
-                    sentences, call_function, createArray, arrayList, modifyArrayElement, 
+                    sentences, sentence, call_function, createArray, arrayList, modifyArrayElement, 
                     block, create_function, parameters, parameter_list, for_structure, if_structure, else_structure, 
                     elif_structure, main_function, assing_var, negation,
                     init_program;
@@ -129,25 +129,21 @@ non terminal Object operation, relational_operator, additive_operation, additive
             |  error CLOSE_KEY
             ; 
 
-    sentence ::= empty
-               | operation FINAL
-               | create_var FINAL
-               | assing_var FINAL
-               | modifyArrayElement FINAL
-               | createArray FINAL
+    sentences ::= empty
+               | operation FINAL sentences
+               | create_var FINAL sentences
+               | assing_var FINAL sentences
+               | modifyArrayElement FINAL sentences
+               | createArray FINAL sentences
                | if_structure
-               | FOR OPEN_PAREN for_structure CLOSE_PAREN block
-               | RETURN operation FINAL
+               | FOR OPEN_PAREN for_structure CLOSE_PAREN block sentences
+               | RETURN operation FINAL sentences
                | BREAK FINAL
-               | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL 
-               | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL 
+               | PRINT OPEN_PAREN operation CLOSE_PAREN FINAL sentences
+               | READ OPEN_PAREN IDENTIFIER CLOSE_PAREN FINAL sentences
                | error
-               | COMMENT
+               | COMMENT sentences
                ;
-
-    sentences :: = sentence sentences
-                 | sentence
-                 ;
 
     for_structure ::= create_var FINAL operation FINAL operation ;
 
