@@ -7,6 +7,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.FileWriter;
 import java.io.BufferedWriter ;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import producciones.InitProgram;
 
 
 public class Compilador {
@@ -84,6 +87,7 @@ public class Compilador {
                         ew.printStackTrace();
                       }
                     AnalizadorSintactico.main(archivoPrueba);
+                    analisisSemantico();
                     break;
                 }
                 case SALIR: {
@@ -96,6 +100,18 @@ public class Compilador {
             }
         } while (valor != 3);
 
+    }
+    
+    public static void analisisSemantico(){
+        try {
+            AnalizadorSintactico asin = new AnalizadorSintactico(new AnalizadorLexico(new FileReader("test.txt")));
+            InitProgram programa = (InitProgram)asin.parse().value;
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /*
