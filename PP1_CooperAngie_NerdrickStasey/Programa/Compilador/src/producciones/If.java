@@ -13,12 +13,12 @@ import java.util.Vector;
  */
 public class If extends Sentence{
     private Operation operation;
-    private Vector<Sentence> ifSentences;
+    private Sentences ifSentences;
     private Vector<Elif> elifStatement;
-    private Vector<Sentence> elseSentences;
+    private Sentences elseSentences;
     private int position[];
     
-    public If(Operation pOperation, Vector<Sentence> ifS, Vector<Elif> elifS, Vector<Sentence> elseS, int pos[]){
+    public If(Operation pOperation, Sentences ifS, Vector<Elif> elifS, Sentences elseS, int pos[]){
         operation = pOperation;
         ifSentences = ifS;
         elifStatement = elifS;
@@ -28,11 +28,11 @@ public class If extends Sentence{
     
     public Operation getOperation(){return operation;}
     
-    public Vector<Sentence> getIfSentences(){ return ifSentences;}
+    public Sentences getIfSentences(){ return ifSentences;}
     
     public Vector<Elif> getElifSentences(){ return elifStatement;}
     
-    public Vector<Sentence> getElseSentences(){ return elseSentences;}
+    public Sentences getElseSentences(){ return elseSentences;}
     
     public int[] getPosition(){return position;}
 }

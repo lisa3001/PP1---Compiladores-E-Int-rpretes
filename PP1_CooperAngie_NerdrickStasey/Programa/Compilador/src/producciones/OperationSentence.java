@@ -9,12 +9,13 @@ package producciones;
  *
  * @author snerd
  */
-public class Break extends Sentence {
+public class OperationSentence extends Sentence {
+    private Operation operation;
     private int position[];
     
-        public Break(int pos[]){
-        position = pos;
+    public OperationSentence(Operation op, int pos[]){
+        operation = op;
     }
     
-    public int[] getPosition(){return position;}
+    public Operation getOperation(){return operation;}
 }
