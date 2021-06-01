@@ -14,7 +14,7 @@ import producciones.*;
  */
 public class AnalizadorSemantico {
     private InitProgram program;
-    private int hayErrores = 0;
+    private int hayErrores = false;
     
     public AnalizadorSemantico(InitProgram pProgram){
         program = pProgram;
@@ -49,10 +49,16 @@ public class AnalizadorSemantico {
         return true;
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si el main tiene un return
+    //Objetivo: Le envía las sentencias del main a una función que verifica si hay una sentencia return
     public boolean mainExisteReturn(){
         return tieneSentenciaReturn(program.getMain().getBlock().getSentences());
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si las funciones tienen un return
+    //Objetivo: Recorre las funciones y envía las sentencias de una función a una función que verifica si hay una sentencia return
     public boolean FuncionExisteReturn(){
         for(Function function : program.getFunctions().getFunctions()){
             return tieneSentenciaReturn(function.getBlock().getSentences());
@@ -67,6 +73,9 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si hay funciones con el mismo nombre
+    //Objetivo: Recorre las funciones y guarda el nombre en una lista para verificar si los nombres se repiten
     public boolean verificacionNombreFunciones(){
         Vector nombreFunciones = new Vector();
         for(Function function : program.getFunctions().getFunctions()){
