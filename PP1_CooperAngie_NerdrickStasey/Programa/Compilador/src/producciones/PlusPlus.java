@@ -4,18 +4,18 @@ package producciones;
  *
  * @author Angie Cooper
  */
-public class PlusPlus {
-    private Identifier ident;
+public class PlusPlus extends Operation{
+    private Operation ident;
     private int position[];
     
     //Constructor de la clase
-    public PlusPlus(Identifier pIdent, int pPosition[]){
+    public PlusPlus(Operation pIdent, int pPosition[]){
         ident = pIdent;
         position = pPosition;
     }
     
     //GET - Retorna el nombre del identificador
-    public Identifier getIdent(){
+    public Operation getIdent(){
         return ident;
     }
     

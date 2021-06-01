@@ -1,3 +1,9 @@
+int suma(int v){
+	int x;
+	x = 
+	suma(4+6)
+}
+
 int main () {
 	int miArr[10];
 }

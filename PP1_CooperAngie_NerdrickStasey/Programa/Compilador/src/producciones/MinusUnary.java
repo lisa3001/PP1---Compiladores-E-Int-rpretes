@@ -4,18 +4,18 @@ package producciones;
  *
  * @author Angie Cooper
  */
-public class MinusUnary {
-    private Identifier ident;
+public class MinusUnary extends Operation{
+    private Operation ident;
     private int position[];
     
     //Constructor de la clase
-    public MinusUnary(Identifier pIdent, int pPosition[]){
+    public MinusUnary(Operation pIdent, int pPosition[]){
         ident = pIdent;
         position = pPosition;
     }
     
     //GET - Retorna el nombre del identificador
-    public Identifier getIdent(){
+    public Operation getIdent(){
         return ident;
     }
     

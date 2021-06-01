@@ -86,7 +86,7 @@ public class Compilador {
                       } catch (Exception ew) {
                         ew.printStackTrace();
                       }
-                    AnalizadorSintactico.main(archivoPrueba);
+                    
                     analisisSemantico();
                     break;
                 }
@@ -106,6 +106,13 @@ public class Compilador {
         try {
             AnalizadorSintactico asin = new AnalizadorSintactico(new AnalizadorLexico(new FileReader("test.txt")));
             InitProgram programa = (InitProgram)asin.parse().value;
+            if(!asin.errores){
+                AnalizadorSemantico asem = new AnalizadorSemantico(programa);
+            
+            }
+            else{
+                System.err.println("Error en la sintaxis. El archivo no se puede generar.");
+            }
             
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Compilador.class.getName()).log(Level.SEVERE, null, ex);

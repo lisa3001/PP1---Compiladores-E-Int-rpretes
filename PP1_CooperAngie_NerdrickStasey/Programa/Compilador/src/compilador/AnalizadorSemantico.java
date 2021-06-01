@@ -13,4 +13,12 @@ import producciones.*;
  */
 public class AnalizadorSemantico {
     private InitProgram program;
+    
+    public AnalizadorSemantico(InitProgram pProgram){
+        program = pProgram;
+    }
+    
+    public boolean Verficar(){
+        
+    }
 }

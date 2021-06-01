@@ -11,6 +11,9 @@ import java.lang.Object;
   Esta sección del código se agrega a la clase resultante
 */
 parser code {:
+
+    //Cuando se setea en true indica que hubo errores en la sintaxis
+    boolean errores;
     
     /*Entrada: Es un mensaje de error de tipo String y el símbolo de tipo Object 
       Salida: No tiene
@@ -21,6 +24,7 @@ parser code {:
         StringBuilder m = new StringBuilder("Error");
         if (info instanceof java_cup.runtime.Symbol) {
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            errores = true;
             if (s.left >= 0) {                
                 m.append(" in line "+(s.left+1));
                 if (s.right >= 0)
@@ -118,13 +122,13 @@ terminal Token CHARACTER;
 */
 
 non terminal Operation operation;
-non terminal Object relational_operator;
+non terminal Token relational_operator;
 non terminal Operation additive_operation;
-non terminal Object additive_operator;
+non terminal Token additive_operator;
 non terminal Operation multiplicative_operation;
-non terminal Object multiplicative_operator;
+non terminal Token multiplicative_operator;
 non terminal Operation unary_operation;
-non terminal Object unary_operator;
+non terminal Token unary_operator;
 non terminal Operation basic_operation;
 non terminal Empty empty;
 non terminal CreateVar create_var;
@@ -135,8 +139,8 @@ non terminal CreateArray createArray;
 non terminal ArrayList arrayList;
 non terminal ModifyArray modifyArrayElement;
 non terminal Block block;
-non terminal CreateFunction create_function;
-non terminal Parameters parameters;
+non terminal FunctionList create_function;
+non terminal ParametersFunction parameters;
 non terminal ParameterList parameter_list;
 non terminal ForStructure for_structure;
 non terminal If if_structure;
@@ -194,14 +198,16 @@ non terminal InitProgram init_program;
 
     create_function ::= create_function:cf type:t IDENTIFIER:id OPEN_PAREN parameters:p CLOSE_PAREN block:b
                         {:
-                          Function f = new Function(t, id, p, b, null);
+                          Identifier ident = new Identifier( (String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                          Function f = new Function(t, ident, p, b, null);
                           if(cf == null) cf = new FunctionList();
                           cf.addFunction(f);
                           RESULT = cf;
                         :}
-                      | type IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block
+                      | type:t IDENTIFIER:id OPEN_PAREN parameters:p CLOSE_PAREN block:b
                         {:
-                          Function f = new Function(t, id, p, b, null);
+                          Identifier ident = new Identifier( (String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                          Function f = new Function(t, ident, p, b, null);
                           FunctionList cf = new FunctionList();
                           cf.addFunction(f);
                           RESULT = cf;
@@ -215,7 +221,8 @@ non terminal InitProgram init_program;
                   :}
                  | parameters:pa COMMA type:t IDENTIFIER:id
                   {:
-                    Parameters p = new Parameters(t, id);
+                    Identifier ident = new Identifier( (String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    Parameters p = new Parameters(t, ident);
                     if(pa == null) pa = new ParametersFunction();
                     pa.addParameter(p);
                     RESULT = pa;
@@ -223,7 +230,8 @@ non terminal InitProgram init_program;
                   :}
                  | type:t IDENTIFIER:id
                   {:
-                    Parameters p = new Parameters(t, id);
+                    Identifier ident = new Identifier( (String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    Parameters p = new Parameters(t, ident);
                     ParametersFunction pa = new ParametersFunction();
                     pa.addParameter(p);
                     RESULT = pa;
@@ -231,8 +239,14 @@ non terminal InitProgram init_program;
                   :}
                  ;
 
-    block ::=  OPEN_KEY sentences CLOSE_KEY
+    block ::=  OPEN_KEY sentences:s CLOSE_KEY
+              {:
+                  RESULT = new Block(s);
+              :}
             |  error CLOSE_KEY
+              {:
+                RESULT = new Block(null);
+              :}
             ; 
 
     sentences ::= empty
@@ -370,12 +384,12 @@ non terminal InitProgram init_program;
 
     operation ::= operation:op relational_operator:ro additive_operation:ao
                   {:
-                    if(ro === ">") RESULT = new Greater(op, ao, new int[] {ro.getRow(), ro.getColumn()});
-                    if(ro === ">=") RESULT = new GreaterEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
-                    if(ro === "<") RESULT = new Minor(op, ao, new int[] {ro.getRow(), ro.getColumn()});
-                    if(ro === "<=") RESULT = new MinorEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
-                    if(ro === "==") RESULT = new EqualEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
-                    if(ro === "!=") RESULT = new Different(op, ao, new int[] {ro.getRow(), ro.getColumn()});                    
+                    if( ((String) ro.getValue()) == ">") RESULT = new Greater(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if( ((String) ro.getValue()) == ">=") RESULT = new GreaterEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if( ((String) ro.getValue()) == "<") RESULT = new Minor(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if( ((String) ro.getValue()) == "<=") RESULT = new MinorEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if( ((String) ro.getValue()) == "==") RESULT = new EqualEqual(op, ao, new int[] {ro.getRow(), ro.getColumn()});
+                    if( ((String) ro.getValue()) == "!=") RESULT = new Different(op, ao, new int[] {ro.getRow(), ro.getColumn()});                    
                   :}
                 | additive_operation:ao
                   {:
@@ -411,9 +425,9 @@ non terminal InitProgram init_program;
 
     additive_operation ::= additive_operation:ao additive_operator:aop multiplicative_operation:mo
                           {:
-                            if(aop === "-") RESULT = new Minus(ao, mo, new int[] {ro.getRow(), ro.getColumn()});
-                            if(aop === "+") RESULT = new Plus(ao, mo, new int[] {ro.getRow(), ro.getColumn()});
-                            if(aop === "|") RESULT = new Or(ao, mo, new int[] {ro.getRow(), ro.getColumn()});                
+                            if( ((String) aop.getValue()) == "-") RESULT = new Minus(ao, mo, new int[] {aop.getRow(), aop.getColumn()});
+                            if( ((String) aop.getValue()) == "+") RESULT = new Plus(ao, mo, new int[] {aop.getRow(), aop.getColumn()});
+                            if( ((String) aop.getValue()) == "|") RESULT = new Or(ao, mo, new int[] {aop.getRow(), aop.getColumn()});                
                           :}
                          | multiplicative_operation:mo
                           {:
@@ -437,11 +451,11 @@ non terminal InitProgram init_program;
 
     multiplicative_operation ::= multiplicative_operation:mo multiplicative_operator:mop unary_operation:uo
                                 {:
-                                  if(mop === "/") RESULT = new Divide(mo,uo, new int[] {ro.getRow(), ro.getColumn()});
-                                  if(mop === "*") RESULT = new Multi(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
-                                  if(mop === "**") RESULT = new Power(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
-                                  if(mop === "~") RESULT = new Module(mo, uo, new int[] {ro.getRow(), ro.getColumn()});
-                                  if(mop === "&") RESULT = new And(mo, uo, new int[] {ro.getRow(), ro.getColumn()});                   
+                                  if( ((String) mop.getValue()) == "/") RESULT = new Divide(mo,uo, new int[] {mop.getRow(), mop.getColumn()});
+                                  if( ((String) mop.getValue()) == "*") RESULT = new Multi(mo, uo, new int[] {mop.getRow(), mop.getColumn()});
+                                  if( ((String) mop.getValue()) == "**") RESULT = new Power(mo, uo, new int[] {mop.getRow(), mop.getColumn()});
+                                  if( ((String) mop.getValue()) == "~") RESULT = new Module(mo, uo, new int[] {mop.getRow(), mop.getColumn()});
+                                  if( ((String) mop.getValue()) == "&") RESULT = new And(mo, uo, new int[] {mop.getRow(), mop.getColumn()});                   
                                 :}
                                | unary_operation:uo
                                 {:
@@ -473,9 +487,9 @@ non terminal InitProgram init_program;
 
     unary_operation ::= unary_operator:uop unary_operation:uo
                         {:
-                          if(uop === "--") RESULT = new MinusMinus(uo, new int[] {ro.getRow(), ro.getColumn()});
-                          if(uop === "++") RESULT = new PlusPlus(uo, new int[] {ro.getRow(), ro.getColumn()});
-                          if(uop === "-") RESULT = new MinusUnary(uo, new int[] {ro.getRow(), ro.getColumn()});                
+                          if( ((String) uop.getValue()) == "--") RESULT = new MinusMinus(uo, new int[] {uop.getRow(), uop.getColumn()});
+                          if( ((String) uop.getValue()) == "++") RESULT = new PlusPlus(uo, new int[] {uop.getRow(), uop.getColumn()});
+                          if( ((String) uop.getValue()) == "-") RESULT = new MinusUnary(uo, new int[] {uop.getRow(), uop.getColumn()});                
                         :}
                       | basic_operation:ba
                         {:
