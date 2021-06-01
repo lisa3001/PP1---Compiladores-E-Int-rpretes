@@ -110,7 +110,6 @@ public class Compilador {
             if(!asin.errores){
                 AnalizadorSemantico asem = new AnalizadorSemantico(programa);
                 System.out.println(asem.verficar());
-                System.out.println("Opción inválida!");
             }
             else{
                 System.err.println("Error en la sintaxis. El archivo no se puede generar.");
