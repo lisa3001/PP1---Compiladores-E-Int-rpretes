@@ -41,9 +41,40 @@ public class AnalizadorSemantico {
         return true;
     }
     
+    //Entrada: Recibe un vector con las variables creadas y los parametros de una función, y la variable que se desea buscar
+    //Salida: Retorna un booleano indicando si la variable ya fue creada o no
+    //Objetivo: validar si en la lista de variables de una función o en los parámetros ya existe la variable que se desea crear
+    public boolean existeVariable(Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, String varName){
+        for(CreateVar tempVar: variablesLocales){
+            if(varName.equals(tempVar.getIdentifier().getName())) return true;
+        }
+        for(Parameters tempParam: parametros){
+            if(varName.equals(tempParam.getIdentifier().getName())) return true;
+        }
+        return false;
+    }
+    
     public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros){
+        System.out.println("entra a validar bloque");
         for(Sentence tempSentence: bloque.getSentences()){
             //Acá se empezarían a validar una a una las sentencias de la función
+            if(tempSentence instanceof CreateVar){
+                CreateVar declaracion = (CreateVar)tempSentence;
+                if(existeVariable(variablesLocales, parametros, declaracion.getIdentifier().getName())){
+                    System.err.println("Error semántico, la variable " + declaracion.getIdentifier().getName() +
+                            " ya ha sido declarada, fila " + declaracion.getIdentifier().getPosition()[0] + " columna " + declaracion.getIdentifier().getPosition()[1]);
+                    //Cambiar bandera de error acá
+                }else{
+                    variablesLocales.add(declaracion);
+                } //Hay que validar la operacion del lado izquierdo
+            }else if(tempSentence instanceof AssignVar){
+                AssignVar declaracion = (AssignVar)tempSentence;
+                if(!existeVariable(variablesLocales, parametros, declaracion.getIdentifier().getName())){
+                    System.err.println("Error semántico, la variable " + declaracion.getIdentifier().getName() +
+                            " no existe, fila " + declaracion.getIdentifier().getPosition()[0] + " columna " + declaracion.getIdentifier().getPosition()[1]);
+                    //Cambiar bandera de error acá
+                }//Hay que validar la operacion del lado izquierdo
+            }
         }
         return true;
     }

@@ -717,7 +717,7 @@ class AnalizadorLexico implements java_cup.runtime.Scanner {
           }
         case 52: break;
         case 3: 
-          { GuardarToken(yytext()); 
+          { System.out.print(yytext()+ " -> IDENTIFIER\n");
                     guardarTokenTxt(yytext()+ " -> IDENTIFIER\n", "tokens.txt");
                     return new Symbol(sym.IDENTIFIER, new Token(yytext(), yyline+1, yycolumn+1));
           }

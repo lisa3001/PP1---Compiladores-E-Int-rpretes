@@ -106,11 +106,9 @@ public class Compilador {
         try {
             AnalizadorSintactico asin = new AnalizadorSintactico(new AnalizadorLexico(new FileReader("test.txt")));
             InitProgram programa = (InitProgram)asin.parse().value;
-            System.out.println("Opción inválida!");
             if(!asin.errores){
                 AnalizadorSemantico asem = new AnalizadorSemantico(programa);
                 System.out.println(asem.verficar());
-                System.out.println("Opción inválida!");
             }
             else{
                 System.err.println("Error en la sintaxis. El archivo no se puede generar.");

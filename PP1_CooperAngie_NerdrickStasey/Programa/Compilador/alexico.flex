@@ -338,7 +338,7 @@ CommentContent       = ( [^*] | \*+ [^\*] )*
                     return new Symbol(sym.CHARACTER, new Token(yytext(), yyline+1, yycolumn+1)); }
 
 
-  {IDENTIFIER}   {   GuardarToken(yytext()); 
+  {IDENTIFIER}   {  System.out.print(yytext()+ " -> IDENTIFIER\n");
                     guardarTokenTxt(yytext()+ " -> IDENTIFIER\n", "tokens.txt");
                     return new Symbol(sym.IDENTIFIER, new Token(yytext(), yyline+1, yycolumn+1)); }
 

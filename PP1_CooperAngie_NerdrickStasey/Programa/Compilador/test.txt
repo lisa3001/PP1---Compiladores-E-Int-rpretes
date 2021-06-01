@@ -1,16 +1,10 @@
 int suma(int v){
-	int x;
+	int v;
 	x = 4;
-	return x;
-}
-
-int resta(int v){
-	int x;
-	x = 4;
-	return x;
+	return v;
 }
 
 int main () {
 	int miArr[10];
-	
+	return 1;
 }
