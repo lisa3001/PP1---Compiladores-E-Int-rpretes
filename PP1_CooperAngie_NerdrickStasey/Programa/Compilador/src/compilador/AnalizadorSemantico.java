@@ -35,12 +35,16 @@ public class AnalizadorSemantico {
         for(Function tempFuncion: funciones){
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
             Vector<CreateVar> variablesLocales = new Vector<CreateVar>(); //Se van a ir guardando las variables que se crean en la función
-            
-            for(Sentence tempSentence: tempFuncion.getBlock().getSentences().getSentences()){
-                //Acá se empezarían a validar una a una las sentencias de la función
-            }
+            validarBloque(tempFuncion.getBlock().getSentences());
         }
         
+        return true;
+    }
+    
+    public boolean validarBloque(Sentences bloque){
+        for(Sentence tempSentence: bloque.getSentences()){
+            //Acá se empezarían a validar una a una las sentencias de la función
+        }
         return true;
     }
     
