@@ -106,7 +106,6 @@ public class Compilador {
         try {
             AnalizadorSintactico asin = new AnalizadorSintactico(new AnalizadorLexico(new FileReader("test.txt")));
             InitProgram programa = (InitProgram)asin.parse().value;
-            System.out.println("Opción inválida!");
             if(!asin.errores){
                 AnalizadorSemantico asem = new AnalizadorSemantico(programa);
                 System.out.println(asem.verficar());
