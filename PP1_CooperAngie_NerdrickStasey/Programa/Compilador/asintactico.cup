@@ -119,14 +119,14 @@ terminal Token CHARACTER;
 
 non terminal Operation operation;
 non terminal Object relational_operator;
-non terminal Object additive_operation;
+non terminal Operation additive_operation;
 non terminal Object additive_operator;
-non terminal Object multiplicative_operation;
+non terminal Operation multiplicative_operation;
 non terminal Object multiplicative_operator;
-non terminal Object unary_operation;
+non terminal Operation unary_operation;
 non terminal Object unary_operator;
-non terminal Object basic_operation;
-non terminal Object empty;
+non terminal Operation basic_operation;
+non terminal Empty empty;
 non terminal CreateVar create_var;
 non terminal Type type;
 non terminal Sentences sentences;
@@ -136,16 +136,16 @@ non terminal ArrayList arrayList;
 non terminal ModifyArray modifyArrayElement;
 non terminal Block block;
 non terminal CreateFunction create_function;
-non terminal Object parameters;
+non terminal Parameters parameters;
 non terminal ParameterList parameter_list;
 non terminal ForStructure for_structure;
 non terminal If if_structure;
 non terminal Sentences else_structure; 
 non terminal Vector<Elif> elif_structure;
-non terminal Object main_function;
+non terminal Main main_function;
 non terminal AssignVar assing_var;
-non terminal Object negation;
-non terminal Object init_program;
+non terminal Negation negation;
+non terminal InitProgram init_program;
 
    
 /* -------------Precedencia y producciones
