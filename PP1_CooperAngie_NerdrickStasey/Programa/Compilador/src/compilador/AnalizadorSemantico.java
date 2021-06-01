@@ -23,6 +23,7 @@ public class AnalizadorSemantico {
     public boolean verficar(){
         if(!mainExisteReturn()) return false;
         if(!FuncionExisteReturn()) return false;
+        if(!verificacionNombreFunciones()) return false;
         if(!validarScopeFuncion(program.getFunctions().getFunctions())) return false;
         return true;
     }
@@ -97,4 +98,13 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    public boolean verificacionNombreFunciones(){
+        Vector nombreFunciones = new Vector();
+        for(Function function : program.getFunctions().getFunctions()){
+            String nombre = function.getIdentifier().getName();
+            if(nombreFunciones.contains(nombre)) return false;
+            else nombreFunciones.add(nombre);
+        }
+        return true;
+    }
 }

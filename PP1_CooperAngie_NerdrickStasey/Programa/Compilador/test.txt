@@ -1,10 +1,30 @@
+int resta(int v){
+	int x;
+	x = 4;
+	return x;
+}
+
 int suma(int v){
 	int v;
 	x = 4;
+<<<<<<< HEAD
 	return v;
+=======
+	return x;
+}
+
+int rest(int v){
+	int x;
+	x = 4;
+	return x;
+>>>>>>> bbd0983172ff59a46881c7180d5d26e25fe42a55
 }
 
 int main () {
 	int miArr[10];
+<<<<<<< HEAD
 	return 1;
+=======
+	return 0;
+>>>>>>> bbd0983172ff59a46881c7180d5d26e25fe42a55
 }
