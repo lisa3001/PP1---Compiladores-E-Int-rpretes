@@ -110,20 +110,63 @@ non terminal Object operation, relational_operator, additive_operation, additive
 
     start with init_program;
 
-    init_program ::= create_function main_function
-                   | main_function
+    init_program ::= create_function:cf main_function:mf
+                    {:
+                      InitProgram ip = new InitProgram(mf, cf);
+                      RESULT = ip;
+                    :}
+                   | main_function:mf
+                    {:
+                      FunctionList cf = new FunctionList();
+                      InitProgram ip = new InitProgram(mf, cf);
+                      RESULT = ip;
+                    :}
                    ;
 
-    main_function ::= INT MAIN OPEN_PAREN CLOSE_PAREN block
+    main_function ::= INT MAIN OPEN_PAREN CLOSE_PAREN block:b
+                      {:
+                        Main m = new Main(b, null);
+                        RESULT = m;
+                      :}
                     ;
 
-    create_function ::= create_function type IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block
+    create_function ::= create_function:cf type:t IDENTIFIER:id OPEN_PAREN parameters:p CLOSE_PAREN block:b
+                        {:
+                          Function f = new Function(t, id, p, b, null);
+                          if(cf == null) cf = new FunctionList();
+                          cf.addFunction(f);
+                          RESULT = cf;
+                        :}
                       | type IDENTIFIER OPEN_PAREN parameters CLOSE_PAREN block
+                        {:
+                          Function f = new Function(t, id, p, b, null);
+                          FunctionList cf = new FunctionList();
+                          cf.addFunction(f);
+                          RESULT = cf;
+                        :}
                       ;
 
     parameters ::= empty
-                 | parameters COMMA type IDENTIFIER
-                 | type IDENTIFIER
+                  {:
+                    RESULT = new ParametersFunction();
+
+                  :}
+                 | parameters:pa COMMA type:t IDENTIFIER:id
+                  {:
+                    Parameters p = new Parameters(t, id);
+                    if(pa == null) pa = new ParametersFunction();
+                    pa.addParameter(p);
+                    RESULT = pa;
+
+                  :}
+                 | type:t IDENTIFIER:id
+                  {:
+                    Parameters p = new Parameters(t, id);
+                    ParametersFunction pa = new ParametersFunction();
+                    pa.addParameter(p);
+                    RESULT = pa;
+
+                  :}
                  ;
 
     block ::=  OPEN_KEY sentences CLOSE_KEY
