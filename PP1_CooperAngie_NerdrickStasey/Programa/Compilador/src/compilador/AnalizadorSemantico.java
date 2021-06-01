@@ -19,6 +19,6 @@ public class AnalizadorSemantico {
     }
     
     public boolean Verficar(){
-        
+        return true;
     }
 }
