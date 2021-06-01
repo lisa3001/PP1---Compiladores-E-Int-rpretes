@@ -1,9 +1,16 @@
 int suma(int v){
 	int x;
-	x = 
-	suma(4+6)
+	x = 4;
+	return x;
+}
+
+int resta(int v){
+	int x;
+	x = 4;
+	return x;
 }
 
 int main () {
 	int miArr[10];
+	
 }
