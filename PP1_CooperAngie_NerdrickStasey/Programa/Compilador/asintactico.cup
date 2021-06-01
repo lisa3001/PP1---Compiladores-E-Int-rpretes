@@ -4,6 +4,8 @@ package compilador;
 import java_cup.runtime.*;
 import java.io.FileReader;
 import producciones.*;
+import java.util.Vector;
+import java.lang.Object;
    
 /* 
   Esta sección del código se agrega a la clase resultante
@@ -60,30 +62,90 @@ parser code {:
    Se listan todos los tokens que se vayan a utilizar para la elaboración de
    producciones, estos son obtenidos por el analizador lexico. 
 */
-terminal           IDENTIFIER,
-                   MINUS, PLUS, DIVIDE, MULTI, MODULE, POWER, PLUS_PLUS, MINUS_MINUS,
-                   GREATER, GREATER_EQUAL, MINOR, MINOR_EQUAL, EQUAL_EQUAL, DIFFERENT, AND, OR,
-                   OPEN_PAREN, CLOSE_PAREN, TRUE, FALSE, NULL, OPEN_BRACKET, CLOSE_BRACKET, COMMA,
-                   INT, FLOAT, BOOL, CHAR, STRING, EQUAL, FINAL, FOR, RETURN, READ, PRINT, NOT,
-                   OPEN_KEY, CLOSE_KEY, IF, ELSE, ELIF, BREAK, COMMENT,
-                   MAIN;
-terminal Integer   INTEGER;
-terminal Double    DECIMAL;
-terminal String    CHARCHAIN;
-terminal Character CHARACTER;
+terminal Token IDENTIFIER;
+terminal Token MINUS;
+terminal Token PLUS;
+terminal Token DIVIDE;
+terminal Token MULTI;
+terminal Token MODULE;
+terminal Token POWER;
+terminal Token PLUS_PLUS;
+terminal Token MINUS_MINUS;
+terminal Token GREATER;
+terminal Token GREATER_EQUAL;
+terminal Token MINOR;
+terminal Token MINOR_EQUAL;
+terminal Token EQUAL_EQUAL;
+terminal Token DIFFERENT;
+terminal Token AND;
+terminal Token OR;
+terminal Token OPEN_PAREN;
+terminal Token CLOSE_PAREN;
+terminal Token TRUE;
+terminal Token FALSE;
+terminal Token NULL;
+terminal Token OPEN_BRACKET;
+terminal Token CLOSE_BRACKET;
+terminal Token COMMA;
+terminal Token INT;
+terminal Token FLOAT;
+terminal Token BOOL;
+terminal Token CHAR;
+terminal Token STRING;
+terminal Token EQUAL;
+terminal Token FINAL;
+terminal Token FOR;
+terminal Token RETURN;
+terminal Token READ;
+terminal Token PRINT;
+terminal Token NOT;
+terminal Token OPEN_KEY;
+terminal Token CLOSE_KEY;
+terminal Token IF;
+terminal Token ELSE;
+terminal Token ELIF;
+terminal Token BREAK;
+terminal Token COMMENT;
+terminal Token MAIN;
+terminal Token INTEGER;
+terminal Token DECIMAL;
+terminal Token CHARCHAIN;
+terminal Token CHARACTER;
 
 /*NO TERMINALES 
   Se listas todos los no terminales que se elaboran en las producciones. Se utiliza Object
   para indicar que estos no tienen un tipo definido, pudiendo ser un entero o String.
 */
 
-non terminal Object operation, relational_operator, additive_operation, additive_operator,
-                    multiplicative_operation, multiplicative_operator, unary_operation,
-                    unary_operator, basic_operation, empty, create_var, type, 
-                    sentences, call_function, createArray, arrayList, modifyArrayElement, 
-                    block, create_function, parameters, parameter_list, for_structure, if_structure, else_structure, 
-                    elif_structure, main_function, assing_var, negation,
-                    init_program;
+non terminal Operation operation;
+non terminal Object relational_operator;
+non terminal Object additive_operation;
+non terminal Object additive_operator;
+non terminal Object multiplicative_operation;
+non terminal Object multiplicative_operator;
+non terminal Object unary_operation;
+non terminal Object unary_operator;
+non terminal Object basic_operation;
+non terminal Object empty;
+non terminal CreateVar create_var;
+non terminal Type type;
+non terminal Sentences sentences;
+non terminal CallFunction call_function;
+non terminal CreateArray createArray;
+non terminal ArrayList arrayList;
+non terminal ModifyArray modifyArrayElement;
+non terminal Block block;
+non terminal CreateFunction create_function;
+non terminal Object parameters;
+non terminal ParameterList parameter_list;
+non terminal ForStructure for_structure;
+non terminal If if_structure;
+non terminal Sentences else_structure; 
+non terminal Vector<Elif> elif_structure;
+non terminal Object main_function;
+non terminal AssignVar assing_var;
+non terminal Object negation;
+non terminal Object init_program;
 
    
 /* -------------Precedencia y producciones
@@ -137,7 +199,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                | operation:op FINAL sentences:sent
                  {:
                     if(sent == null) sent = new Sentences();
-                    OperationSentence opr = new(op);
+                    OperationSentence opr = new OperationSentence(op);
                     sent.addSentence(opr);
                     RESULT = sent;
                  :}
@@ -202,7 +264,8 @@ non terminal Object operation, relational_operator, additive_operation, additive
                | READ:pr OPEN_PAREN IDENTIFIER:id CLOSE_PAREN FINAL sentences:sent
                  {:
                     if(sent == null) sent = new Sentences();
-                    Read ff = new Read((String)id.getValue(), new int[] {pr.getRow(), pr.getColumn()});
+                    Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
+                    Read ff = new Read(identifier, new int[] {pr.getRow(), pr.getColumn()});
                     sent.addSentence(ff);
                     RESULT = sent;
                  :}
@@ -223,11 +286,11 @@ non terminal Object operation, relational_operator, additive_operation, additive
                     :}
                      ;
 
-    if_structure ::= IF negation OPEN_PAREN operation:op CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
+    if_structure ::= IF:iff negation OPEN_PAREN operation:op CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
                        	elif_structure:elf
 		        else_structure:els
                         {:
-                            RESULT = new If(op, s1, elf, els);
+                            RESULT = new If(op, s1, elf, els, new int[] {iff.getRow(), iff.getColumn()});
                         :}
                         ;
 
@@ -248,14 +311,14 @@ non terminal Object operation, relational_operator, additive_operation, additive
                        | ELIF:elf negation OPEN_PAREN operation:op1 CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
                         {:
                             Vector<Elif> al = new Vector<Elif>();
-                            Elif elf = new Elif(op1, s1, new int[] {elf.getRow(), elf.getColumn()});
-                            al.add(elf);
+                            Elif elf1 = new Elif(op1, s1, new int[] {elf.getRow(), elf.getColumn()});
+                            al.add(elf1);
                             RESULT = al;
                         :}
-		       | elif_structure:elfs ELIF negation OPEN_PAREN operation:op1 CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
+		       | elif_structure:elfs ELIF:el negation OPEN_PAREN operation:op1 CLOSE_PAREN OPEN_KEY sentences:s1 CLOSE_KEY
                          {:
                             if(elfs == null) elfs = new Vector<Elif>();
-                            Elif elf = new Elif(op1, s1, new int[] {elf.getRow(), elf.getColumn()});
+                            Elif elf = new Elif(op1, s1, new int[] {el.getRow(), el.getColumn()});
                             elfs.add(elf);
                             RESULT = elfs;
                          :}
@@ -393,31 +456,31 @@ non terminal Object operation, relational_operator, additive_operation, additive
 
     basic_operation ::= INTEGER:i
                         {:
-                            RESULT = new IntLiteral((int)i.getValue(), new int[] {i.getRow(), i.getCol()});
+                            RESULT = new IntLiteral((int)i.getValue(), new int[] {i.getRow(), i.getColumn()});
                         :}
                       | DECIMAL:f
                         {:
-                            RESULT = new FloatLiteral((float)f.getValue(), new int[] {f.getRow(), f.getCol()});
+                            RESULT = new FloatLiteral((float)f.getValue(), new int[] {f.getRow(), f.getColumn()});
                         :}
                       | CHARCHAIN:s
                         {:
-                            RESULT = new StringLiteral((String)s.getValue(), new int[] {s.getRow(), s.getCol()});
+                            RESULT = new StringLiteral((String)s.getValue(), new int[] {s.getRow(), s.getColumn()});
                         :}
                       | CHARACTER:c
                         {:
-                            RESULT = new CharLiteral((char)c.getValue(), new int[] {c.getRow(), c.getCol()});
+                            RESULT = new CharLiteral((char)c.getValue(), new int[] {c.getRow(), c.getColumn()});
                         :}
                       | IDENTIFIER:id
                         {:
-                            RESULT = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getCol()});
+                            RESULT = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
                         :}
                       | TRUE:b
                         {:
-                            RESULT = new BoolLiteral(true, new int[] {b.getRow(), b.getCol()});
+                            RESULT = new BoolLiteral(true, new int[] {b.getRow(), b.getColumn()});
                         :}
                       | FALSE:b
                         {:
-                            RESULT = new BoolLiteral(false, new int[] {b.getRow(), b.getCol()});
+                            RESULT = new BoolLiteral(false, new int[] {b.getRow(), b.getColumn()});
                         :}
                       | negation OPEN_PAREN operation:op CLOSE_PAREN
                         {:
@@ -425,7 +488,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
                         :} 
                       | IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET
                         {:
-                            RESULT = new ArrayPositionOperation((String)id.getValue(), (int)i.getValue(),new int[] {id.getRow(), id.getCol()});
+                            RESULT = new ArrayPositionOperation((String)id.getValue(), (int)i.getValue(),new int[] {id.getRow(), id.getColumn()});
                         :} 
                       | OPEN_BRACKET  arrayList:al CLOSE_BRACKET 
                         {:
@@ -437,19 +500,19 @@ non terminal Object operation, relational_operator, additive_operation, additive
                         :} 
                       | NULL:nl
                         {:
-                            RESULT = new NullLiteral(null, new int[] {nl.getRow(), nl.getCol()});
+                            RESULT = new NullLiteral(null, new int[] {nl.getRow(), nl.getColumn()});
                         :} 
                       ;
 
    parameter_list ::= parameter_list:pl COMMA operation:op
                 {:
-                    if(pl == null) pl = new ArrayList();
+                        if(pl == null) pl = new ParameterList();
                     pl.AddOperation(op);
                     RESULT = pl;
                  :}
                      | operation:op
                 {:
-                    ArrayList pl = new ArrayList();
+                    ParameterList pl = new ParameterList();
                     pl.AddOperation(op);
                     RESULT = pl;
                  :}
@@ -491,7 +554,7 @@ non terminal Object operation, relational_operator, additive_operation, additive
     modifyArrayElement ::= IDENTIFIER:id OPEN_BRACKET INTEGER:i CLOSE_BRACKET EQUAL operation:op
                 {:
                     Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
-                    RESULT = new ModifyArray(identifier, i, op, new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new ModifyArray(identifier, (int)i.getValue(), op, new int[] {id.getRow(), id.getColumn()});
                 :}
                 ;
 
@@ -508,10 +571,10 @@ non terminal Object operation, relational_operator, additive_operation, additive
                 ;
 
 
-    create_var ::= type:t IDENTIFIER:d EQUAL operation:op
+    create_var ::= type:t IDENTIFIER:id EQUAL operation:op
                 {:
                     Identifier identifier = new Identifier((String)id.getValue(), new int[] {id.getRow(), id.getColumn()});
-                    RESULT = new CreateVar(t, identifier, op, new int[] {id.getRow(), id.getColumn()});
+                    RESULT = new CreateVar((Type)t, identifier, op, new int[] {id.getRow(), id.getColumn()});
                 :}
                  | type:t IDENTIFIER:id
                 {:

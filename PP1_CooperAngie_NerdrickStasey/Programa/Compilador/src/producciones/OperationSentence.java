@@ -11,9 +11,8 @@ package producciones;
  */
 public class OperationSentence extends Sentence {
     private Operation operation;
-    private int position[];
     
-    public OperationSentence(Operation op, int pos[]){
+    public OperationSentence(Operation op){
         operation = op;
     }
     
