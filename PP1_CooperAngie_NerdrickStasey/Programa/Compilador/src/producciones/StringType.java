@@ -10,5 +10,7 @@ package producciones;
  * @author snerd
  */
 public class StringType extends Type {
+    private String tipo = "String";
     
+    public String getTipo(){return tipo;}
 }

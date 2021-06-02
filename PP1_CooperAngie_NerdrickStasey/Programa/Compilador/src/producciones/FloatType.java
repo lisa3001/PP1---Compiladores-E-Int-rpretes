@@ -10,5 +10,7 @@ package producciones;
  * @author snerd
  */
 public class FloatType extends Type {
+    private String tipo = "Float";
     
+    public String getTipo(){return tipo;}
 }

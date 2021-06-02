@@ -10,5 +10,7 @@ package producciones;
  * @author snerd
  */
 public class IntType extends Type {
+    private String tipo = "Integer";
     
+    public String getTipo(){return tipo;}
 }

@@ -22,6 +22,9 @@ public class CreateArray extends Sentence {
         length = pLength;
         arrayList = pArrayList;
         position = pPosition;
+        if (pArrayList != null){
+            length = pArrayList.size();
+        }
     }
     
     public Type getType(){return type;}
@@ -31,6 +34,8 @@ public class CreateArray extends Sentence {
     public int getLength(){return length;}
     
     public ArrayList getArrayList(){return arrayList;}
+    
+    public int getArrayListSize(){ return arrayList.size();}
     
     public int[] getPosition(){return position;}
 }
