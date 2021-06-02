@@ -98,11 +98,7 @@ public class AnalizadorSemantico {
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " no existe", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
                 }//Hay que validar la operacion del lado izquierdo
-<<<<<<< HEAD
-            }  
-            
-=======
-            }
+            } 
             else if(tempSentence instanceof OperationSentence){
                 OperationSentence declaracion = (OperationSentence)tempSentence;
                 Operation op = (Operation)declaracion.getOperation();
@@ -110,16 +106,13 @@ public class AnalizadorSemantico {
                 System.out.println(validarOperation(op, variablesLocales, parametros, arraysLocales));
                 
             }
->>>>>>> af2eb733876e897bf3ff4ede99577dac2fa816d8
         }
         return true;
     }
     
-<<<<<<< HEAD
     //Entrada: No tiene
     //Salida: Retorna un booleano indicando si el main tiene un return
     //Objetivo: Le envía las sentencias del main a una función que verifica si hay una sentencia return
-=======
     public String[] obtenerTipoyLengthArray(String nombreArray, Vector<CreateArray> arraysLocales){
         CreateArray arr = null;
         for(CreateArray tempArray: arraysLocales){
@@ -201,10 +194,32 @@ public class AnalizadorSemantico {
             //que la variable sea array
             //Que el tamaño sea igual y el tipo
         }
+     
+        //Salida: Retorna el tipo que tiene la función que se llama
+        //Objetivo: Verifica que la función exista, y los parámetros y tipos ue se envían sean correctos
         else if(op instanceof CallFunction){
-            //Que exista
-            //Misma cantidad parametros y el tipo
-            //retornar el tipo
+            CallFunction functionActual = (CallFunction)op;
+            for(Function function : program.getFunctions().getFunctions()){
+                if(function.getIdentifier().getName().equals(functionActual.getName())){ //verifica que la función exista
+                    if(function.getParameterList().size() == functionActual.getParameterList().size()){
+                        Vector<Operation> paramsCall = functionActual.getParameterList().getParameterList();
+                        Vector<Parameters> paramsFunc = function.getParameterList().getParameters();
+                        for(int i=0; i < paramsCall.size(); i++){
+                            if(!paramsFunc.get(i).getType().getTipo().equals(validarOperation(paramsCall.get(i), variablesLocales, parametros, arraysLocales)) ){
+                                imprimirError("El tipo de los parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                                return function.getType().getTipo();
+                            }
+                        }
+                        return function.getType().getTipo();
+                    }
+                    else{
+                        imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                        return function.getType().getTipo();
+                    }
+                }
+            }
+            imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+            return "Null";
         }
         else if(op instanceof NullLiteral){
             tipo = "Null";
@@ -216,7 +231,6 @@ public class AnalizadorSemantico {
         System.err.println("Error semántico, " + tipoError  +" ver fila " + fila + " columna " + columna);
     }
     
->>>>>>> af2eb733876e897bf3ff4ede99577dac2fa816d8
     public boolean mainExisteReturn(){
         return tieneSentenciaReturn(program.getMain().getBlock().getSentences());
     }
