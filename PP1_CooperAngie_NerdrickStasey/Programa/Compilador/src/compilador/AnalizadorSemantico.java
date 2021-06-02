@@ -98,7 +98,7 @@ public class AnalizadorSemantico {
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " no existe", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
                 }//Hay que validar la operacion del lado izquierdo
-            }
+            } 
             else if(tempSentence instanceof OperationSentence){
                 OperationSentence declaracion = (OperationSentence)tempSentence;
                 Operation op = (Operation)declaracion.getOperation();
@@ -110,6 +110,9 @@ public class AnalizadorSemantico {
         return true;
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si el main tiene un return
+    //Objetivo: Le envía las sentencias del main a una función que verifica si hay una sentencia return
     public String[] obtenerTipoyLengthArray(String nombreArray, Vector<CreateArray> arraysLocales){
         CreateArray arr = null;
         for(CreateArray tempArray: arraysLocales){
@@ -406,10 +409,32 @@ public class AnalizadorSemantico {
         else if(op instanceof ArrayListAssigment){
             tipo = "ArrayList";
         }
+     
+        //Salida: Retorna el tipo que tiene la función que se llama
+        //Objetivo: Verifica que la función exista, y los parámetros y tipos ue se envían sean correctos
         else if(op instanceof CallFunction){
-            //Que exista
-            //Misma cantidad parametros y el tipo
-            //retornar el tipo
+            CallFunction functionActual = (CallFunction)op;
+            for(Function function : program.getFunctions().getFunctions()){
+                if(function.getIdentifier().getName().equals(functionActual.getName())){ //verifica que la función exista
+                    if(function.getParameterList().size() == functionActual.getParameterList().size()){
+                        Vector<Operation> paramsCall = functionActual.getParameterList().getParameterList();
+                        Vector<Parameters> paramsFunc = function.getParameterList().getParameters();
+                        for(int i=0; i < paramsCall.size(); i++){
+                            if(!paramsFunc.get(i).getType().getTipo().equals(validarOperation(paramsCall.get(i), variablesLocales, parametros, arraysLocales)) ){
+                                imprimirError("El tipo de los parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                                return  function.getType().getTipo();
+                            }
+                        }
+                        return function.getType().getTipo();
+                    }
+                    else{
+                        imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                        return function.getType().getTipo();
+                    }
+                }
+            }
+            imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+            return "Null";
         }
         else if(op instanceof NullLiteral){
             tipo = "Null";
@@ -425,6 +450,9 @@ public class AnalizadorSemantico {
         return tieneSentenciaReturn(program.getMain().getBlock().getSentences());
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si las funciones tienen un return
+    //Objetivo: Recorre las funciones y envía las sentencias de una función a una función que verifica si hay una sentencia return
     public boolean FuncionExisteReturn(){
         for(Function function : program.getFunctions().getFunctions()){
             return tieneSentenciaReturn(function.getBlock().getSentences());
@@ -439,6 +467,9 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si hay funciones con el mismo nombre
+    //Objetivo: Recorre las funciones y guarda el nombre en una lista para verificar si los nombres se repiten
     public boolean verificacionNombreFunciones(){
         Vector nombreFunciones = new Vector();
         for(Function function : program.getFunctions().getFunctions()){
