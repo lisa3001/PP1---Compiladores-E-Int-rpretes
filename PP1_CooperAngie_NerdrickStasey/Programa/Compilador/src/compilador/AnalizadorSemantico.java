@@ -171,7 +171,15 @@ public class AnalizadorSemantico {
                 Operation op = (Operation)declaracion.getOperation();
                 String opS = validarOperation(op, variablesLocales, parametros, arraysLocales);
                 if(opS.equals("Boolean")){
-                    
+                    validarBloque(declaracion.getIfSentences(), variablesLocales, parametros, arraysLocales);
+                    for (Elif elifTemp: declaracion.getElifSentences()){
+                      Operation opElf = (Operation)elifTemp.getOperation();
+                      String opSe = validarOperation(opElf, variablesLocales, parametros, arraysLocales);
+                      if(opSe.equals("Boolean")){
+                        validarBloque(elifTemp.getSentences(), variablesLocales, parametros, arraysLocales);  
+                      }
+                    }
+                    validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales);
                 }else{
                    imprimirError("La condición del if debe retornar un booleano", declaracion.getPosition()[0], declaracion.getPosition()[1]);
                    //Cambiar bandera de error acá 
