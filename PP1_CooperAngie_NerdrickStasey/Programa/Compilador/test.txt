@@ -3,14 +3,9 @@ int resta(int v, string y){
 }
 
 int suma(float v){
-<<<<<<< HEAD
-	string m = "jeje";
-	m+v;	
-=======
-	resta(1, "2");
-	string arr = "sssdd";	
->>>>>>> 566062dc9ed4fba8354122aa9727d436aaab453f
-	return 4;
+	int x = 1;
+	rsta(1, 2);
+	return 2;
 }
 
 int main () {

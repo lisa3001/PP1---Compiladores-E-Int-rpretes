@@ -19,27 +19,20 @@ float -> FLOAT
 v -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
-resta -> IDENTIFIER
+int -> INT
+x -> IDENTIFIER
+= -> EQUAL
+1 -> INTEGER
+; -> FINAL
+rsta -> IDENTIFIER
 ( -> OPEN_PAREN
 1 -> INTEGER
 , -> COMMA
-"2" -> CHARCHAIN
+2 -> INTEGER
 ) -> CLOSE_PAREN
 ; -> FINAL
-string -> STRING
-m -> IDENTIFIER
-= -> EQUAL
-"jeje" -> CHARCHAIN
-; -> FINAL
-<<<<<<< HEAD
-m -> IDENTIFIER
-+ -> PLUS
-v -> IDENTIFIER
-; -> FINAL
-=======
->>>>>>> 566062dc9ed4fba8354122aa9727d436aaab453f
 return -> RETURN
-4 -> INTEGER
+2 -> INTEGER
 ; -> FINAL
 } -> CLOSE_KEY
 int -> INT

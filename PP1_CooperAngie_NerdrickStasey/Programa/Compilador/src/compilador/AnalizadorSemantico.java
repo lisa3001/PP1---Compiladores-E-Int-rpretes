@@ -414,27 +414,34 @@ public class AnalizadorSemantico {
         //Objetivo: Verifica que la función exista, y los parámetros y tipos ue se envían sean correctos
         else if(op instanceof CallFunction){
             CallFunction functionActual = (CallFunction)op;
+            boolean isFunction = false;
             for(Function function : program.getFunctions().getFunctions()){
                 if(function.getIdentifier().getName().equals(functionActual.getName())){ //verifica que la función exista
+                    isFunction = true;
                     if(function.getParameterList().size() == functionActual.getParameterList().size()){
                         Vector<Operation> paramsCall = functionActual.getParameterList().getParameterList();
                         Vector<Parameters> paramsFunc = function.getParameterList().getParameters();
                         for(int i=0; i < paramsCall.size(); i++){
                             if(!paramsFunc.get(i).getType().getTipo().equals(validarOperation(paramsCall.get(i), variablesLocales, parametros, arraysLocales)) ){
                                 imprimirError("El tipo de los parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
-                                return  function.getType().getTipo();
+                                tipo = "";
+                                break;
+                                //Bander de error, activarla
                             }
                         }
-                        return function.getType().getTipo();
+                        tipo = function.getType().getTipo();
                     }
                     else{
                         imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
-                        return function.getType().getTipo();
+                        tipo = "";
+                        break;
+                        //Bander de error, activarla
                     }
                 }
             }
-            imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
-            return "Null";
+            if(!isFunction)imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+            tipo = "";
+            //Bander de error, activarla
         }
         else if(op instanceof NullLiteral){
             tipo = "Null";
