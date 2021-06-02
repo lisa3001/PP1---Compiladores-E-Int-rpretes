@@ -177,6 +177,7 @@ public class AnalizadorSemantico {
                    //Cambiar bandera de error acá 
                 }
             }
+            // Create Array
             else if(tempSentence instanceof CreateArray){
                 CreateArray array = (CreateArray) tempSentence;
                 if(array.getArrayList() == null){
