@@ -1,10 +1,9 @@
-int resta(int v, string y){
+int resta(){
 	return 0;
 }
 
 int suma(float v){
-	int x = 1;
-	rsta(1, 2);
+	char lista[5];
 	return 2;
 }
 

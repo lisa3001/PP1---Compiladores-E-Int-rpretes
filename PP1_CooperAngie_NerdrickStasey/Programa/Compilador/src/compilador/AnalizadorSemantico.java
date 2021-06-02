@@ -106,6 +106,15 @@ public class AnalizadorSemantico {
                 System.out.println(validarOperation(op, variablesLocales, parametros, arraysLocales));
                 
             }
+            else if(tempSentence instanceof CreateArray){
+                CreateArray array = (CreateArray) tempSentence;
+                if(array.getArrayList() == null){
+                    if(array.getType() instanceof IntType || array.getType() instanceof CharType) System.out.println("Atrapadaaa");
+                }
+                else{
+                
+                }
+            }
         }
         return true;
     }
@@ -418,7 +427,17 @@ public class AnalizadorSemantico {
             for(Function function : program.getFunctions().getFunctions()){
                 if(function.getIdentifier().getName().equals(functionActual.getName())){ //verifica que la función exista
                     isFunction = true;
-                    if(function.getParameterList().size() == functionActual.getParameterList().size()){
+                    if(function.getParameterList().size() == 0 && functionActual.getParameterList() == null){
+                        tipo = function.getType().getTipo();
+                    } else if(function.getParameterList().size() == 0 && functionActual.getParameterList() != null){
+                        imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                        tipo = "";
+                        break;
+                    } else if(function.getParameterList().size() != 0 && functionActual.getParameterList() == null){
+                        imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                        tipo = "";
+                        break;
+                    } else if(function.getParameterList().size() == functionActual.getParameterList().size()){
                         Vector<Operation> paramsCall = functionActual.getParameterList().getParameterList();
                         Vector<Parameters> paramsFunc = function.getParameterList().getParameters();
                         for(int i=0; i < paramsCall.size(); i++){
