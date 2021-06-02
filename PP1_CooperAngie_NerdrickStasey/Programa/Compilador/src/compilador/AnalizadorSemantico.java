@@ -21,10 +21,13 @@ public class AnalizadorSemantico {
     }
     
     public boolean verficar(){
+        hayErrores = false;
         if(!mainExisteReturn()) return false;
         if(!FuncionExisteReturn()) return false;
         if(!verificacionNombreFunciones()) return false;
-        if(!validarScopeFuncion(program.getFunctions().getFunctions())) return false;
+        validarScopeFuncion(program.getFunctions().getFunctions());
+        validarScopeMain(program.getMain());
+        if(hayErrores) return false;
         return true;
     }
     
@@ -40,6 +43,20 @@ public class AnalizadorSemantico {
             validarBloque(tempFuncion.getBlock().getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
         }
         
+        return true;
+    }
+    
+    //Entrada: Recibe el main del programa
+    //Salida: Retorna un booleano indicando si el scope del main está bien
+    //Objetivo: Realizar el análisis semántico en cada una de las sentencias del scope de cada sentencia main
+    public boolean validarScopeMain(Main main){
+        Vector<Parameters> parametros = new Vector<Parameters>();  //Guarda los parámetros de la función en un vector
+        Vector<CreateVar> variablesLocales = new Vector<CreateVar>(); //Se van a ir guardando las variables que se crean en la función
+        Vector<CreateArray> arraysLocales = new Vector<CreateArray>();
+        
+        Function functMain = new Function(new IntType(), null, null, main.getBlock(), null);
+        validarBloque(main.getBlock().getSentences(), variablesLocales, parametros, arraysLocales, functMain);
+
         return true;
     }
     
@@ -111,6 +128,7 @@ public class AnalizadorSemantico {
                 if(existeVariable(variablesLocales, parametros, arraysLocales,declaracion.getIdentifier().getName())){
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " ya ha sido declarada", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     error = true;
+                    hayErrores = true;
                     //Cambiar bandera de error acá
                 }else{
                     if(declaracion.getOperation() != null){
@@ -119,6 +137,7 @@ public class AnalizadorSemantico {
                            if((!declaracion.getType().getTipo().equals("Integer") && !tipoop.equals("Float")) && (!tipoop.equals("Integer") && !declaracion.getType().getTipo().equals("Float"))){
                               imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                               error = true;
+                              hayErrores = true;
                                //Cambiar bandera de error acá 
                            }else{
                              variablesLocales.add(declaracion);  
@@ -151,14 +170,14 @@ public class AnalizadorSemantico {
                                     //Cambiar bandera de error acá
                                }else if (arrL.size() <= arr.getLength()){
                                    imprimirError("El tamaño de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
-                                    //Cambiar bandera de error acá
+                                   hayErrores = true;
                                }
                                else{
                                    arr.setArrayList(arrL);
                                }
                             }else if((!tipoVar.equals("Integer") && !tipoAsig.equals("Float")) && (!tipoAsig.equals("Integer") && !tipoVar.equals("Float"))){
                                 imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
-                                //Cambiar bandera de error acá
+                                hayErrores = true;
                             }
                         }
                     }  
@@ -187,69 +206,82 @@ public class AnalizadorSemantico {
                     if(declaracion.getElseSentences() != null) validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
                 }else{
                    imprimirError("La condición del if debe retornar un booleano", declaracion.getPosition()[0], declaracion.getPosition()[1]);
-                   //Cambiar bandera de error acá 
+                   hayErrores = true;
                 }
             }
             // Create Array
+            // Objetivo: Verifica cuando se crea un arreglo, valida que los datos ingresados coincidan con el arreglo.
             else if(tempSentence instanceof CreateArray){
                 CreateArray array = (CreateArray) tempSentence;
+                //Verifica que sea un tipo de arreglo válido
                 if(array.getType() instanceof IntType || array.getType() instanceof CharType){
+                    //Verifica que el arreglo no exista
                     if(getArray(arraysLocales, array.getIdentifier().getName()) == null ){
+                        //Verifica el tipo de creación que se está realizando
                         if(array.getArrayList() == null){
                             arraysLocales.add(array);
                         }
                         else{
                             String tipoArrayLis = tipoArrayList(array.getArrayList(), variablesLocales, parametros, arraysLocales);
+                            //Verifica que el tipo de la asignación coincida con el tipo del arreglo
                             if( tipoArrayLis != "" ){
+                                //Verifica que el tipo de la asignación sea entero o char
                                 if(tipoArrayLis.equals("Char") || tipoArrayLis.equals("Integer")){
                                     array.setLength(array.getArrayList().size());
                                     arraysLocales.add(array);
                                 }
                                 else{
                                     imprimirError("el valor del tipo del arreglo asignado " + array.getIdentifier().getName() + " es inválido.", array.getPosition()[0], array.getPosition()[1]);
-                                    //Cambiar bandera de error acá 
+                                    hayErrores = true;
                                 }
                             }
                             else{
                                 imprimirError("los valores del arreglo " + array.getIdentifier().getName() + " no son del mismo tipo.", array.getPosition()[0], array.getPosition()[1]);
-                                //Cambiar bandera de error acá 
+                                hayErrores = true;
                             }
                         }
                         
                     }
                     else{
                         imprimirError("el nombre del arreglo " + array.getIdentifier().getName() + " ya existe.", array.getPosition()[0], array.getPosition()[1]);
-                        //Cambiar bandera de error acá 
+                        hayErrores = true;
                     }
                 }
                 else{
                     imprimirError("el valor del tipo del arreglo " + array.getIdentifier().getName() + " es inválido.", array.getPosition()[0], array.getPosition()[1]);
-                    //Cambiar bandera de error acá 
+                    hayErrores = true;
                 }
             }
+            //ModifyArray
+            //Objetivo: Verifica cuando se modifica una arreglo previamente creado. El tipo de datos asignados
+            //debe coincider con los del tipo de arreglo.
             else if(tempSentence instanceof ModifyArray){
                 ModifyArray modifyArray = (ModifyArray) tempSentence;
                 
+                //Verifica que el arreglo exista
                 if( (getArray(arraysLocales, modifyArray.getIdentifier().getName())) == null ){
                     imprimirError("El arreglo " + modifyArray.getIdentifier().getName() + " no existe.", modifyArray.getPosition()[0], modifyArray.getPosition()[1]);
-                    //Cambiar bandera de error acá 
+                    hayErrores = true;
                 }
                 else{
                     CreateArray createArray = getArray(arraysLocales, modifyArray.getIdentifier().getName());
+                    //Verifica que la posición del arreglo que se indicó sea válida
                     if(modifyArray.getArrayPos() < createArray.getLength()){
+                        //Verifica que el tipo del valor asignado coincida con el el tipo del arreglo.
                         if(!createArray.getType().getTipo().equals(validarOperation(modifyArray.getOperation(),variablesLocales, parametros, arraysLocales))){
                             imprimirError("el valor del tipo en la asignación " + modifyArray.getIdentifier().getName() + " no coincide con el del arreglo.", modifyArray.getPosition()[0], modifyArray.getPosition()[1]);
-                            //Cambiar bandera de error acá 
+                            hayErrores = true; 
                         }
                     }
                     else{
                         imprimirError("La posición del arreglo " + createArray.getIdentifier().getName() + " es inválida.", createArray.getPosition()[0], createArray.getPosition()[1]);
-                        //Cambiar bandera de error acá 
+                        hayErrores = true;
                     }
                 }
                 
-                
-                
+            //For    
+            //Objetivo: Valida que se pueda realizar un for con los datos ingresados. Valida si el tipo
+            // que debe tener la variable, condición y manejo coinciden con lo que acepta For.
             }
             else if(tempSentence instanceof For){
                 For forSentence = ((For) tempSentence);
@@ -262,29 +294,32 @@ public class AnalizadorSemantico {
                 
                 if(existeVariable(variablesLocales, parametros, arraysLocales, forCreateVar.getIdentifier().getName())){
                     imprimirError("la variable ya existe. ", forSentence.getPosition()[0], forSentence.getPosition()[1]);
-                    //Cambiar bandera de error acá
+                    hayErrores = true;
                 }
                 else {
+                    //Verifica que se pueda crear la variable
                     if(forCreateVar.getType().getTipo().equals(validarOperation(forCreateVar.getOperation(),variablesLocales, parametros, arraysLocales))) {
                         Vector<CreateVar> variablesTemp = variablesLocales;
                         variablesTemp.add(forCreateVar);
+                        //Verifica que la condición retorne un valor booleano.
                         if( validarOperation(forCondition,variablesTemp, parametros, arraysLocales).equals("Boolean")) {
+                            //verifica que en el manejo se utilice una operación unaria
                             if (forManager instanceof MinusMinus || forManager instanceof PlusPlus) {
                                 validarBloque(forSentence.getSentences().getSentences(),variablesTemp, parametros, arraysLocales, tempFuncion);
                             }
                             else{
                                 imprimirError("la operación es inválida. ", forCreateVar.getPosition()[0], forCreateVar.getPosition()[1]);
-                                //Cambiar bandera de error acá
+                                hayErrores = true;
                             }
                         }
                         else {
                             imprimirError("la condición es inválida. ", forSentence.getPosition()[0], forSentence.getPosition()[1]);
-                            //Cambiar bandera de error acá
+                            hayErrores = true;
                         }
                     }
                     else {
                         imprimirError("el valor del tipo cuando se asigna la variable es inválido.", forCreateVar.getPosition()[0], forCreateVar.getPosition()[1]);
-                        //Cambiar bandera de error acá
+                        hayErrores = true;
                     }
                 }
             }
@@ -294,7 +329,7 @@ public class AnalizadorSemantico {
                String returnr = validarOperation(declaracion.getReturnOp(), variablesLocales, parametros, arraysLocales);
                if(!returnF.equals(returnr)){
                  imprimirError("El tipo del valor de retorno no coincide con tipo de la función", declaracion.getPosition()[0], declaracion.getPosition()[1]);
-                 //Cambiar bandera de error acá   
+                 hayErrores = true;  
                }
             }
             else if(tempSentence instanceof Print){
@@ -302,7 +337,7 @@ public class AnalizadorSemantico {
                 String tipop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
                 if(!tipop.equals("String") && !tipop.equals("Integer") && !tipop.equals("Float")){
                  imprimirError("La función print no admite el tipo de valor enviado", declaracion.getPosition()[0], declaracion.getPosition()[1]);
-                 //Cambiar bandera de error acá 
+                 hayErrores = true;
                 }
             }
             else if(tempSentence instanceof Read){
@@ -310,7 +345,7 @@ public class AnalizadorSemantico {
                String tipop = getIdentifierType(variablesLocales, parametros, arraysLocales,declaracion.getVarName().getName());
                if(!tipop.equals("String") && !tipop.equals("Integer") && !tipop.equals("Float")){
                  imprimirError("La función read no admite el tipo de valor enviado", declaracion.getPosition()[0], declaracion.getPosition()[1]);
-                 //Cambiar bandera de error acá 
+                 hayErrores = true;
                 }
             }
         }
@@ -351,7 +386,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de suma", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -366,7 +401,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de resta", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -381,7 +416,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de división", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -396,7 +431,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de multiplicación", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -411,7 +446,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de potencia", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -426,7 +461,7 @@ public class AnalizadorSemantico {
                  else tipo = "Integer";
              }else{
                  imprimirError("el tipo de uno de los operandos no es aceptado para la operación de módulo", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -438,7 +473,7 @@ public class AnalizadorSemantico {
                  tipo = operationType;
              }else{
                  imprimirError("el autoincremento solo se puede aplicar a números enteros", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -450,7 +485,7 @@ public class AnalizadorSemantico {
                  tipo = operationType;
              }else{
                  imprimirError("el autodecremento solo se puede aplicar a números enteros", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -462,7 +497,7 @@ public class AnalizadorSemantico {
                  tipo = operationType;
              }else{
                  imprimirError("el negativo solo se puede aplicar a números enteros y reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -476,7 +511,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -490,7 +525,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -504,7 +539,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -518,7 +553,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -532,7 +567,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros, reales o booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -546,7 +581,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones relacionales solo se puede aplicar a enteros, reales o booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -559,7 +594,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones lógicas solo se pueden aplicar a valores booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -572,7 +607,7 @@ public class AnalizadorSemantico {
                  tipo = "Boolean";
              }else{
                  imprimirError("Las expresiones lógicas solo se pueden aplicar a valores booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                 //Bander de error, activarla
+                 hayErrores = true;
              }   
             }
         }
@@ -596,11 +631,11 @@ public class AnalizadorSemantico {
                 if(!tipo.equals("Array") && !isVariableAsignada(variablesLocales, varName)){
                     tipo = "";
                     imprimirError("la variable " + varName + " aun no ha sido asignada", identifier.getPosition()[0], identifier.getPosition()[1]);
-                    //Agregar bandera de error
+                    hayErrores = true;
                 }
             }   
             else imprimirError("la variable " + varName + " no existe", identifier.getPosition()[0], identifier.getPosition()[1]);
-            //Agregar bandera de error
+            hayErrores = true;
         }
         else if(op instanceof BoolLiteral){
             tipo = "Boolean";
@@ -615,15 +650,15 @@ public class AnalizadorSemantico {
                     tipo = info[0];
                 }else{
                     imprimirError("Posición inválida", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                    //agregar bandera error
+                    hayErrores = true;
                 }
             }else if(tp.equals("")){
                 imprimirError("la variable " + sentencia.getIdentifier() + " no existe", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                //agregar bandera error
+                hayErrores = true;
             }
             else{
                 imprimirError("la variable " + sentencia.getIdentifier() + " no puede ser accedida por posiciones", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                //agregar bandera error
+                hayErrores = true;
             }
             //Que exista el array
             //Que la posicion sea valida
@@ -632,6 +667,7 @@ public class AnalizadorSemantico {
             tipo = "ArrayList";
         }
      
+        //CallFuntion
         //Salida: Retorna el tipo que tiene la función que se llama
         //Objetivo: Verifica que la función exista, y los parámetros y tipos ue se envían sean correctos
         else if(op instanceof CallFunction){
@@ -640,25 +676,30 @@ public class AnalizadorSemantico {
             for(Function function : program.getFunctions().getFunctions()){
                 if(function.getIdentifier().getName().equals(functionActual.getName())){ //verifica que la función exista
                     isFunction = true;
+                    //Verifica que la cantidad de parametros que se agregan al llamar la función coincida con los que tiene la función
                     if(function.getParameterList().size() == 0 && functionActual.getParameterList() == null){
                         tipo = function.getType().getTipo();
                     } else if(function.getParameterList().size() == 0 && functionActual.getParameterList() != null){
                         imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
                         tipo = "";
+                        hayErrores = true;
                         break;
                     } else if(function.getParameterList().size() != 0 && functionActual.getParameterList() == null){
                         imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
                         tipo = "";
+                        hayErrores = true;
                         break;
                     } else if(function.getParameterList().size() == functionActual.getParameterList().size()){
                         Vector<Operation> paramsCall = functionActual.getParameterList().getParameterList();
                         Vector<Parameters> paramsFunc = function.getParameterList().getParameters();
                         for(int i=0; i < paramsCall.size(); i++){
+                            //Verifica que los parámetros sean del mismo tipo
                             if(!paramsFunc.get(i).getType().getTipo().equals(validarOperation(paramsCall.get(i), variablesLocales, parametros, arraysLocales)) ){
                                 imprimirError("El tipo de los parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
                                 tipo = "";
+                                hayErrores = true;
                                 break;
-                                //Bander de error, activarla
+                               
                             }
                         }
                         tipo = function.getType().getTipo();
@@ -666,14 +707,16 @@ public class AnalizadorSemantico {
                     else{
                         imprimirError("La cantidad de parámetros de la función " + functionActual.getName() + " no coincide.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
                         tipo = "";
+                        hayErrores = true;
                         break;
-                        //Bander de error, activarla
                     }
                 }
             }
-            if(!isFunction)imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
-            tipo = "";
-            //Bander de error, activarla
+            if(!isFunction){
+                imprimirError("La función " + functionActual.getName() + " no existe.", functionActual.getPosition()[0], functionActual.getPosition()[1]);
+                tipo = "";
+                hayErrores = true;
+            }
         }
         else if(op instanceof NullLiteral){
             tipo = "Null";
@@ -681,17 +724,23 @@ public class AnalizadorSemantico {
         return tipo;
     }
     
+    //Entrada: Tipo de error, fila y columna donde está el error
+    //Salida: Mensaje de error en consola
+    //Objetivo: Forma el mensaje de error con los parámetros ingresados
     public void imprimirError(String tipoError, int fila, int columna){
         System.err.println("Error semántico, " + tipoError  +" Ver fila " + fila + " columna " + columna);
     }
     
+    //Entrada: No tiene
+    //Salida: Retorna un booleano indicando si las funciones tienen un return
+    //Objetivo: Envía a la función tieneSentenciaReturn las sentencias de código del main
     public boolean mainExisteReturn(){
         return tieneSentenciaReturn(program.getMain().getBlock().getSentences());
     }
     
     //Entrada: No tiene
     //Salida: Retorna un booleano indicando si las funciones tienen un return
-    //Objetivo: Recorre las funciones y envía las sentencias de una función a una función que verifica si hay una sentencia return
+    //Objetivo: Envía a la función tieneSentenciaReturn las sentencias de código del main
     public boolean FuncionExisteReturn(){
         for(Function function : program.getFunctions().getFunctions()){
             return tieneSentenciaReturn(function.getBlock().getSentences());
@@ -699,12 +748,15 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    //Entrada: Sentencia de código
+    //Salida: Retorna un booleano indicando si las funciones tienen un return
+    //Objetivo: Recorre las funciones y envía las sentencias de una función a una función que verifica si hay una sentencia return
     public boolean tieneSentenciaReturn(Sentences sentencesList) {
         for(Sentence sentence : sentencesList.getSentences()) {
             if(sentence instanceof Return) return true;
         }
         System.err.println("La función no tiene valor de retorno.");
-        //Error setear variable
+        hayErrores = true;
         return false;
     }
     
@@ -717,6 +769,7 @@ public class AnalizadorSemantico {
             String nombre = function.getIdentifier().getName();
             if(nombreFunciones.contains(nombre)) {
                 System.err.println("El nombre de la función " + nombre + " está repetido.");
+                hayErrores = true;
                 return false;
             }
             else nombreFunciones.add(nombre);

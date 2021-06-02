@@ -6,5 +6,6 @@ int resta(){
 
 int main () {
 	int miArr[10];
+	resta();
 	return 1;
 }

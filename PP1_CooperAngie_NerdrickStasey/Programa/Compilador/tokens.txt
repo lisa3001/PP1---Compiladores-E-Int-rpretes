@@ -31,6 +31,10 @@ miArr -> IDENTIFIER
 10 -> INTEGER
 ] -> CLOSE_BRACKET
 ; -> FINAL
+resta -> IDENTIFIER
+( -> OPEN_PAREN
+) -> CLOSE_PAREN
+; -> FINAL
 return -> RETURN
 1 -> INTEGER
 ; -> FINAL
