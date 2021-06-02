@@ -1,1 +1,35 @@
+<<<<<<< HEAD
 < -> MINOR
+=======
+int -> INT
+suma -> IDENTIFIER
+( -> OPEN_PAREN
+float -> FLOAT
+v -> IDENTIFIER
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+read -> READ
+( -> OPEN_PAREN
+v -> IDENTIFIER
+) -> CLOSE_PAREN
+; -> FINAL
+return -> RETURN
+0 -> INTEGER
+; -> FINAL
+} -> CLOSE_KEY
+int -> INT
+main -> MAIN
+( -> OPEN_PAREN
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+int -> INT
+miArr -> IDENTIFIER
+[ -> OPEN_BRACKET
+10 -> INTEGER
+] -> CLOSE_BRACKET
+; -> FINAL
+return -> RETURN
+1 -> INTEGER
+; -> FINAL
+} -> CLOSE_KEY
+>>>>>>> 7c1e0dc6fda4a64d278fa995e635f9cfc29455b4

@@ -37,7 +37,7 @@ public class AnalizadorSemantico {
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
             Vector<CreateVar> variablesLocales = new Vector<CreateVar>(); //Se van a ir guardando las variables que se crean en la función
             Vector<CreateArray> arraysLocales = new Vector<CreateArray>();
-            validarBloque(tempFuncion.getBlock().getSentences(), variablesLocales, parametros, arraysLocales);
+            validarBloque(tempFuncion.getBlock().getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
         }
         
         return true;
@@ -101,7 +101,7 @@ public class AnalizadorSemantico {
         return tipo;
     }
     
-    public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
+    public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales, Function tempFuncion){
         for(Sentence tempSentence: bloque.getSentences()){
             //Acá se empezarían a validar una a una las sentencias de la función
             //Creación de una variable
@@ -111,18 +111,20 @@ public class AnalizadorSemantico {
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " ya ha sido declarada", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
                 }else{
-                    String tipoop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
-                    if(!declaracion.getType().getTipo().equals(tipoop)){
-                        if((!declaracion.getType().getTipo().equals("Integer") && !tipoop.equals("Float")) && (!tipoop.equals("Integer") && !declaracion.getType().getTipo().equals("Float"))){
-                           imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
-                            //Cambiar bandera de error acá 
-                        }else{
-                          variablesLocales.add(declaracion);  
-                        }
-                }
-                else{
-                    variablesLocales.add(declaracion);
-                }
+                    if(declaracion.getOperation() != null){
+                        String tipoop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
+                       if(!declaracion.getType().getTipo().equals(tipoop)){
+                           if((!declaracion.getType().getTipo().equals("Integer") && !tipoop.equals("Float")) && (!tipoop.equals("Integer") && !declaracion.getType().getTipo().equals("Float"))){
+                              imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                               //Cambiar bandera de error acá 
+                           }else{
+                             variablesLocales.add(declaracion);  
+                           }
+                       }
+                       else{
+                           variablesLocales.add(declaracion);
+                       }   
+                    }else variablesLocales.add(declaracion);   
                }     
             }
             //Assignación de una variable
@@ -171,15 +173,15 @@ public class AnalizadorSemantico {
                 Operation op = (Operation)declaracion.getOperation();
                 String opS = validarOperation(op, variablesLocales, parametros, arraysLocales);
                 if(opS.equals("Boolean")){
-                    validarBloque(declaracion.getIfSentences(), variablesLocales, parametros, arraysLocales);
+                    validarBloque(declaracion.getIfSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
                     for (Elif elifTemp: declaracion.getElifSentences()){
                       Operation opElf = (Operation)elifTemp.getOperation();
                       String opSe = validarOperation(opElf, variablesLocales, parametros, arraysLocales);
                       if(opSe.equals("Boolean")){
-                        validarBloque(elifTemp.getSentences(), variablesLocales, parametros, arraysLocales);  
+                        validarBloque(elifTemp.getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);  
                       }
                     }
-                    validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales);
+                    if(declaracion.getElseSentences() != null) validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
                 }else{
                    imprimirError("La condición del if debe retornar un booleano", declaracion.getPosition()[0], declaracion.getPosition()[1]);
                    //Cambiar bandera de error acá 
@@ -193,6 +195,32 @@ public class AnalizadorSemantico {
                 }
                 else{
                 
+            else if(tempSentence instanceof For){
+                
+            }
+            else if(tempSentence instanceof Return){
+               Return declaracion = (Return)tempSentence; 
+               String returnF = tempFuncion.getType().getTipo();
+               String returnr = validarOperation(declaracion.getReturnOp(), variablesLocales, parametros, arraysLocales);
+               if(!returnF.equals(returnr)){
+                 imprimirError("El tipo del valor de retorno no coincide con tipo de la función", declaracion.getPosition()[0], declaracion.getPosition()[1]);
+                 //Cambiar bandera de error acá   
+               }
+            }
+            else if(tempSentence instanceof Print){
+                Print declaracion = (Print)tempSentence;
+                String tipop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
+                if(!tipop.equals("String") && !tipop.equals("Integer") && !tipop.equals("Float")){
+                 imprimirError("La función print no admite el tipo de valor enviado", declaracion.getPosition()[0], declaracion.getPosition()[1]);
+                 //Cambiar bandera de error acá 
+                }
+            }
+            else if(tempSentence instanceof Read){
+               Read declaracion = (Read)tempSentence; 
+               String tipop = getIdentifierType(variablesLocales, parametros, arraysLocales,declaracion.getVarName().getName());
+               if(!tipop.equals("String") && !tipop.equals("Integer") && !tipop.equals("Float")){
+                 imprimirError("La función read no admite el tipo de valor enviado", declaracion.getPosition()[0], declaracion.getPosition()[1]);
+                 //Cambiar bandera de error acá 
                 }
             }
         }
@@ -210,6 +238,15 @@ public class AnalizadorSemantico {
         int length = arr.getArrayListSize();
         return new String[] {arr.getType().getTipo(), String.valueOf(length)};
     } 
+    
+    public boolean isVariableAsignada(Vector<CreateVar> variablesLocales, String varName){
+        for(CreateVar tempVar: variablesLocales){
+            if(varName.equals(tempVar.getIdentifier().getName())){
+                if(tempVar.getOperation() != null) return true;
+            }
+        }
+        return false;
+    }
     
     public String validarOperation(Operation op, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
         String tipo = "";
@@ -464,8 +501,14 @@ public class AnalizadorSemantico {
         else if(op instanceof Identifier){
             Identifier identifier = (Identifier)op;
             String varName = identifier.getName();
-            if(existeVariable(variablesLocales, parametros, arraysLocales, varName))
+            if(existeVariable(variablesLocales, parametros, arraysLocales, varName)){
                 tipo = getIdentifierType(variablesLocales, parametros, arraysLocales, varName);
+                if(!tipo.equals("Array") && !isVariableAsignada(variablesLocales, varName)){
+                    tipo = "";
+                    imprimirError("la variable " + varName + " aun no ha sido asignada", identifier.getPosition()[0], identifier.getPosition()[1]);
+                    //Agregar bandera de error
+                }
+            }   
             else imprimirError("la variable " + varName + " no existe", identifier.getPosition()[0], identifier.getPosition()[1]);
             //Agregar bandera de error
         }

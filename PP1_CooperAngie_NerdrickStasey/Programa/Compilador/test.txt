@@ -8,6 +8,7 @@ int suma(float v){
 =======
 int suma(float v){
 <<<<<<< HEAD
+<<<<<<< HEAD
 	float f = 5;
 	f = f + 4 + 2 * 3;	
 	return 4;
@@ -17,6 +18,10 @@ int suma(float v){
 >>>>>>> 8281dc0da03cfc241d53ec3cafee005fee5477d6
 	return 2;
 >>>>>>> e0988d96deef4cd42fae3af9d8df9e0794bbb37c
+=======
+	read(v);
+	return 0;
+>>>>>>> 7c1e0dc6fda4a64d278fa995e635f9cfc29455b4
 }
 
 int main () {
