@@ -14,7 +14,7 @@ import producciones.*;
  */
 public class AnalizadorSemantico {
     private InitProgram program;
-    private int hayErrores = 0;
+    private boolean hayErrores = false;
     
     public AnalizadorSemantico(InitProgram pProgram){
         program = pProgram;
