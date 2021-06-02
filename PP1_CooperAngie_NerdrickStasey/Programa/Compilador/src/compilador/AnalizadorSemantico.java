@@ -102,6 +102,7 @@ public class AnalizadorSemantico {
     }
     
     public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales, Function tempFuncion){
+        boolean error = false;
         for(Sentence tempSentence: bloque.getSentences()){
             //Acá se empezarían a validar una a una las sentencias de la función
             //Creación de una variable
@@ -109,6 +110,7 @@ public class AnalizadorSemantico {
                 CreateVar declaracion = (CreateVar)tempSentence;
                 if(existeVariable(variablesLocales, parametros, arraysLocales,declaracion.getIdentifier().getName())){
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " ya ha sido declarada", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                    error = true;
                     //Cambiar bandera de error acá
                 }else{
                     if(declaracion.getOperation() != null){
@@ -116,6 +118,7 @@ public class AnalizadorSemantico {
                        if(!declaracion.getType().getTipo().equals(tipoop)){
                            if((!declaracion.getType().getTipo().equals("Integer") && !tipoop.equals("Float")) && (!tipoop.equals("Integer") && !declaracion.getType().getTipo().equals("Float"))){
                               imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                              error = true;
                                //Cambiar bandera de error acá 
                            }else{
                              variablesLocales.add(declaracion);  
@@ -190,13 +193,100 @@ public class AnalizadorSemantico {
             // Create Array
             else if(tempSentence instanceof CreateArray){
                 CreateArray array = (CreateArray) tempSentence;
-                if(array.getArrayList() == null){
-                    if(array.getType() instanceof IntType || array.getType() instanceof CharType) System.out.println("Atrapadaaa");
+                if(array.getType() instanceof IntType || array.getType() instanceof CharType){
+                    if(getArray(arraysLocales, array.getIdentifier().getName()) == null ){
+                        if(array.getArrayList() == null){
+                            arraysLocales.add(array);
+                        }
+                        else{
+                            String tipoArrayLis = tipoArrayList(array.getArrayList(), variablesLocales, parametros, arraysLocales);
+                            if( tipoArrayLis != "" ){
+                                if(tipoArrayLis.equals("Char") || tipoArrayLis.equals("Integer")){
+                                    array.setLength(array.getArrayList().size());
+                                    arraysLocales.add(array);
+                                }
+                                else{
+                                    imprimirError("el valor del tipo del arreglo asignado " + array.getIdentifier().getName() + " es inválido.", array.getPosition()[0], array.getPosition()[1]);
+                                    //Cambiar bandera de error acá 
+                                }
+                            }
+                            else{
+                                imprimirError("los valores del arreglo " + array.getIdentifier().getName() + " no son del mismo tipo.", array.getPosition()[0], array.getPosition()[1]);
+                                //Cambiar bandera de error acá 
+                            }
+                        }
+                        
+                    }
+                    else{
+                        imprimirError("el nombre del arreglo " + array.getIdentifier().getName() + " ya existe.", array.getPosition()[0], array.getPosition()[1]);
+                        //Cambiar bandera de error acá 
+                    }
                 }
                 else{
+                    imprimirError("el valor del tipo del arreglo " + array.getIdentifier().getName() + " es inválido.", array.getPosition()[0], array.getPosition()[1]);
+                    //Cambiar bandera de error acá 
+                }
+            }
+            else if(tempSentence instanceof ModifyArray){
+                ModifyArray modifyArray = (ModifyArray) tempSentence;
                 
+                if( (getArray(arraysLocales, modifyArray.getIdentifier().getName())) == null ){
+                    imprimirError("El arreglo " + modifyArray.getIdentifier().getName() + " no existe.", modifyArray.getPosition()[0], modifyArray.getPosition()[1]);
+                    //Cambiar bandera de error acá 
+                }
+                else{
+                    CreateArray createArray = getArray(arraysLocales, modifyArray.getIdentifier().getName());
+                    if(modifyArray.getArrayPos() < createArray.getLength()){
+                        if(!createArray.getType().getTipo().equals(validarOperation(modifyArray.getOperation(),variablesLocales, parametros, arraysLocales))){
+                            imprimirError("el valor del tipo en la asignación " + modifyArray.getIdentifier().getName() + " no coincide con el del arreglo.", modifyArray.getPosition()[0], modifyArray.getPosition()[1]);
+                            //Cambiar bandera de error acá 
+                        }
+                    }
+                    else{
+                        imprimirError("La posición del arreglo " + createArray.getIdentifier().getName() + " es inválida.", createArray.getPosition()[0], createArray.getPosition()[1]);
+                        //Cambiar bandera de error acá 
+                    }
+                }
+                
+                
+                
+            }
             else if(tempSentence instanceof For){
+                For forSentence = ((For) tempSentence);
+                Sentences sentences = new Sentences();
+                sentences.addSentence(forSentence.getStructure().getVar());
                 
+                CreateVar forCreateVar = ((CreateVar)forSentence.getStructure().getVar());
+                Operation forCondition = forSentence.getStructure().getCondition();
+                Operation forManager = forSentence.getStructure().getManageVar();
+                
+                if(existeVariable(variablesLocales, parametros, arraysLocales, forCreateVar.getIdentifier().getName())){
+                    imprimirError("la variable ya existe. ", forSentence.getPosition()[0], forSentence.getPosition()[1]);
+                    //Cambiar bandera de error acá
+                }
+                else {
+                    if(forCreateVar.getType().getTipo().equals(validarOperation(forCreateVar.getOperation(),variablesLocales, parametros, arraysLocales))) {
+                        Vector<CreateVar> variablesTemp = variablesLocales;
+                        variablesTemp.add(forCreateVar);
+                        if( validarOperation(forCondition,variablesTemp, parametros, arraysLocales).equals("Boolean")) {
+                            if (forManager instanceof MinusMinus || forManager instanceof PlusPlus) {
+                                validarBloque(forSentence.getSentences().getSentences(),variablesTemp, parametros, arraysLocales, tempFuncion);
+                            }
+                            else{
+                                imprimirError("la operación es inválida. ", forCreateVar.getPosition()[0], forCreateVar.getPosition()[1]);
+                                //Cambiar bandera de error acá
+                            }
+                        }
+                        else {
+                            imprimirError("la condición es inválida. ", forSentence.getPosition()[0], forSentence.getPosition()[1]);
+                            //Cambiar bandera de error acá
+                        }
+                    }
+                    else {
+                        imprimirError("el valor del tipo cuando se asigna la variable es inválido.", forCreateVar.getPosition()[0], forCreateVar.getPosition()[1]);
+                        //Cambiar bandera de error acá
+                    }
+                }
             }
             else if(tempSentence instanceof Return){
                Return declaracion = (Return)tempSentence; 
@@ -224,7 +314,7 @@ public class AnalizadorSemantico {
                 }
             }
         }
-        return true;
+        return error;
     }
     
     //Entrada: No tiene
@@ -592,7 +682,7 @@ public class AnalizadorSemantico {
     }
     
     public void imprimirError(String tipoError, int fila, int columna){
-        System.err.println("Error semántico, " + tipoError  +" ver fila " + fila + " columna " + columna);
+        System.err.println("Error semántico, " + tipoError  +" Ver fila " + fila + " columna " + columna);
     }
     
     public boolean mainExisteReturn(){
@@ -613,6 +703,8 @@ public class AnalizadorSemantico {
         for(Sentence sentence : sentencesList.getSentences()) {
             if(sentence instanceof Return) return true;
         }
+        System.err.println("La función no tiene valor de retorno.");
+        //Error setear variable
         return false;
     }
     
@@ -623,7 +715,10 @@ public class AnalizadorSemantico {
         Vector nombreFunciones = new Vector();
         for(Function function : program.getFunctions().getFunctions()){
             String nombre = function.getIdentifier().getName();
-            if(nombreFunciones.contains(nombre)) return false;
+            if(nombreFunciones.contains(nombre)) {
+                System.err.println("El nombre de la función " + nombre + " está repetido.");
+                return false;
+            }
             else nombreFunciones.add(nombre);
         }
         return true;

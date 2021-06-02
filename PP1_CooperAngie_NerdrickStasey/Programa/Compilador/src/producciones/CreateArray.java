@@ -40,4 +40,6 @@ public class CreateArray extends Sentence {
     public int[] getPosition(){return position;}
     
     public void setArrayList(ArrayList arr){arrayList = arr;}
+    
+    public void setLength(int len){length = len;}
 }
