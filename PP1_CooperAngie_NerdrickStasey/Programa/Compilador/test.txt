@@ -1,6 +1,6 @@
 int suma(float v){
-	string arr = "sssdd";
-	5 + arr[0];	
+	string m = "jeje";
+	m+v;	
 	return 4;
 }
 

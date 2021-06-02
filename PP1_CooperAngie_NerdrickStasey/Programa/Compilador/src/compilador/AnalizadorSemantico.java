@@ -121,22 +121,238 @@ public class AnalizadorSemantico {
     
     public String validarOperation(Operation op, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
         String tipo = "";
-        if(op instanceof Plus){
+        if((op instanceof Plus)){
             Plus sentencia = (Plus)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
             String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
             if(!leftType.equals("") && !rigthType.equals("")){
              if ((leftType.equals("Integer") || leftType.equals("Float"))
                      && (rigthType.equals("Integer") || rigthType.equals("Float"))){
-                 if(leftType.equals(rigthType)){ //entero y flotante
-                     tipo = leftType;
-                 }
-                 else{
-                    imprimirError("los operandos no son compatibles", sentencia.getPosition()[0], sentencia.getPosition()[1]);
-                    //Bander de error, activarla 
-                 }
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
              }else{
-                 imprimirError("el tipo de uno de los operandos no son aceptados para la operación de suma", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de suma", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Minus)){
+            Minus sentencia = (Minus)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
+             }else{
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de resta", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Divide)){
+            Divide sentencia = (Divide)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
+             }else{
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de división", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Multi)){
+            Multi sentencia = (Multi)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
+             }else{
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de multiplicación", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Power)){
+            Power sentencia = (Power)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
+             }else{
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de potencia", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Module)){
+            Module sentencia = (Module)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 if(rigthType.equals("Float") || leftType.equals("Float")) tipo = "Float";
+                 else tipo = "Integer";
+             }else{
+                 imprimirError("el tipo de uno de los operandos no es aceptado para la operación de módulo", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof PlusPlus)){
+            PlusPlus sentencia = (PlusPlus)op;
+            String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
+            if(!operationType.equals("")){
+             if (operationType.equals("Integer")){
+                 tipo = operationType;
+             }else{
+                 imprimirError("el autoincremento solo se puede aplicar a números enteros", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof MinusMinus)){
+            MinusMinus sentencia = (MinusMinus)op;
+            String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
+            if(!operationType.equals("")){
+             if (operationType.equals("Integer")){
+                 tipo = operationType;
+             }else{
+                 imprimirError("el autodecremento solo se puede aplicar a números enteros", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof MinusUnary)){
+            MinusUnary sentencia = (MinusUnary)op;
+            String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
+            if(!operationType.equals("")){
+             if (operationType.equals("Integer") || operationType.equals("Float")){
+                 tipo = operationType;
+             }else{
+                 imprimirError("el negativo solo se puede aplicar a números enteros y reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Minor)){
+            Minor sentencia = (Minor)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof MinorEqual)){
+            MinorEqual sentencia = (MinorEqual)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Greater)){
+            Greater sentencia = (Greater)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof GreaterEqual)){
+            GreaterEqual sentencia = (GreaterEqual)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros o reales", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof EqualEqual)){
+            EqualEqual sentencia = (EqualEqual)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float") || leftType.equals("Boolean"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float") || rigthType.equals("Boolean"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros, reales o booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Different)){
+            Different sentencia = (Different)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if ((leftType.equals("Integer") || leftType.equals("Float") || leftType.equals("Boolean"))
+                     && (rigthType.equals("Integer") || rigthType.equals("Float") || rigthType.equals("Boolean"))){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones relacionales solo se puede aplicar a enteros, reales o booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof And)){
+            And sentencia = (And)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if (leftType.equals("Boolean") && rigthType.equals("Boolean")){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones lógicas solo se pueden aplicar a valores booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
+                 //Bander de error, activarla
+             }   
+            }
+        }
+        if((op instanceof Or)){
+            Or sentencia = (Or)op;
+            String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
+            String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
+            if(!leftType.equals("") && !rigthType.equals("")){
+             if (leftType.equals("Boolean") && rigthType.equals("Boolean")){
+                 tipo = "Boolean";
+             }else{
+                 imprimirError("Las expresiones lógicas solo se pueden aplicar a valores booleanos", sentencia.getPosition()[0], sentencia.getPosition()[1]);
                  //Bander de error, activarla
              }   
             }
@@ -188,8 +404,7 @@ public class AnalizadorSemantico {
             //Que la posicion sea valida
         }
         else if(op instanceof ArrayListAssigment){
-            //que la variable sea array
-            //Que el tamaño sea igual y el tipo
+            tipo = "ArrayList";
         }
         else if(op instanceof CallFunction){
             //Que exista
