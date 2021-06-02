@@ -14,7 +14,7 @@ import producciones.*;
  */
 public class AnalizadorSemantico {
     private InitProgram program;
-    private int hayErrores = false;
+    private boolean hayErrores = false;
     
     public AnalizadorSemantico(InitProgram pProgram){
         program = pProgram;
@@ -75,7 +75,8 @@ public class AnalizadorSemantico {
                             " no existe, fila " + declaracion.getIdentifier().getPosition()[0] + " columna " + declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
                 }//Hay que validar la operacion del lado izquierdo
-            }
+            }  
+            
         }
         return true;
     }
