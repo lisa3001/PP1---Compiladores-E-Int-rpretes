@@ -10,5 +10,7 @@ package producciones;
  * @author snerd
  */
 public class BooleanType extends Type {
+    private String tipo = "Boolean";
     
+    public String getTipo(){return tipo;}
 }

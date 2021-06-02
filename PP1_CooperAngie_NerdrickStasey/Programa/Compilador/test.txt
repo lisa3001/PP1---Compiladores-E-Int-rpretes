@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 int resta(int v){
 	int y = 5;
 	suma(1, u);
 	int x = y + 7;
 	return x;
+=======
+int suma(float v){
+	string arr = "sssdd";
+	5 + arr[0];	
+	return 4;
+>>>>>>> af2eb733876e897bf3ff4ede99577dac2fa816d8
 }
 
 int main () {
