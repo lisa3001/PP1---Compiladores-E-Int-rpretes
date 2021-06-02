@@ -217,7 +217,6 @@ non terminal InitProgram init_program;
     parameters ::= empty
                   {:
                     RESULT = new ParametersFunction();
-
                   :}
                  | parameters:pa COMMA type:t IDENTIFIER:id
                   {:

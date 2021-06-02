@@ -1,18 +1,10 @@
-int resta(int v, string y){
-	return 0;
-}
-
 int suma(float v){
-<<<<<<< HEAD
-	string m = "jeje";
-	m+v;	
-=======
-	resta(1, "2");
-	string arr = "sssdd";	
->>>>>>> 566062dc9ed4fba8354122aa9727d436aaab453f
+	float f = 5;
+	f = f + 4 + 2 * 3;	
 	return 4;
 }
 
 int main () {
+	int miArr[10];
 	return 1;
 }

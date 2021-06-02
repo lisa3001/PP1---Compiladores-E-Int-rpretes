@@ -38,4 +38,6 @@ public class CreateArray extends Sentence {
     public int getArrayListSize(){ return arrayList.size();}
     
     public int[] getPosition(){return position;}
+    
+    public void setArrayList(ArrayList arr){arrayList = arr;}
 }
