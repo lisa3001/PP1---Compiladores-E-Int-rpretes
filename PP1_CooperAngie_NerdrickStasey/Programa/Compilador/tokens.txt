@@ -5,37 +5,13 @@ float -> FLOAT
 v -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
-<<<<<<< HEAD
-float -> FLOAT
-f -> IDENTIFIER
-= -> EQUAL
-5 -> INTEGER
-; -> FINAL
-f -> IDENTIFIER
-= -> EQUAL
-f -> IDENTIFIER
-+ -> PLUS
-4 -> INTEGER
-+ -> PLUS
-2 -> INTEGER
-* -> MULTI
-3 -> INTEGER
-=======
-int -> INT
-x -> IDENTIFIER
-= -> EQUAL
-1 -> INTEGER
-; -> FINAL
-rsta -> IDENTIFIER
+read -> READ
 ( -> OPEN_PAREN
-1 -> INTEGER
-, -> COMMA
-2 -> INTEGER
+v -> IDENTIFIER
 ) -> CLOSE_PAREN
->>>>>>> e0988d96deef4cd42fae3af9d8df9e0794bbb37c
 ; -> FINAL
 return -> RETURN
-2 -> INTEGER
+0 -> INTEGER
 ; -> FINAL
 } -> CLOSE_KEY
 int -> INT
