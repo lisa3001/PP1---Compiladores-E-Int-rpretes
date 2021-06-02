@@ -1,12 +1,25 @@
+<<<<<<< HEAD
 int resta(){
 	return 0;
 }
 
 int suma(float v){
 	char lista[5];
+=======
+int suma(float v){
+<<<<<<< HEAD
+	float f = 5;
+	f = f + 4 + 2 * 3;	
+	return 4;
+=======
+	int x = 1;
+	rsta(1, 2);
+>>>>>>> 8281dc0da03cfc241d53ec3cafee005fee5477d6
 	return 2;
+>>>>>>> e0988d96deef4cd42fae3af9d8df9e0794bbb37c
 }
 
 int main () {
+	int miArr[10];
 	return 1;
 }

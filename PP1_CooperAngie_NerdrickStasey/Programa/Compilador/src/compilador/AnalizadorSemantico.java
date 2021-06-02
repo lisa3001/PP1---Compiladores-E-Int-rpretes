@@ -78,6 +78,29 @@ public class AnalizadorSemantico {
         return "";
     }
     
+    public CreateArray getArray(Vector<CreateArray> arraysLocales, String nombreArray){
+        for(CreateArray tempArray: arraysLocales){
+            if(nombreArray.equals(tempArray.getIdentifier().getName())) return tempArray;
+        }
+        return null;
+    }
+    
+    public String tipoArrayList(ArrayList arrl, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
+        String tipo = "";
+        for (Operation op: arrl.getParameterList()){
+            String tp = validarOperation(op, variablesLocales, parametros, arraysLocales);
+            if (!tipo.equals("")){
+                if (!tipo.equals(tp)){
+                    tipo = "";
+                    break;
+                }
+            }else{
+                tipo = tp;
+            }
+        }
+        return tipo;
+    }
+    
     public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
         for(Sentence tempSentence: bloque.getSentences()){
             //Acá se empezarían a validar una a una las sentencias de la función
@@ -88,8 +111,19 @@ public class AnalizadorSemantico {
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " ya ha sido declarada", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
                 }else{
+                    String tipoop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
+                    if(!declaracion.getType().getTipo().equals(tipoop)){
+                        if((!declaracion.getType().getTipo().equals("Integer") && !tipoop.equals("Float")) && (!tipoop.equals("Integer") && !declaracion.getType().getTipo().equals("Float"))){
+                           imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                            //Cambiar bandera de error acá 
+                        }else{
+                          variablesLocales.add(declaracion);  
+                        }
+                }
+                else{
                     variablesLocales.add(declaracion);
-                } //Hay que validar la operacion del lado izquierdo
+                }
+               }     
             }
             //Assignación de una variable
             else if(tempSentence instanceof AssignVar){
@@ -97,14 +131,51 @@ public class AnalizadorSemantico {
                 if(!existeVariable(variablesLocales, parametros, arraysLocales,declaracion.getIdentifier().getName())){
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " no existe", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     //Cambiar bandera de error acá
-                }//Hay que validar la operacion del lado izquierdo
+                }else{
+                  String tipoVar = getIdentifierType(variablesLocales, parametros, arraysLocales, declaracion.getIdentifier().getName());
+                  String tipoAsig = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
+                    if(!tipoAsig.equals("")){
+                        if (!tipoVar.equals(tipoAsig)){
+                            if(tipoVar.equals("Array") && tipoAsig.equals("ArrayList")){
+                               CreateArray arr = getArray(arraysLocales, declaracion.getIdentifier().getName());
+                               ArrayListAssigment arrLS = (ArrayListAssigment)declaracion.getOperation();
+                               ArrayList arrL = (ArrayList)arrLS.getArrayList();
+                               String tipoArrl = tipoArrayList(arrL, variablesLocales, parametros, arraysLocales);
+                               if(!tipoArrl.equals(arr.getType().getTipo())){
+                                   imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                                    //Cambiar bandera de error acá
+                               }else if (arrL.size() <= arr.getLength()){
+                                   imprimirError("El tamaño de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                                    //Cambiar bandera de error acá
+                               }
+                               else{
+                                   arr.setArrayList(arrL);
+                               }
+                            }else if((!tipoVar.equals("Integer") && !tipoAsig.equals("Float")) && (!tipoAsig.equals("Integer") && !tipoVar.equals("Float"))){
+                                imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
+                                //Cambiar bandera de error acá
+                            }
+                        }
+                    }  
+                }   
             } 
+            //Operacion
             else if(tempSentence instanceof OperationSentence){
                 OperationSentence declaracion = (OperationSentence)tempSentence;
                 Operation op = (Operation)declaracion.getOperation();
-                System.out.println("La operacion es tipo");
-                System.out.println(validarOperation(op, variablesLocales, parametros, arraysLocales));
-                
+                validarOperation(op, variablesLocales, parametros, arraysLocales);
+            }
+            //If
+            else if(tempSentence instanceof If){
+                If declaracion = (If)tempSentence;
+                Operation op = (Operation)declaracion.getOperation();
+                String opS = validarOperation(op, variablesLocales, parametros, arraysLocales);
+                if(opS.equals("Boolean")){
+                    
+                }else{
+                   imprimirError("La condición del if debe retornar un booleano", declaracion.getPosition()[0], declaracion.getPosition()[1]);
+                   //Cambiar bandera de error acá 
+                }
             }
             else if(tempSentence instanceof CreateArray){
                 CreateArray array = (CreateArray) tempSentence;

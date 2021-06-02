@@ -1,4 +1,5 @@
 int -> INT
+<<<<<<< HEAD
 resta -> IDENTIFIER
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
@@ -8,17 +9,50 @@ return -> RETURN
 ; -> FINAL
 } -> CLOSE_KEY
 int -> INT
+=======
+>>>>>>> 8281dc0da03cfc241d53ec3cafee005fee5477d6
 suma -> IDENTIFIER
 ( -> OPEN_PAREN
 float -> FLOAT
 v -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+<<<<<<< HEAD
 char -> CHAR
 lista -> IDENTIFIER
 [ -> OPEN_BRACKET
 5 -> INTEGER
 ] -> CLOSE_BRACKET
+=======
+<<<<<<< HEAD
+float -> FLOAT
+f -> IDENTIFIER
+= -> EQUAL
+5 -> INTEGER
+; -> FINAL
+f -> IDENTIFIER
+= -> EQUAL
+f -> IDENTIFIER
++ -> PLUS
+4 -> INTEGER
++ -> PLUS
+2 -> INTEGER
+* -> MULTI
+3 -> INTEGER
+=======
+int -> INT
+x -> IDENTIFIER
+= -> EQUAL
+1 -> INTEGER
+; -> FINAL
+rsta -> IDENTIFIER
+( -> OPEN_PAREN
+1 -> INTEGER
+, -> COMMA
+2 -> INTEGER
+) -> CLOSE_PAREN
+>>>>>>> e0988d96deef4cd42fae3af9d8df9e0794bbb37c
+>>>>>>> 8281dc0da03cfc241d53ec3cafee005fee5477d6
 ; -> FINAL
 return -> RETURN
 2 -> INTEGER
@@ -29,6 +63,12 @@ main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+int -> INT
+miArr -> IDENTIFIER
+[ -> OPEN_BRACKET
+10 -> INTEGER
+] -> CLOSE_BRACKET
+; -> FINAL
 return -> RETURN
 1 -> INTEGER
 ; -> FINAL
