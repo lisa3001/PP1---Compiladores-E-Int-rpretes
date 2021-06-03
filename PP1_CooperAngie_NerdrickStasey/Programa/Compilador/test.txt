@@ -1,9 +1,11 @@
-int resta(float v, int m){
-	5+7*4;
+int resta(int v, int m){
+	for(int i = 0; i < 4; ++i) {
+		int x = 5;
+	}
 	return 1;
 }
 
 int main () {
-	int miArr[10];
+	resta(2,5);
 	return 1;
 }

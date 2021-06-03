@@ -25,6 +25,7 @@ public class Codigo3Direcciones {
     private int assingcont = 0;
     private int arraycont = 0;
     private int marraycont = 0;
+    private int returncont = 0;
     
     
     //Entrada: Recibe un objeto de tipo InitProgram
@@ -113,6 +114,7 @@ public class Codigo3Direcciones {
             assingcont = 0;
             arraycont = 0;
             marraycont = 0;
+            returncont = 0;
         }
     }
  
@@ -122,6 +124,28 @@ public class Codigo3Direcciones {
     //Objetivo: Generar el código de 3 direcciones d¿e las sentencias de código de un bloque
     public void generarBloque(Sentences bloque){
         for(Sentence tempSentence: bloque.getSentences()){
+            //Crear variables
+            if(tempSentence instanceof CreateVar){
+               CreateVar declaracion = (CreateVar)tempSentence;
+               String valor = generarOperacion(declaracion.getOperation(), "var" + String.valueOf(varcont));
+               String name = declaracion.getIdentifier().getName();
+               String var = name + "_var";
+               if(valor == "")codigo3d += var + " = " + "null" + "\n";
+               else codigo3d += var + " = " + valor + "\n";
+               Vector<String> v1 = new Vector<String>();
+               v1.add(var);
+               v1.add(name);
+               tablaSimbolos.add(v1);
+               varcont+=1;
+            }
+            //Asignacion
+            else if(tempSentence instanceof AssignVar){
+                AssignVar declaracion = (AssignVar)tempSentence;
+                String valor = generarOperacion(declaracion.getOperation(), "assing" + String.valueOf(assingcont));
+                String var = getTablaDeSimbolosData(declaracion.getIdentifier().getName());
+                codigo3d += var + " = " + valor + "\n";
+                assingcont+=1;
+            }
             //Operacion
             if(tempSentence instanceof OperationSentence){
                 OperationSentence declaracion = (OperationSentence)tempSentence;
@@ -146,8 +170,31 @@ public class Codigo3Direcciones {
                 tablaSimbolos.add(v1);
                 
                 codigo3d += nombre + " = " + "\n";
-                
-                
+            }
+            //Return
+            else if(tempSentence instanceof Return){
+                Return declaracion = (Return)tempSentence;
+                String valor = generarOperacion(declaracion.getReturnOp(), "return" + String.valueOf(returncont));
+                codigo3d += "return" + valor + "\n";
+                returncont+=1;
+            }
+            //Print
+            else if(tempSentence instanceof Print){
+                Print declaracion = (Print)tempSentence;
+                String valor = generarOperacion(declaracion.getOperation(), "print");
+                codigo3d += "print_param" + " = " + valor + "\n";
+                codigo3d += "call" + "print, 1" + "\n";
+            }
+            //Read
+            else if(tempSentence instanceof Read){
+                Read declaracion = (Read)tempSentence;
+                String var = getTablaDeSimbolosData(declaracion.getVarName().getName());
+                codigo3d += "read_param" + " = " + var + "\n";
+                codigo3d += "call" + "read, 1" + "\n";
+                String var2 =  "read_t" + temp;
+                codigo3d += var2 + " = " + "return \n";
+                temp+=1;
+
             }
         }
     }
@@ -260,6 +307,20 @@ public class Codigo3Direcciones {
             codigo3d += var + " = " + "-" + leftType + "\n";
             dato = var;
         }
+        if((op instanceof PlusPlus)){
+            PlusPlus sentencia = (PlusPlus)op;
+            String leftType = generarOperacion(sentencia.getIdent(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + "++" + leftType + "\n";
+            dato = var;
+        }
+        if((op instanceof Minus)){
+            PlusPlus sentencia = (PlusPlus)op;
+            String leftType = generarOperacion(sentencia.getIdent(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + "--" + leftType + "\n";
+            dato = var;
+        }
         if((op instanceof And)){
             And sentencia = (And)op;
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
@@ -336,9 +397,9 @@ public class Codigo3Direcciones {
            for(Operation op1: param){
                generarOperacion(op1, "p" + contador);
            }
-           codigo3d += "call " + name + ", " + String.valueOf((contador + 1));
+           codigo3d += "call " + name + ", " + String.valueOf((contador + 1)) + "\n";
            String var = identificador + "_t" + temp;
-           codigo3d += var + " = " + "return ";
+           codigo3d += var + " = " + "return \n";
            dato = var;
         }
         else if(op instanceof NullLiteral){
