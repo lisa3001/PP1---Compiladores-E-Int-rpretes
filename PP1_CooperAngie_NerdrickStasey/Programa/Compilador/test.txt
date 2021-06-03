@@ -16,6 +16,6 @@ int resta(int v, int m){
 }
 
 int main () {
-	resta(2,5);
+	resta(2, 5);
 	return 1;
 }
