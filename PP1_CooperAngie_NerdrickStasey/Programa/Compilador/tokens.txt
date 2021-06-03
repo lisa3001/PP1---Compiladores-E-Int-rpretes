@@ -8,12 +8,11 @@ int -> INT
 m -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
-<<<<<<< HEAD
 print -> PRINT
 ( -> OPEN_PAREN
 v -> IDENTIFIER
 ) -> CLOSE_PAREN
-=======
+; -> FINAL
 if -> IF
 ( -> OPEN_PAREN
 v -> IDENTIFIER
@@ -67,8 +66,8 @@ y -> IDENTIFIER
 m -> IDENTIFIER
 + -> PLUS
 v -> IDENTIFIER
->>>>>>> 2666f8497288c9dd4b2f611911f483d026231ca4
 ; -> FINAL
+} -> CLOSE_KEY
 return -> RETURN
 1 -> INTEGER
 ; -> FINAL

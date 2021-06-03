@@ -266,8 +266,6 @@ public class Codigo3Direcciones {
                     codigo3d += "ELSE_" + elseNumber + ":\n";
                     generarBloque(ifSentence.getElseSentences());
                 }
-                
-                System.out.println(codigo3d);
             }
         }
     }

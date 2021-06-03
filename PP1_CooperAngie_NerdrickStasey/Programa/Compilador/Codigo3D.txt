@@ -3,43 +3,38 @@ begin params
 resta_p0 = v
 resta_p1 = m
 end params
-<<<<<<< HEAD
 print_param = resta_p0
 call print, 1
-return0_t1 = 1
-return return0_t1
-=======
-if_op_t1 = 7
-if_op_t2 = resta_p0 == if_op_t1
-if (if_op_t2) goto (IF_0)
-if (if_op_t2) goto (ELIF_2)
-if (if_op_t2) goto (ELIF_3)
+if_op_t2 = 7
+if_op_t3 = resta_p0 == if_op_t2
+if (if_op_t3) goto (IF_0)
+if (if_op_t3) goto (ELIF_2)
+if (if_op_t3) goto (ELIF_3)
 goto (ELSE_1)
 IF_0:
-var0_t5 = resta_p0 + resta_p1
-x_var = var0_t5
+var0_t6 = resta_p0 + resta_p1
+x_var = var0_t6
 ELIF_2:
-var1_t7 = 1
-var1_t8 = resta_p0 + var1_t7
-u_var = var1_t8
+var1_t8 = 1
+var1_t9 = resta_p0 + var1_t8
+u_var = var1_t9
 ELIF_3:
-var2_t10 = 2
-var2_t11 = resta_p1 + var2_t10
-o_var = var2_t11
+var2_t11 = 2
+var2_t12 = resta_p1 + var2_t11
+o_var = var2_t12
 ELSE_1:
-var3_t14 = resta_p1 + resta_p0
-y_var = var3_t14
-return0_t15 = 1
-returnreturn0_t15
->>>>>>> 2666f8497288c9dd4b2f611911f483d026231ca4
+var3_t15 = resta_p1 + resta_p0
+y_var = var3_t15
+return0_t16 = 1
+return return0_t16
 func end resta
 
 func begin main 
-p0_t2 = 2
-p1_t3 = 5
+p0_t17 = 2
+p1_t18 = 5
 call resta, 2
-op_t4 = return 
-return0_t5 = 1
-return return0_t5
+op_t19 = return 
+return0_t20 = 1
+return return0_t20
 func end main 
 
