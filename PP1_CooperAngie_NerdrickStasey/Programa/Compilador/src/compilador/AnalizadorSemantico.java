@@ -180,10 +180,12 @@ public class AnalizadorSemantico {
                                ArrayListAssigment arrLS = (ArrayListAssigment)declaracion.getOperation();
                                ArrayList arrL = (ArrayList)arrLS.getArrayList();
                                String tipoArrl = tipoArrayList(arrL, variablesLocales, parametros, arraysLocales);
+                               System.out.println(arrL.size());
+                               System.out.println(arr.getLength());
                                if(!tipoArrl.equals(arr.getType().getTipo())){
                                    imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                                     hayErrores = true;
-                               }else if (arrL.size() <= arr.getLength()){
+                               }else if (arrL.size() != arr.getLength()){
                                    imprimirError("El tamaño de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                                    hayErrores = true;
                                }
@@ -697,7 +699,8 @@ public class AnalizadorSemantico {
                 int largoArray = Integer.parseInt(info[1]);
                 if(sentencia.getArrayPos() < largoArray){
                     tipo = info[0];
-                }else{
+                }
+                else{
                     imprimirError("Posición inválida", sentencia.getPosition()[0], sentencia.getPosition()[1]);
                     hayErrores = true;
                 }

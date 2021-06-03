@@ -1,7 +1,5 @@
 int resta(int v, int m){
-	for(int i = 0; i < 4; ++i) {
-		int x = 5;
-	}
+	print(v);
 	return 1;
 }
 

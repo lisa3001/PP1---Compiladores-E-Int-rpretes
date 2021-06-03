@@ -3,5 +3,18 @@ begin params
 resta_p0 = v
 resta_p1 = m
 end params
+print_param = resta_p0
+call print, 1
+return0_t1 = 1
+return return0_t1
 func end resta
+
+func begin main 
+p0_t2 = 2
+p1_t3 = 5
+call resta, 2
+op_t4 = return 
+return0_t5 = 1
+return return0_t5
+func end main 
 
