@@ -128,6 +128,27 @@ public class Codigo3Direcciones {
                 Operation op = (Operation)declaracion.getOperation();
                 generarOperacion(op, "op");
             }
+            if(tempSentence instanceof For){
+                For forSentence = (For) tempSentence;
+                Sentences sentences = new Sentences();
+                sentences.addSentence(forSentence.getStructure().getVar());
+                CreateVar forCreateVar = ((CreateVar)forSentence.getStructure().getVar());
+                Operation forCondition = forSentence.getStructure().getCondition();
+                Operation forManager = forSentence.getStructure().getManageVar();
+                
+                codigo3d += "begin for +  +\n";
+                String nombre = "for_t" + forcont;
+                forcont += 1;
+                
+                Vector<String> v1 = new Vector<String>();
+                v1.add(nombre);
+                v1.add(forCreateVar.getIdentifier().getName());
+                tablaSimbolos.add(v1);
+                
+                codigo3d += nombre + " = " + "\n";
+                
+                
+            }
         }
     }
     
