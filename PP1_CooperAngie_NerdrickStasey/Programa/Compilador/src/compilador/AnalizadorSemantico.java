@@ -386,11 +386,15 @@ public class AnalizadorSemantico {
     //Entrada: Recibe un vector con las variables de la función y el nombre de la variable que se desea validar
     //Salida: Retorna un booleano indicando si la variable ya fue asignada
     //Objetivo: Verificar que una variable ya haya sido asignada
-    public boolean isVariableAsignada(Vector<CreateVar> variablesLocales, String varName){
+    public boolean isVariableAsignada(Vector<CreateVar> variablesLocales, Vector<Parameters> parametros,String varName){
         for(CreateVar tempVar: variablesLocales){
             if(varName.equals(tempVar.getIdentifier().getName())){
                 if(tempVar.getOperation() != null) return true;
+                break;
             }
+        }
+        for(Parameters tempPar: parametros){
+            if(varName.equals(tempPar.getIdentifier().getName())){ return true;}
         }
         return false;
     }
@@ -672,7 +676,7 @@ public class AnalizadorSemantico {
             String varName = identifier.getName();
             if(existeVariable(variablesLocales, parametros, arraysLocales, varName)){
                 tipo = getIdentifierType(variablesLocales, parametros, arraysLocales, varName);
-                if(!tipo.equals("Array") && !isVariableAsignada(variablesLocales, varName)){
+                if(!tipo.equals("Array") && !isVariableAsignada(variablesLocales, parametros, varName)){
                     tipo = "";
                     imprimirError("la variable " + varName + " aun no ha sido asignada", identifier.getPosition()[0], identifier.getPosition()[1]);
                     hayErrores = true;
