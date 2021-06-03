@@ -3,5 +3,27 @@ begin params
 resta_p0 = v
 resta_p1 = m
 end params
+if_op_t1 = 7
+if_op_t2 = resta_p0 == if_op_t1
+if (if_op_t2) goto (IF_0)
+if (if_op_t2) goto (ELIF_2)
+if (if_op_t2) goto (ELIF_3)
+goto (ELSE_1)
+IF_0:
+var0_t5 = resta_p0 + resta_p1
+x_var = var0_t5
+ELIF_2:
+var1_t7 = 1
+var1_t8 = resta_p0 + var1_t7
+u_var = var1_t8
+ELIF_3:
+var2_t10 = 2
+var2_t11 = resta_p1 + var2_t10
+o_var = var2_t11
+ELSE_1:
+var3_t14 = resta_p1 + resta_p0
+y_var = var3_t14
+return0_t15 = 1
+returnreturn0_t15
 func end resta
 
