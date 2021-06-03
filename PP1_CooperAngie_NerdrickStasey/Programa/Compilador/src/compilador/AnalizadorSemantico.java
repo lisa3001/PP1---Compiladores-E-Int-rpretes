@@ -684,8 +684,10 @@ public class AnalizadorSemantico {
                     hayErrores = true;
                 }
             }   
-            else {imprimirError("la variable " + varName + " no existe", identifier.getPosition()[0], identifier.getPosition()[1]);
-            hayErrores = true;}
+            else {
+                imprimirError("la variable " + varName + " no existe", identifier.getPosition()[0], identifier.getPosition()[1]);
+                hayErrores = true;
+            }
         }
         else if(op instanceof BoolLiteral){
             tipo = "Boolean";

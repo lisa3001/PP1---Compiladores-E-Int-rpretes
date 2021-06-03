@@ -1,5 +1,20 @@
 int resta(int v, int m){
+<<<<<<< HEAD
 	print(v);
+=======
+	if(v == 7) {
+		int x = v + m;
+	}
+	elif(v == 8){
+		int u = v + 1;
+	}
+	elif(v == 9){
+		int o = m + 2;
+	}
+	else {
+		int y = m + v;
+	}
+>>>>>>> 2666f8497288c9dd4b2f611911f483d026231ca4
 	return 1;
 }
 

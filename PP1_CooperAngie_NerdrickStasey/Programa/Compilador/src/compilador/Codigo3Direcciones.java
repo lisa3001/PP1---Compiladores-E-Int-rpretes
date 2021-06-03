@@ -170,13 +170,42 @@ public class Codigo3Direcciones {
                 Operation op = (Operation)declaracion.getOperation();
                 generarOperacion(op, "op");
             }
-            //Modificar un array
-            else if(tempSentence instanceof ModifyArray){
-                ModifyArray modifyArray = (ModifyArray) tempSentence;
-                String valor = generarOperacion(modifyArray.getOperation(), "assing" + String.valueOf(assingcont));
-                String ident = modifyArray.getIdentifier().getName() + "[" + modifyArray.getArrayPos() + "]";
-                codigo3d += ident + " = " + valor + "\n";
-                assingcont+=1;
+            else if(tempSentence instanceof For){
+                For forSentence = (For) tempSentence;
+                Sentences sentences = new Sentences();
+                sentences.addSentence(forSentence.getStructure().getVar());
+                CreateVar forCreateVar = ((CreateVar)forSentence.getStructure().getVar());
+                Operation forCondition = forSentence.getStructure().getCondition();
+                Operation forManager = forSentence.getStructure().getManageVar();
+                
+                int forNumber = forcont;
+                forcont += 1;
+                
+                codigo3d += "begin for_" + forNumber + "\n";
+                String nombre = "for_t" + forcont;
+                forcont += 1;
+                
+                Vector<String> v1 = new Vector<String>();
+                v1.add(nombre);
+                v1.add(forCreateVar.getIdentifier().getName());
+                tablaSimbolos.add(v1);
+                String tempCreateVar = generarOperacion(forCreateVar.getOperation(), "for_op");
+                
+                codigo3d += nombre + " = " + tempCreateVar + "\n";  
+                
+                String nombre2 = "for_t" + forcont;
+                forcont += 1; 
+                String tempConditional = generarOperacion(forCondition, "for_op");
+                codigo3d += nombre2 + " = " + tempConditional + "\n"; 
+                codigo3d += "if !(" + nombre2 + ") goto (end for)" + "\n";
+                
+                generarBloque(forSentence.getSentences().getSentences());
+                
+                String tempUnary = generarOperacion(forManager, "for_op");
+                codigo3d += nombre + " = " + tempUnary + "\n"; 
+                
+                codigo3d += "goto (for_" + forNumber + ")\n";
+                codigo3d += "end for_" + forNumber + "\n";   
             }
             //Return
             else if(tempSentence instanceof Return){
@@ -201,6 +230,44 @@ public class Codigo3Direcciones {
                 String var2 =  "read_t" + temp;
                 codigo3d += var2 + " = " + "return \n";
                 temp+=1;
+            }
+            else if(tempSentence instanceof If){
+                If ifSentence = ((If) tempSentence);
+                int ifNumber = ifcont;
+                ifcont++;
+                int elseNumber = ifcont;
+                ifcont++;
+                Vector<String> elifNumbers = new Vector<String>();
+                String condition = generarOperacion(ifSentence.getOperation(), "if_op");
+                codigo3d += "if (" + condition + ") goto (IF_" + ifNumber + ")\n";
+                if (ifSentence.getElifSentences().size() > 0){
+                    for(Elif elifSentence: ifSentence.getElifSentences()){
+                        String elifNumber = "ELIF_" + ifcont;
+                        elifNumbers.add(elifNumber);
+                        ifcont++;
+                        codigo3d += "if (" + condition + ") goto (" + elifNumber + ")\n";
+                    }
+                }
+                if (!(ifSentence.getElseSentences() == null )){
+                    codigo3d += "goto (ELSE_" + elseNumber + ")\n";
+                }
+                codigo3d += "IF_" + ifNumber + ":\n";
+                generarBloque(ifSentence.getIfSentences());
+                
+                if (ifSentence.getElifSentences().size() > 0){
+                    int i = 0;
+                    for(Elif elifSentence: ifSentence.getElifSentences()){
+                        codigo3d += elifNumbers.get(i) + ":\n";
+                        generarBloque(elifSentence.getSentences());
+                        i++;
+                    }
+                }
+                if (!(ifSentence.getElseSentences() == null )){
+                    codigo3d += "ELSE_" + elseNumber + ":\n";
+                    generarBloque(ifSentence.getElseSentences());
+                }
+                
+                System.out.println(codigo3d);
             }
         }
     }
