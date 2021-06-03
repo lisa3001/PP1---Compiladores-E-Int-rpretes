@@ -1,5 +1,5 @@
 int resta(float v, int m){
-	5+7;
+	5+7*4;
 	return 1;
 }
 

@@ -8,20 +8,7 @@ package compilador;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Vector;
-import producciones.CharLiteral;
-import producciones.CreateArray;
-import producciones.CreateVar;
-import producciones.FloatLiteral;
-import producciones.Function;
-import producciones.InitProgram;
-import producciones.IntLiteral;
-import producciones.Operation;
-import producciones.OperationSentence;
-import producciones.Parameters;
-import producciones.Plus;
-import producciones.Sentence;
-import producciones.Sentences;
-import producciones.StringLiteral;
+import producciones.*;
 
 /**
  *
@@ -32,6 +19,13 @@ public class Codigo3Direcciones {
     private String codigo3d = ""; //String que va a guardar el código
     private int temp; //Contador de los temporales que se van a usar
     private Vector<Vector<String>> tablaSimbolos = new Vector<Vector<String>>();
+    private int ifcont = 0;
+    private int forcont = 0;
+    private int varcont = 0;
+    private int assingcont = 0;
+    private int arraycont = 0;
+    private int marraycont = 0;
+    
     
     //Entrada: Recibe un objeto de tipo InitProgram
     //Salida: Retorna un objeto de la clase Codigo3Direcciones
@@ -71,8 +65,7 @@ public class Codigo3Direcciones {
         ew.printStackTrace();
       }
     }
-    
-    
+ 
     //Entrada: Identificador de la fila que se desea obtener
     //Salida: variable en la que está almacenada el identificador
     //Objetivo: Retornas la variable del identificador que se encuentra en la tabla de símbolos
@@ -108,11 +101,18 @@ public class Codigo3Direcciones {
                Vector<String> v1 = new Vector<String>();
                v1.add(nombreP);
                v1.add(temppam.getIdentifier().getName());
+               tablaSimbolos.add(v1);
                cont_param += 1;
             }
             codigo3d += "end params\n";
             generarBloque(tempFuncion.getBlock().getSentences());
             codigo3d += "func end " + nombreF + "\n\n";
+            ifcont = 0;
+            forcont = 0;
+            varcont = 0;
+            assingcont = 0;
+            arraycont = 0;
+            marraycont = 0;
         }
     }
  
@@ -142,6 +142,70 @@ public class Codigo3Direcciones {
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = identificador + "_t" + temp;
             codigo3d += var + " = " + leftType + " + " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Minus)){
+            Minus sentencia = (Minus)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " - " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Multi)){
+            Multi sentencia = (Multi)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " * " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Divide)){
+            Divide sentencia = (Divide)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " / " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Module)){
+            Module sentencia = (Module)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " % " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Power)){
+            Power sentencia = (Power)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " ** " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Minor)){
+            Minor sentencia = (Minor)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " < " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof MinorEqual)){
+            MinorEqual sentencia = (MinorEqual)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " =< " + rigthType + "\n";
+            dato = var;
+        }
+        if((op instanceof Greater)){
+            Greater sentencia = (Greater)op;
+            String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
+            String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String var = identificador + "_t" + temp;
+            codigo3d += var + " = " + leftType + " > " + rigthType + "\n";
             dato = var;
         }
         else if(op instanceof IntLiteral){

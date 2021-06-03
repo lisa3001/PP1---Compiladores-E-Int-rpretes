@@ -11,6 +11,8 @@ m -> IDENTIFIER
 5 -> INTEGER
 + -> PLUS
 7 -> INTEGER
+* -> MULTI
+4 -> INTEGER
 ; -> FINAL
 return -> RETURN
 1 -> INTEGER
