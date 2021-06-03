@@ -1,11 +1,9 @@
-int resta(){
-	char array[3];
-	array[0] = '3';
+int resta(float v, int m){
+	5+7;
 	return 1;
 }
 
 int main () {
 	int miArr[10];
-	resta();
 	return 1;
 }

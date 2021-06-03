@@ -1,0 +1,10 @@
+func begin resta
+begin params
+resta_p0 = v
+resta_p1 = m
+end params
+op_t0 = 5
+op_t1 = 7
+op_t2 = op_t0 + op_t1
+func end resta
+

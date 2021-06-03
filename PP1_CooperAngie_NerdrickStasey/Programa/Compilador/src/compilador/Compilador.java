@@ -109,7 +109,10 @@ public class Compilador {
             if(!asin.errores){
                 AnalizadorSemantico asem = new AnalizadorSemantico(programa);
                 if(asem.verficar()){
-                    System.out.println("Análisis semántico exitoso.");
+                    System.out.println("\033[0;32m" + "****  ANÁLISIS SEMÁNTICO EXITOSO ****" + "\033[0m");
+                    System.out.println("\033[0;32m" + "****  A continuación se creará el código en 3 direcciones ****" + "\033[0m");
+                    Codigo3Direcciones codigo3d = new Codigo3Direcciones(programa);
+                    codigo3d.generarCodigo();
                 }
                 else{
                     System.err.println("Error en la semántica. El archivo no se puede generar.");

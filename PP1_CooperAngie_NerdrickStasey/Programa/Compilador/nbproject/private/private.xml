@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSintactico.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Compilador.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSemantico.java</file>
             <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/asintactico.cup</file>
-            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/OperationSentence.java</file>
             <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/Read.java</file>
         </group>
     </open-files>

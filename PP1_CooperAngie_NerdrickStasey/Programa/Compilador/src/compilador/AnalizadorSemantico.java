@@ -13,13 +13,20 @@ import producciones.*;
  * @author snerd
  */
 public class AnalizadorSemantico {
-    private InitProgram program;
-    private boolean hayErrores = false;
+    private InitProgram program; //Objeto que guarda todas las sentencias del código fuente
+    private boolean hayErrores = false; //Bandera para saber si se encuentra algún error en el código fuente
     
+    
+    //Entrada: Recibe un objeto de tipo InitProgram
+    //Salida: Retorna un objeto de la clase AnalizadorSemántico
+    //Objetivo: Ser el constructor de la clase
     public AnalizadorSemantico(InitProgram pProgram){
         program = pProgram;
     }
     
+    //Entrada: No tiene entradas
+    //Salida: Retorna un booleano indicando si el código fuente cumple con las reglas semánticas
+    //Objetivo: Realizar el análisis semántico del código fuente
     public boolean verficar(){
         hayErrores = false;
         if(!mainExisteReturn()) return false;
@@ -34,16 +41,13 @@ public class AnalizadorSemantico {
     //Entrada: Recibe un vector con las funciones del programa
     //Salida: Retorna un booleano indicando si el scope de las funciones está bien
     //Objetivo: Realizar el análisis semántico en cada una de las sentencias del scope de cada función
-    public boolean validarScopeFuncion(Vector<Function> funciones){
-        
+    public void validarScopeFuncion(Vector<Function> funciones){
         for(Function tempFuncion: funciones){
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
             Vector<CreateVar> variablesLocales = new Vector<CreateVar>(); //Se van a ir guardando las variables que se crean en la función
             Vector<CreateArray> arraysLocales = new Vector<CreateArray>();
             validarBloque(tempFuncion.getBlock().getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
         }
-        
-        return true;
     }
     
     //Entrada: Recibe el main del programa
@@ -76,6 +80,10 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    //Entrada: Recibe un vector con las variables, los parámetros y los arreglos de una función y el nombre del identificador
+    //del que se quiere obtener el tipo
+    //Salida: Retorna un string con el tipo del identificador recibido
+    //Objetivo: Obtener el tipo de un identificador dado
     public String getIdentifierType(Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales,String varName){
         for(CreateVar tempVar: variablesLocales){
             if(varName.equals(tempVar.getIdentifier().getName())){
@@ -95,6 +103,9 @@ public class AnalizadorSemantico {
         return "";
     }
     
+    //Entrada: Recibe un arreglo de los arrays creados en una función y el identificador del array que se desea obtener
+    //Salida: Retorna un objeto de tipo CreateArray
+    //Objetivo: Buscar en la lista de arrays el array solicitado y retornarlo
     public CreateArray getArray(Vector<CreateArray> arraysLocales, String nombreArray){
         for(CreateArray tempArray: arraysLocales){
             if(nombreArray.equals(tempArray.getIdentifier().getName())) return tempArray;
@@ -102,6 +113,9 @@ public class AnalizadorSemantico {
         return null;
     }
     
+    //Entrada: Recibe un vector con las variables locales, otro con los parámetros y otro con los array de una función y el array del que se desea obtener el tipo
+    //Salida: Retorna un string con el tipo del arreglo
+    //Objetivo: Obtener el tipo de un arreglo
     public String tipoArrayList(ArrayList arrl, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
         String tipo = "";
         for (Operation op: arrl.getParameterList()){
@@ -118,6 +132,9 @@ public class AnalizadorSemantico {
         return tipo;
     }
     
+    //Entrada: Recibe un objeto Sentence que son las sentencias de un bloque de código, así como un un array con las variables, otro con los parámetros y otro con los array de la función y un objeto tipo function
+    //Salida: Retorna un booleano indicando si el bloque de código no tiene errores
+    //Objetivo: Validar un bloque de código
     public boolean validarBloque(Sentences bloque, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales, Function tempFuncion){
         boolean error = false;
         for(Sentence tempSentence: bloque.getSentences()){
@@ -129,7 +146,6 @@ public class AnalizadorSemantico {
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " ya ha sido declarada", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                     error = true;
                     hayErrores = true;
-                    //Cambiar bandera de error acá
                 }else{
                     if(declaracion.getOperation() != null){
                         String tipoop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
@@ -138,7 +154,6 @@ public class AnalizadorSemantico {
                               imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                               error = true;
                               hayErrores = true;
-                               //Cambiar bandera de error acá 
                            }else{
                              variablesLocales.add(declaracion);  
                            }
@@ -154,7 +169,7 @@ public class AnalizadorSemantico {
                 AssignVar declaracion = (AssignVar)tempSentence;
                 if(!existeVariable(variablesLocales, parametros, arraysLocales,declaracion.getIdentifier().getName())){
                     imprimirError("la variable " + declaracion.getIdentifier().getName() + " no existe", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
-                    //Cambiar bandera de error acá
+                    hayErrores = true;
                 }else{
                   String tipoVar = getIdentifierType(variablesLocales, parametros, arraysLocales, declaracion.getIdentifier().getName());
                   String tipoAsig = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
@@ -167,7 +182,7 @@ public class AnalizadorSemantico {
                                String tipoArrl = tipoArrayList(arrL, variablesLocales, parametros, arraysLocales);
                                if(!tipoArrl.equals(arr.getType().getTipo())){
                                    imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
-                                    //Cambiar bandera de error acá
+                                    hayErrores = true;
                                }else if (arrL.size() <= arr.getLength()){
                                    imprimirError("El tamaño de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                                    hayErrores = true;
@@ -323,6 +338,8 @@ public class AnalizadorSemantico {
                     }
                 }
             }
+            //Return
+            //Se valida que el tipo del return coincida con el de la función
             else if(tempSentence instanceof Return){
                Return declaracion = (Return)tempSentence; 
                String returnF = tempFuncion.getType().getTipo();
@@ -332,6 +349,7 @@ public class AnalizadorSemantico {
                  hayErrores = true;  
                }
             }
+            //Print
             else if(tempSentence instanceof Print){
                 Print declaracion = (Print)tempSentence;
                 String tipop = validarOperation(declaracion.getOperation(), variablesLocales, parametros, arraysLocales);
@@ -340,6 +358,7 @@ public class AnalizadorSemantico {
                  hayErrores = true;
                 }
             }
+            //Read
             else if(tempSentence instanceof Read){
                Read declaracion = (Read)tempSentence; 
                String tipop = getIdentifierType(variablesLocales, parametros, arraysLocales,declaracion.getVarName().getName());
@@ -352,9 +371,9 @@ public class AnalizadorSemantico {
         return error;
     }
     
-    //Entrada: No tiene
-    //Salida: Retorna un booleano indicando si el main tiene un return
-    //Objetivo: Le envía las sentencias del main a una función que verifica si hay una sentencia return
+    //Entrada: Recibe el nombre del array y un vector con los arrays de la función
+    //Salida: Retorna un string con el tipo y el tamaño del array
+    //Objetivo: Obtener el tipo y el tamaño del array
     public String[] obtenerTipoyLengthArray(String nombreArray, Vector<CreateArray> arraysLocales){
         CreateArray arr = null;
         for(CreateArray tempArray: arraysLocales){
@@ -364,6 +383,9 @@ public class AnalizadorSemantico {
         return new String[] {arr.getType().getTipo(), String.valueOf(length)};
     } 
     
+    //Entrada: Recibe un vector con las variables de la función y el nombre de la variable que se desea validar
+    //Salida: Retorna un booleano indicando si la variable ya fue asignada
+    //Objetivo: Verificar que una variable ya haya sido asignada
     public boolean isVariableAsignada(Vector<CreateVar> variablesLocales, String varName){
         for(CreateVar tempVar: variablesLocales){
             if(varName.equals(tempVar.getIdentifier().getName())){
@@ -373,8 +395,12 @@ public class AnalizadorSemantico {
         return false;
     }
     
+    //Entrada: Recibe unn objeto de tipo Operation y un vector con las variables, otro con los parámetros y otro con los arrays de la función
+    //Salida: Retorna un string con el tipo de la operación
+    //Objetivo: Obtener el tipo de una operación
     public String validarOperation(Operation op, Vector<CreateVar> variablesLocales, Vector<Parameters> parametros, Vector<CreateArray> arraysLocales){
         String tipo = "";
+        //Se valida la suma
         if((op instanceof Plus)){
             Plus sentencia = (Plus)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -390,6 +416,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida la resta
         if((op instanceof Minus)){
             Minus sentencia = (Minus)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -405,6 +432,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida la división
         if((op instanceof Divide)){
             Divide sentencia = (Divide)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -420,7 +448,9 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida la multiplicación
         if((op instanceof Multi)){
+            System.out.println("Mult");
             Multi sentencia = (Multi)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
             String rigthType = validarOperation(sentencia.getRightOperation(), variablesLocales, parametros, arraysLocales);
@@ -435,6 +465,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida pow
         if((op instanceof Power)){
             Power sentencia = (Power)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -450,6 +481,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el módulo
         if((op instanceof Module)){
             Module sentencia = (Module)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -465,6 +497,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el auto incremento
         if((op instanceof PlusPlus)){
             PlusPlus sentencia = (PlusPlus)op;
             String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
@@ -477,6 +510,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el decremento
         if((op instanceof MinusMinus)){
             MinusMinus sentencia = (MinusMinus)op;
             String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
@@ -489,6 +523,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el negativo
         if((op instanceof MinusUnary)){
             MinusUnary sentencia = (MinusUnary)op;
             String operationType = validarOperation(sentencia.getIdent(), variablesLocales, parametros, arraysLocales);
@@ -501,6 +536,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el menor
         if((op instanceof Minor)){
             Minor sentencia = (Minor)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -515,6 +551,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el menor igual
         if((op instanceof MinorEqual)){
             MinorEqual sentencia = (MinorEqual)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -529,6 +566,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el mayor
         if((op instanceof Greater)){
             Greater sentencia = (Greater)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -543,6 +581,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el mayor igual
         if((op instanceof GreaterEqual)){
             GreaterEqual sentencia = (GreaterEqual)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -557,6 +596,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el igual
         if((op instanceof EqualEqual)){
             EqualEqual sentencia = (EqualEqual)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -571,6 +611,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el diferente
         if((op instanceof Different)){
             Different sentencia = (Different)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -585,6 +626,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el and
         if((op instanceof And)){
             And sentencia = (And)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -598,6 +640,7 @@ public class AnalizadorSemantico {
              }   
             }
         }
+        //Se valida el or
         if((op instanceof Or)){
             Or sentencia = (Or)op;
             String leftType = validarOperation(sentencia.getLeftOperation(), variablesLocales, parametros, arraysLocales);
@@ -623,6 +666,7 @@ public class AnalizadorSemantico {
         else if(op instanceof CharLiteral){
             tipo = "Char";
         }
+        //Se valida que los identificadores existan y que hayan sido asignados
         else if(op instanceof Identifier){
             Identifier identifier = (Identifier)op;
             String varName = identifier.getName();
@@ -640,6 +684,7 @@ public class AnalizadorSemantico {
         else if(op instanceof BoolLiteral){
             tipo = "Boolean";
         }
+        //Se valida la posicion de una array
         else if(op instanceof ArrayPositionOperation){
             ArrayPositionOperation sentencia = (ArrayPositionOperation)op;
             String tp = getIdentifierType(variablesLocales, parametros, arraysLocales, sentencia.getIdentifier());
