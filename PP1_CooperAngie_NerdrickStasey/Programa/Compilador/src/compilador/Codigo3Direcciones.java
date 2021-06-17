@@ -20,6 +20,7 @@ public class Codigo3Direcciones {
     private int temp; //Contador de los temporales que se van a usar
     private Vector<Vector<String>> tablaSimbolos = new Vector<Vector<String>>();
     private int ifcont = 0;
+    private int elifCont = 0;
     private int forcont = 0;
     private int varcont = 0;
     private int assingcont = 0;
@@ -224,10 +225,11 @@ public class Codigo3Direcciones {
                 codigo3d += "if (" + condition + ") goto (IF_" + ifNumber + ")\n";
                 if (ifSentence.getElifSentences().size() > 0){
                     for(Elif elifSentence: ifSentence.getElifSentences()){
-                        String elifNumber = "ELIF_" + ifcont;
+                        String elifNumber = "ELIF_" + elifCont;
                         elifNumbers.add(elifNumber);
-                        ifcont++;
-                        codigo3d += "if (" + condition + ") goto (" + elifNumber + ")\n";
+                        String elifCondition = generarOperacion(elifSentence.getOperation(), "elif_op");
+                        elifCont++;
+                        codigo3d += "if (" + elifCondition + ") goto (" + elifNumber + ")\n";
                     }
                 }
                 if (!(ifSentence.getElseSentences() == null )){

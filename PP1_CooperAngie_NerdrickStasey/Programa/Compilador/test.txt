@@ -1,20 +1,45 @@
-int resta(int v, int m){
-	if(v == 7) {
-		int x = v + m;
+char extra(int carro){
+	
+	if ( 23 > 24 == false){
+		return 'a';
 	}
-	elif(v == 8){
-		int u = v + 1;
+	elif (true == false){
+		print("ok");
 	}
-	elif(v == 9){
-		int o = m + 2;
+	elif (true != false){
+		print("not");
 	}
-	else {
-		int y = m + v;
+
+	if (true){
+		for(int i = 0; i <= 10; ++i){
+			if (i ~ 2 == 0){
+				break;
+			}
+			else{
+				print(34.5);
+			}
+		}
 	}
-	return 1;
+	return 'b';
 }
 
 int main () {
-	resta(2,5);
+	string str1 = "Hola MUndo ^ { } % * + - -- ++ $";
+	bool miBoolean2 = not(false);
+	miBoolean2 = not(miBoolean2) != true;
+
+
+	
+	print(str1);
+	
+	read(str1);
+	print("Hola mundo");
+	print(str1);
+	float flo1 = 4.6;
+	print(flo1);
+	read(str1);
+
+	56 + 34;
+	extra(2);
 	return 1;
 }

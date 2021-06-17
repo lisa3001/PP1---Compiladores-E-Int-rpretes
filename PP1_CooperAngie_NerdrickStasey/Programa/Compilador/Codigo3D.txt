@@ -1,29 +1,58 @@
-func begin resta
+func begin extra
 begin params
-resta_p0 = v
-resta_p1 = m
+extra_p0 = carro
 end params
-if_op_t1 = 7
-if_op_t2 = resta_p0 == if_op_t1
-if (if_op_t2) goto (IF_0)
-if (if_op_t2) goto (ELIF_2)
-if (if_op_t2) goto (ELIF_3)
-goto (ELSE_1)
+if_op_t0 = 23
+if_op_t1 = 24
+if_op_t2 = if_op_t0 > if_op_t1
+if_op_t3 = false
+if_op_t4 = if_op_t2 == if_op_t3
+if (if_op_t4) goto (IF_0)
+elif_op_t5 = true
+elif_op_t6 = false
+elif_op_t7 = elif_op_t5 == elif_op_t6
+if (elif_op_t7) goto (ELIF_0)
+elif_op_t8 = true
+elif_op_t9 = false
+elif_op_t10 = elif_op_t8 != elif_op_t9
+if (elif_op_t10) goto (ELIF_1)
 IF_0:
-var0_t5 = resta_p0 + resta_p1
-x_var = var0_t5
-ELIF_2:
-var1_t7 = 1
-var1_t8 = resta_p0 + var1_t7
-u_var = var1_t8
-ELIF_3:
-var2_t10 = 2
-var2_t11 = resta_p1 + var2_t10
-o_var = var2_t11
-ELSE_1:
-var3_t14 = resta_p1 + resta_p0
-y_var = var3_t14
-return0_t15 = 1
-returnreturn0_t15
-func end resta
+return0_t11 = '
+returnreturn0_t11
+ELIF_0:
+print_t12 = "ok"
+print_param = print_t12
+callprint, 1
+ELIF_1:
+print_t13 = "not"
+print_param = print_t13
+callprint, 1
+if_op_t14 = true
+if (if_op_t14) goto (IF_2)
+IF_2:
+begin for_0
+for_op_t15 = 0
+for_t1 = for_op_t15
+for_op_t17 = 10
+for_op_t18 = for_t1 =< for_op_t17
+for_t2 = for_op_t18
+if !(for_t2) goto (end for)
+if_op_t20 = 2
+if_op_t21 = for_t1 % if_op_t20
+if_op_t22 = 0
+if_op_t23 = if_op_t21 == if_op_t22
+if (if_op_t23) goto (IF_4)
+goto (ELSE_5)
+IF_4:
+ELSE_5:
+print_t24 = 34.5
+print_param = print_t24
+callprint, 1
+for_op_t26 = ++for_t1
+for_t1 = for_op_t26
+goto (for_0)
+end for_0
+return1_t27 = '
+returnreturn1_t27
+func end extra
 
