@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 char extra(int carro){
 	
 	if ( 23 > 24 == false){
 		return 'a';
+=======
+int resta(int v, int m){
+	print(v);
+	if(v == 7) {
+		int x = v + m;
+>>>>>>> b1a61a8bf6b30a74320763ecf915da3a344a7637
 	}
 	elif (true == false){
 		print("ok");
@@ -24,6 +31,7 @@ char extra(int carro){
 }
 
 int main () {
+<<<<<<< HEAD
 	string str1 = "Hola MUndo ^ { } % * + - -- ++ $";
 	bool miBoolean2 = not(false);
 	miBoolean2 = not(miBoolean2) != true;
@@ -41,5 +49,8 @@ int main () {
 
 	56 + 34;
 	extra(2);
+=======
+	resta(2, 5);
+>>>>>>> b1a61a8bf6b30a74320763ecf915da3a344a7637
 	return 1;
 }

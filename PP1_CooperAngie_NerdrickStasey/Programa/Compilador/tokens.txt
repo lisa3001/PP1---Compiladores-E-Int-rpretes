@@ -5,6 +5,11 @@ int -> INT
 carro -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+print -> PRINT
+( -> OPEN_PAREN
+v -> IDENTIFIER
+) -> CLOSE_PAREN
+; -> FINAL
 if -> IF
 ( -> OPEN_PAREN
 23 -> INTEGER

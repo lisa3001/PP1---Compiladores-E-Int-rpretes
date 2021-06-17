@@ -35,7 +35,10 @@ public class CreateArray extends Sentence {
     
     public ArrayList getArrayList(){return arrayList;}
     
-    public int getArrayListSize(){ return arrayList.size();}
+    public int getArrayListSize(){ 
+        if (arrayList == null) return 0;
+        return arrayList.size();
+    }
     
     public int[] getPosition(){return position;}
     
