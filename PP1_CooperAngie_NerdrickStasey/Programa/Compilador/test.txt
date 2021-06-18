@@ -1,21 +1,13 @@
-int resta(int v, int m){
-	print(v);
-	if(v == 7) {
-		int x = v + m;
-	}
-	elif(v == 8){
-		int u = v + 1;
-	}
-	elif(v == 9){
-		int o = m + 2;
-	}
-	else {
-		int y = m + v;
-	}
-	return 1;
+string mm(){
+   int j = 1 + 2;
+   return "dddd";
+}
+
+string mm2(){
+   int h = 1 + 2;
+   return "dddd";
 }
 
 int main () {
-	resta(2, 5);
 	return 1;
 }

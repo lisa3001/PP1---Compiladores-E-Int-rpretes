@@ -91,6 +91,7 @@ public class Codigo3Direcciones {
     //Salida: No tiene
     //Objetivo: Generar el código de 3 direcciones del scope del main 
     public void generarMain(Main main){
+            temp = 0;
             codigo3d += "func begin main \n";
             generarBloque(main.getBlock().getSentences());
             codigo3d += "func end main \n\n";
@@ -109,6 +110,7 @@ public class Codigo3Direcciones {
     //Objetivo: Generar el código de 3 direcciones del scope de cada función 
     public void generarFuncionesScope(Vector<Function> funciones){
         for(Function tempFuncion: funciones){
+            temp = 0;
             String nombreF = tempFuncion.getIdentifier().getName();
             codigo3d += "func begin " + nombreF + "\n";
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
