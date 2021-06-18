@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 func begin mm2
 begin params
 end params
@@ -23,5 +24,134 @@ func end mm
 func begin main 
 return0_t4 = 1
 return return0_t4
+=======
+func begin extra
+begin params
+extra_p0 = carro
+end params
+if_op_t0 = 23
+if_op_t1 = 24
+if_op_t2 = if_op_t0 > if_op_t1
+if_op_t3 = false
+if_op_t4 = if_op_t2 == if_op_t3
+if (if_op_t4) goto (IF_0)
+elif_op_t5 = true
+elif_op_t6 = false
+elif_op_t7 = elif_op_t5 == elif_op_t6
+if (elif_op_t7) goto (ELIF_0)
+elif_op_t8 = true
+elif_op_t9 = false
+elif_op_t10 = elif_op_t8 != elif_op_t9
+if (elif_op_t10) goto (ELIF_1)
+IF_0:
+return0_t11 = '
+return return0_t11
+ELIF_0:
+print_t12 = "ok"
+print_param = print_t12
+call print, 1
+ELIF_1:
+print_t13 = "not"
+print_param = print_t13
+call print, 1
+if_op_t14 = true
+if (if_op_t14) goto (IF_1)
+goto (ELSE_0)
+IF_1:
+begin for_0
+for_op_t15 = 0
+for_t1 = for_op_t15
+for_op_t17 = 10
+for_op_t18 = for_t1 =< for_op_t17
+for_t2 = for_op_t18
+if !(for_t2) goto (end for)
+if_op_t20 = 2
+if_op_t21 = for_t1 % if_op_t20
+if_op_t22 = 0
+if_op_t23 = if_op_t21 == if_op_t22
+if (if_op_t23) goto (IF_2)
+goto (ELSE_1)
+IF_2:
+break_24
+ELSE_1:
+print_t25 = 34.5
+print_param = print_t25
+call print, 1
+for_op_t27 = ++for_t1
+for_t1 = for_op_t27
+goto (for_0)
+end for_0
+ELSE_0:
+x_var = null
+return1_t29 = '
+return return1_t29
+func end extra
+
+func begin incremento2
+begin params
+incremento2_p0 = num
+incremento2_p1 = hola
+incremento2_p2 = aaaa
+incremento2_p3 = ok
+end params
+var0_t1 = 34
+var0_t2 = -var0_t1
+var0_t3 = 10
+var0_t4 = var0_t2 / var0_t3
+var0_t5 = 10
+var0_t6 = 14
+var0_t7 = var0_t5 + var0_t6
+var0_t8 = 80
+var0_t9 = var0_t7 - var0_t8
+var0_t10 = var0_t4 % var0_t9
+var0_t11 = incremento2_p0 - var0_t10
+numero_var = var0_t11
+var1_t12 = 10.5
+var1_t13 = 3.5
+var1_t14 = var1_t12 ** var1_t13
+miReal_var = var1_t14
+return numero_var
+array_0 = arreglo
+array_0_type = Integer
+array_0_size = 3
+array_1 = otroArreglo
+array_1_type = Integer
+array_1_size = 7
+func end incremento2
+
+func begin main 
+var0_t0 = "Hola MUndo ^ { } % * + - -- ++ $"
+str1_var = var0_t0
+var1_t1 = false
+miBoolean2_var = var1_t1
+assing0_t3 = true
+assing0_t4 = miBoolean2_var != assing0_t3
+miBoolean2_var = assing0_t4
+print_param = str1_var
+call print, 1
+read_param = str1_var
+call read, 1
+read_t6 = return 
+print_t7 = "Hola mundo"
+print_param = print_t7
+call print, 1
+print_param = str1_var
+call print, 1
+var2_t9 = 4.6
+flo1_var = var2_t9
+print_param = flo1_var
+call print, 1
+read_param = str1_var
+call read, 1
+read_t11 = return 
+op_t12 = 56
+op_t13 = 34
+op_t14 = op_t12 + op_t13
+p0_t15 = 2
+call extra, 1
+op_t16 = return 
+return0_t17 = 1
+return return0_t17
+>>>>>>> f16de235f364adfcb85cad9958362925572496f3
 func end main 
 
