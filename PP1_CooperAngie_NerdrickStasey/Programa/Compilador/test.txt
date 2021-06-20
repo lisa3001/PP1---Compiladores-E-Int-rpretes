@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+string mm(){
+   int j = 1 + 2;
+   return "dddd";
+}
+
+string mm2(){
+   int h = 1 + 2;
+   return "dddd";
+}
+
+int main () {
+=======
 int incremento2 (int num, string hola, char aaaa, bool ok){
 	int numero = num - -34 / 10 ~ (10 + 14 - 80);   float miReal = 10.5**3.5;
 	return numero;
@@ -51,5 +64,6 @@ int main () {
 
 	56 + 34;
 	extra(2);
+>>>>>>> f16de235f364adfcb85cad9958362925572496f3
 	return 1;
 }

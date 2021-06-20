@@ -1,3 +1,30 @@
+<<<<<<< HEAD
+func begin mm2
+begin params
+end params
+var0_t0 = 1
+var0_t1 = 2
+var0_t2 = var0_t0 + var0_t1
+h_var = var0_t2
+return0_t3 = "dddd"
+return return0_t3
+func end mm2
+
+func begin mm
+begin params
+end params
+var0_t0 = 1
+var0_t1 = 2
+var0_t2 = var0_t0 + var0_t1
+j_var = var0_t2
+return0_t3 = "dddd"
+return return0_t3
+func end mm
+
+func begin main 
+return0_t4 = 1
+return return0_t4
+=======
 func begin extra
 begin params
 extra_p0 = carro
@@ -125,5 +152,6 @@ call extra, 1
 op_t16 = return 
 return0_t17 = 1
 return return0_t17
+>>>>>>> f16de235f364adfcb85cad9958362925572496f3
 func end main 
 

@@ -678,11 +678,6 @@ public class AnalizadorSemantico {
             String varName = identifier.getName();
             if(existeVariable(variablesLocales, parametros, arraysLocales, varName)){
                 tipo = getIdentifierType(variablesLocales, parametros, arraysLocales, varName);
-                if(!tipo.equals("Array") && !isVariableAsignada(variablesLocales, parametros, varName)){
-                    tipo = "";
-                    imprimirError("la variable " + varName + " aun no ha sido asignada", identifier.getPosition()[0], identifier.getPosition()[1]);
-                    hayErrores = true;
-                }
             }   
             else {
                 imprimirError("la variable " + varName + " no existe", identifier.getPosition()[0], identifier.getPosition()[1]);
