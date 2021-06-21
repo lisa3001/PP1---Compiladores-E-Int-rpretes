@@ -36,6 +36,11 @@ public class Codigo3Direcciones {
         program = pProgram;
     }
     
+    
+    public String getCodigo3D(){
+        return codigo3d;
+    }
+    
     //Entrada: No tiene
     //Salida: No tiene
     //Objetivo: Se encarga de limpiar el archivo en el que se va a escribir el código en 3 direcciones

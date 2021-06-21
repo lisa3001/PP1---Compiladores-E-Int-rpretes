@@ -113,6 +113,9 @@ public class Compilador {
                     System.out.println("\033[0;32m" + "****  A continuación se creará el código en 3 direcciones ****" + "\033[0m");
                     Codigo3Direcciones codigo3d = new Codigo3Direcciones(programa);
                     codigo3d.generarCodigo();
+                    String codigo = codigo3d.getCodigo3D();
+                    Mips codigoMips = new Mips(codigo);
+                    codigoMips.generarCodigoMips();
                 }
                 else{
                     System.err.println("Error en la semántica. El archivo no se puede generar.");

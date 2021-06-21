@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Mips.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/sym.java</file>
+=======
+>>>>>>> 5f63a5fe18cb1e898f105e53d60245e693e9683e
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/CreateArray.java</file>
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Codigo3Direcciones.java</file>
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSintactico.java</file>
@@ -11,5 +17,24 @@
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSemantico.java</file>
             <file>file:/C:/Users/Angie%20Cooper/Documents/2021/Compi/proyecto3/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/Type.java</file>
         </group>
+<<<<<<< HEAD
+=======
+=======
+<<<<<<< HEAD
+        <group>
+>>>>>>> 2e8fdf80fa89f0883089842cbd1ac46ec1a6cc06
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Compilador.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSemantico.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSintactico.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Codigo3Direcciones.java</file>
+        </group>
+<<<<<<< HEAD
+=======
+=======
+        <group/>
+>>>>>>> f16de235f364adfcb85cad9958362925572496f3
+>>>>>>> 5087778ffb89aaa78c8d09f693e821085d2592ba
+>>>>>>> 2e8fdf80fa89f0883089842cbd1ac46ec1a6cc06
+>>>>>>> 5f63a5fe18cb1e898f105e53d60245e693e9683e
     </open-files>
 </project-private>
