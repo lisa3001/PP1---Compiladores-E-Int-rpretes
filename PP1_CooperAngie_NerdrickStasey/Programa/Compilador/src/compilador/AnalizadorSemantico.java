@@ -29,12 +29,24 @@ public class AnalizadorSemantico {
     //Objetivo: Realizar el análisis semántico del código fuente
     public boolean verficar(){
         hayErrores = false;
-        if(!mainExisteReturn()) return false;
-        if(!FuncionExisteReturn()) return false;
-        if(!verificacionNombreFunciones()) return false;
+        if(!mainExisteReturn()) {
+            System.out.print("1");
+            return false;
+        }
+        if(!FuncionExisteReturn()){
+            System.out.print("2 ese es");
+            return false;
+        }
+        if(!verificacionNombreFunciones()){
+            System.out.print("3");
+            return false;
+        }
         validarScopeFuncion(program.getFunctions().getFunctions());
         validarScopeMain(program.getMain());
-        if(hayErrores) return false;
+        if(hayErrores){
+            System.out.print("4");
+            return false;
+        }
         return true;
     }
     
@@ -791,10 +803,14 @@ public class AnalizadorSemantico {
     //Salida: Retorna un booleano indicando si las funciones tienen un return
     //Objetivo: Envía a la función tieneSentenciaReturn las sentencias de código del main
     public boolean FuncionExisteReturn(){
-        for(Function function : program.getFunctions().getFunctions()){
+        if (program.getFunctions().getFunctions().size() > 0){
+         for(Function function : program.getFunctions().getFunctions()){
             return tieneSentenciaReturn(function.getBlock().getSentences());
+            }
+            return false;   
+        }else{
+            return true;
         }
-        return false;
     }
     
     //Entrada: Sentencia de código
