@@ -56,11 +56,28 @@ public class Mips {
     //Objetivo: Leer el código intermedio y generar el código mips
     public void generarCodigoMips(){
       for (String linea: codigo3d){
+          
           String[] instruccion = linea.split(" ");
           String function = isFunction(instruccion);
+          System.out.println("El tam es: " + instruccion.length);
           if (function != ""){
               if (function.equals("main"))main += function + ":\n";
               else funciones += function +":\n";
+          }
+          else if (instruccion.length == 3 && !instruccion[0].equals("func")){
+              String inst = "";
+              String registro = obtenerRegistro(instruccion[0]);
+              ///System.out.println(instruccion[0]);
+              System.out.println(linea);
+              if (instruccion[2].contains("\"")){
+                  inst += " la   ";
+                  data += instruccion[0] + ":   .asciiz " + instruccion[2];
+                  inst += "$" + registro + ", " + instruccion[0];
+              }else{
+                 inst += "  li   ";
+                 inst += "$" + registro + ", " + instruccion[2]; 
+              }
+              funciones += inst + "\n";
           }
       }
       main += "     j end\n";
@@ -84,6 +101,17 @@ public class Mips {
         String resultado = "";
         if (inst.length >= 3){
           if (inst[0].equals("func") && inst[1].equals("begin")) resultado = inst[2];  
+        }
+        return resultado;
+    }
+    
+    public String obtenerRegistro(String etiqueta){
+        String resultado = "";
+        int contador = etiqueta.indexOf("t");
+        while(contador<etiqueta.length()){
+            resultado += etiqueta.charAt(contador);
+            if (etiqueta.charAt(contador) == '_') contador = etiqueta.length();
+            else contador += 1;
         }
         return resultado;
     }

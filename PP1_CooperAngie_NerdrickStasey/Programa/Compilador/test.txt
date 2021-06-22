@@ -1,6 +1,5 @@
 int main () {
 	string nose = "es un string";
-	int mip = 2 + 3 * 4 + 6 - 1;
-	int ss = mip;
+	int mip = 2;
 	return mip;
 }

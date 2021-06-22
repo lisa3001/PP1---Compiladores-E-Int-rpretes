@@ -4,6 +4,9 @@
  .globl main
 main:
      j end
+  li   $t1, var0_t0
+  li   $t2, 2
+  li   $t3, var1_t2
 Print:
 	li $v0, 4
      	syscall  
