@@ -1,8 +1,13 @@
 func begin main 
-var0_t0 = 3
-var0_t1 = 3
-var0_t0 = var0_t0 * var0_t1
-y_t2 = var0_t0
-return y_t2
+var0_t0 = 2
+var0_t1 = 4
+var0_t0 = var0_t0 @@ var0_t1
+p_t2 = var0_t0
+var1_t3 = 2
+var1_t4 = 4
+var1_t3 = var1_t3 !@ var1_t4
+u_t5 = var1_t3
+return0_t6 = 1
+return return0_t6
 func end main 
 

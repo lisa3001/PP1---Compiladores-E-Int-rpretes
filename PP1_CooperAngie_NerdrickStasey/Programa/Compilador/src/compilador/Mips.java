@@ -84,7 +84,7 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
-          else if (linea.contains("=")){
+          else if (linea.contains("=") ){
               String[] instruccion = linea.split("=");
               instruccion[0] = instruccion[0].trim();
               instruccion[1] = instruccion[1].trim();
@@ -114,7 +114,7 @@ public class Mips {
                          inst += "     mulo ";
                          inst += "$" + registro + ", $" + operandos[1] + ",-1";
                      }                          
-                  }else if (instruccion[1].contains("*")){
+                  }else if (instruccion[1].contains("*") && !instruccion[1].contains("**")){
                      String[] operandos = instruccion[1].split("\\*"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
@@ -136,6 +136,60 @@ public class Mips {
                      String operando1 = obtenerRegistro(operandos[1]);
                      inst += "     sub ";
                      inst += "$" + registro + ", $" + operando1 + ", 1";
+                   }else if (instruccion[1].contains("&")){
+                     String[] operandos = instruccion[1].split("\\&"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     and ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("|")){
+                     String[] operandos = instruccion[1].split("\\|"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     or ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("~") ){
+                     String[] operandos = instruccion[1].split("\\~"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     rem ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("<") && !instruccion[1].contains("<<") ){
+                     String[] operandos = instruccion[1].split("\\<"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     sltu ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("<<") ){
+                     String[] operandos = instruccion[1].split("\\<<"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     sleu ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if ( instruccion[1].contains(">") && !instruccion[1].contains(">>") ){
+                     String[] operandos = instruccion[1].split("\\>"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     sgtu ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains(">>") ){
+                     String[] operandos = instruccion[1].split("\\>>"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     sgeu ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("@@") ){
+                     String[] operandos = instruccion[1].split("\\@@"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     seq ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                   }else if (instruccion[1].contains("!@") ){
+                     String[] operandos = instruccion[1].split("\\!@"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     sne ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
                   }else{
                       String asignacion = obtenerRegistro(instruccion[1]);
                       if (asignacion != ""){

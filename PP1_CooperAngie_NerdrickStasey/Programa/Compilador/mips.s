@@ -3,11 +3,16 @@
 .text
 .globl main
 main:
-     li  $t0, 3
-     li  $t1, 3
-     mulo $t0, $t0 ,$t1
+     li  $t0, 2
+     li  $t1, 4
+     seq $t0, $t0 ,$t1
      move  $t2, $t0
-     move  $v1, $t2
+     li  $t3, 2
+     li  $t4, 4
+     sne $t3, $t3 ,$t4
+     move  $t5, $t3
+     li  $t6, 1
+     move  $v1, $t6
      j end
 Print:
 	li $v0, 4

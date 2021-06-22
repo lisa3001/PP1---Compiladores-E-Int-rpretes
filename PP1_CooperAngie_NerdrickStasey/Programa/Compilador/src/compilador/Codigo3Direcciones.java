@@ -367,7 +367,7 @@ public class Codigo3Direcciones {
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = leftType;
-            codigo3d += var + " = " + leftType + " % " + rigthType + "\n";
+            codigo3d += var + " = " + leftType + " ~ " + rigthType + "\n";
             dato = var;
         }
         if((op instanceof Power)){
@@ -391,7 +391,8 @@ public class Codigo3Direcciones {
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = leftType;
-            codigo3d += var + " = " + leftType + " =< " + rigthType + "\n";
+            // << es <=, se hace así para facilitar la creación de mips
+            codigo3d += var + " = " + leftType + " << " + rigthType + "\n";
             dato = var;
         }
         if((op instanceof Greater)){
@@ -407,7 +408,8 @@ public class Codigo3Direcciones {
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = leftType;
-            codigo3d += var + " = " + leftType + " >= " + rigthType + "\n";
+            // << es <=, se hace así para facilitar la creación de mips
+            codigo3d += var + " = " + leftType + " >> " + rigthType + "\n";
             dato = var;
         }
         if((op instanceof EqualEqual)){
@@ -415,7 +417,8 @@ public class Codigo3Direcciones {
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = leftType;
-            codigo3d += var + " = " + leftType + " == " + rigthType + "\n";
+            // @@ es ==, se hace así para facilitar la creación de mips
+            codigo3d += var + " = " + leftType + " @@ " + rigthType + "\n";
             dato = var;
         }
         if((op instanceof Different)){
@@ -423,7 +426,8 @@ public class Codigo3Direcciones {
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
             String var = leftType;
-            codigo3d += var + " = " + leftType + " != " + rigthType + "\n";
+            // @! es !=, se hace así para facilitar la creación de mips
+            codigo3d += var + " = " + leftType + " !@ " + rigthType + "\n";
             dato = var;
         }
         if((op instanceof MinusUnary)){
