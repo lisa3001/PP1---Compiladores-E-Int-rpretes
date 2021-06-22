@@ -12,7 +12,7 @@ public class Mips {
     private String[] codigo3d;
     private String data = ".data\n";
     private String[] sentences;
-    private String main = ".text\n\n .globl main\n";
+    private String main = "\n.text\n.globl main\n";
     private String funciones = "";
     private ArrayList<Object> bloquemain = new ArrayList();
     private ArrayList<Object> bloquefunc = new ArrayList();
@@ -59,31 +59,98 @@ public class Mips {
    //Salida: No tiene
     //Objetivo: Leer el código intermedio y generar el código mips
     public void generarCodigoMips(){
-      for (int i = 0; i < codigo3d.length; i++){
-          String linea = codigo3d[i];
-          String[] instruccion = linea.split(" ");
-          String function = isFunction(instruccion);
-          if (function != ""){
+      int esMain = 0;
+      for (String linea: codigo3d){
+          if (linea.contains("func begin")){
+              String[] instruccion = linea.split(" ");
+              String function = isFunction(instruccion);
               if (function.equals("main")){
                   main += function + ":\n";
-                  ArrayList<Object> temporal = new ArrayList();
-                  temporal.add("main");
-                  temporal.add(i);
-                  bloquemain.add(temporal); 
-                  
+                  esMain = 1;
               }
               else{
-                  //funciones += function +":\n";
-                  ArrayList<Object> temporal = new ArrayList();
-                  temporal.add(function);
-                  temporal.add(i);
-                  bloquefunc.add(temporal); 
+                  funciones += function +":\n";
+                  esMain = 0;
+              }     
+          }
+          else if(linea.contains("return") && !linea.contains("=")){
+              String[] instruccion = linea.split(" ");
+              instruccion[0] = instruccion[0].trim();
+              instruccion[1] = instruccion[1].trim();
+              String inst = "";
+              String registro = obtenerRegistro(instruccion[1]);
+              inst += "     move  ";
+              inst += "$v1" + ", $" + registro;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
+          else if (linea.contains("=")){
+              String[] instruccion = linea.split("=");
+              instruccion[0] = instruccion[0].trim();
+              instruccion[1] = instruccion[1].trim();
+              String inst = "";
+              String registro = obtenerRegistro(instruccion[0]);
+              if (instruccion[1].contains("\"")){
+                  inst += "     la  ";
+                  data += instruccion[0] + ":   .asciiz " + instruccion[1] + "\n";
+                  inst += "$" + registro + ", " + instruccion[0];
+              }else{
+                  if (instruccion[1].contains("+") && !instruccion[1].contains("++")){
+                     String[] operandos = instruccion[1].split("\\+"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     add ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  }
+                  else if (instruccion[1].contains("-")){
+                     instruccion[1] = instruccion[1].trim();
+                     String[] operandos = instruccion[1].split("\\-");
+                     if (!operandos[0].equals("")){
+                        String operando1 = obtenerRegistro(operandos[0]);
+                        String operando2 = obtenerRegistro(operandos[1]);
+                        inst += "     sub ";
+                        inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                     }else{
+                         inst += "     mulo ";
+                         inst += "$" + registro + ", $" + operandos[1] + ",-1";
+                     }                          
+                  }else if (instruccion[1].contains("*")){
+                     String[] operandos = instruccion[1].split("\\*"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     mulo ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  }else if (instruccion[1].contains("/")){
+                     String[] operandos = instruccion[1].split("/"); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[1]);
+                     inst += "     div ";
+                     inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  }else if (instruccion[1].contains("++")){
+                     String[] operandos = instruccion[1].split("\\++");
+                     String operando1 = obtenerRegistro(operandos[1]);
+                     inst += "     add ";
+                     inst += "$" + registro + ", $" + operando1 + ", 1";
+                  }else if (instruccion[1].contains("--")){
+                     String[] operandos = instruccion[1].split("\\--");
+                     String operando1 = obtenerRegistro(operandos[1]);
+                     inst += "     sub ";
+                     inst += "$" + registro + ", $" + operando1 + ", 1";
+                  }else{
+                      String asignacion = obtenerRegistro(instruccion[1]);
+                      if (asignacion != ""){
+                         inst += "     move  ";
+                         inst += "$" + registro + ", $" + asignacion;
+                      }else{
+                         inst += "     li  ";
+                         inst += "$" + registro + ", " + instruccion[1]; 
+                      }
+                  }
               }
-              
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n"; 
           }
       }
-      generarBloque("main");
-      generarBloque("funciones");
       main += "     j end\n";
       funciones += "Print:\n" +
 "	li $v0, 4\n" +
@@ -109,17 +176,20 @@ public class Mips {
         return resultado;
     }
     
-    public void generarBloque(String tipoFuncion){
-        if (tipoFuncion == "main"){
+    public String obtenerRegistro(String etiqueta){
+        String resultado = "";
+        int contador = etiqueta.lastIndexOf("t");
+        if (contador >= 0){
+            while(contador<etiqueta.length()){
             
-        }
-        else{
-            for(int i = 0; i < bloquefunc.size(); i++){
-                funciones += ":\n";
-                System.out.println(bloquefunc.get(i));
+            if (etiqueta.charAt(contador) == '_') contador = etiqueta.length();
+            else{
+                resultado += etiqueta.charAt(contador);
+                contador += 1;
             }
+         }  
         }
-    
+        return resultado;
     }
     
 }
