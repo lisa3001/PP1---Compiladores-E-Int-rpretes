@@ -4,9 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Compilador.java</file>
-            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/AnalizadorSemantico.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/MinusMinus.java</file>
             <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Codigo3Direcciones.java</file>
             <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/compilador/Mips.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/src/producciones/MinusUnary.java</file>
+            <file>file:/C:/Users/snerd/Documents/TEC/Semestre%20I%202021/Compiladores%20e%20Intérpretes/PP1---Compiladores-E-Int-rpretes/PP1_CooperAngie_NerdrickStasey/Programa/Compilador/asintactico.cup</file>
         </group>
     </open-files>
 </project-private>

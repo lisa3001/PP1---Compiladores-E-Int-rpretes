@@ -1,5 +1,4 @@
-int main () {
-	string nose = "es un string";
-	int mip = 2;
-	return mip;
+int main(){
+	int y = 3 * 3;
+	return y;
 }

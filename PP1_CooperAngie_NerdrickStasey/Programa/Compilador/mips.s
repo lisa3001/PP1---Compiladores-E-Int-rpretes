@@ -1,12 +1,14 @@
 .data
-.text
 
- .globl main
+.text
+.globl main
 main:
+     li  $t0, 3
+     li  $t1, 3
+     mulo $t0, $t0 ,$t1
+     move  $t2, $t0
+     move  $v1, $t2
      j end
-  li   $t1, var0_t0
-  li   $t2, 2
-  li   $t3, var1_t2
 Print:
 	li $v0, 4
      	syscall  

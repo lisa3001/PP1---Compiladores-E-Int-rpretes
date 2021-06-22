@@ -3,17 +3,14 @@ main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
-string -> STRING
-nose -> IDENTIFIER
-= -> EQUAL
-"es un string" -> CHARCHAIN
-; -> FINAL
 int -> INT
-mip -> IDENTIFIER
+y -> IDENTIFIER
 = -> EQUAL
-2 -> INTEGER
+3 -> INTEGER
+* -> MULTI
+3 -> INTEGER
 ; -> FINAL
 return -> RETURN
-mip -> IDENTIFIER
+y -> IDENTIFIER
 ; -> FINAL
 } -> CLOSE_KEY

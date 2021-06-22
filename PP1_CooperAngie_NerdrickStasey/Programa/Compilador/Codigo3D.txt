@@ -1,8 +1,8 @@
 func begin main 
-var0_t0 = "es un string"
-nose_t1 = var0_t0
-var1_t2 = 2
-mip_t3 = var1_t2
-return mip_t3
+var0_t0 = 3
+var0_t1 = 3
+var0_t0 = var0_t0 * var0_t1
+y_t2 = var0_t0
+return y_t2
 func end main 
 
