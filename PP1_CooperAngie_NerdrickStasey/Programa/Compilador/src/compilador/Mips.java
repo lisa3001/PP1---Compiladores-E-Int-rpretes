@@ -2,6 +2,7 @@ package compilador;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 /**
  *
@@ -10,8 +11,11 @@ import java.io.FileWriter;
 public class Mips {
     private String[] codigo3d;
     private String data = ".data\n";
+    private String[] sentences;
     private String main = ".text\n\n .globl main\n";
     private String funciones = "";
+    private ArrayList<Object> bloquemain = new ArrayList();
+    private ArrayList<Object> bloquefunc = new ArrayList();
     
     
     //Constructor de la clase
@@ -55,14 +59,31 @@ public class Mips {
    //Salida: No tiene
     //Objetivo: Leer el código intermedio y generar el código mips
     public void generarCodigoMips(){
-      for (String linea: codigo3d){
+      for (int i = 0; i < codigo3d.length; i++){
+          String linea = codigo3d[i];
           String[] instruccion = linea.split(" ");
           String function = isFunction(instruccion);
           if (function != ""){
-              if (function.equals("main"))main += function + ":\n";
-              else funciones += function +":\n";
+              if (function.equals("main")){
+                  main += function + ":\n";
+                  ArrayList<Object> temporal = new ArrayList();
+                  temporal.add("main");
+                  temporal.add(i);
+                  bloquemain.add(temporal); 
+                  
+              }
+              else{
+                  //funciones += function +":\n";
+                  ArrayList<Object> temporal = new ArrayList();
+                  temporal.add(function);
+                  temporal.add(i);
+                  bloquefunc.add(temporal); 
+              }
+              
           }
       }
+      generarBloque("main");
+      generarBloque("funciones");
       main += "     j end\n";
       funciones += "Print:\n" +
 "	li $v0, 4\n" +
@@ -86,6 +107,19 @@ public class Mips {
           if (inst[0].equals("func") && inst[1].equals("begin")) resultado = inst[2];  
         }
         return resultado;
+    }
+    
+    public void generarBloque(String tipoFuncion){
+        if (tipoFuncion == "main"){
+            
+        }
+        else{
+            for(int i = 0; i < bloquefunc.size(); i++){
+                funciones += ":\n";
+                System.out.println(bloquefunc.get(i));
+            }
+        }
+    
     }
     
 }

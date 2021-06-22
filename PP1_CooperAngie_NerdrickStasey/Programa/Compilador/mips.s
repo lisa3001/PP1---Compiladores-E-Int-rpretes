@@ -4,6 +4,8 @@
  .globl main
 main:
      j end
+:
+:
 Print:
 	li $v0, 4
      	syscall  
