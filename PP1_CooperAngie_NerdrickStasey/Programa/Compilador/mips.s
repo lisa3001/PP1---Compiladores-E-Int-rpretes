@@ -15,4 +15,4 @@ ReadOption:
 	jr $ra
 end:
       li $v0, 10
-        syscall
+       syscall

@@ -1,8 +1,17 @@
 func begin main 
-var0_t0 = 2
-var0_t1 = 3
-var0_t2 = var0_t0 + var0_t1
-mip_var = var0_t2
-return mip_var
+var0_t0 = "es un string"
+nose_t1 = var0_t0
+var1_t2 = 2
+var1_t3 = 3
+var1_t4 = 4
+var1_t3 = var1_t3 * var1_t4
+var1_t2 = var1_t2 + var1_t3
+var1_t5 = 6
+var1_t2 = var1_t2 + var1_t5
+var1_t6 = 1
+var1_t2 = var1_t2 - var1_t6
+mip_t7 = var1_t2
+ss_t8 = mip_t7
+return mip_t7
 func end main 
 
