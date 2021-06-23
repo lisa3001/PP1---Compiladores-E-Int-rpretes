@@ -84,6 +84,33 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
+          else if(linea.contains("if_go")){
+              String[] instruccion = linea.split(" ");
+              String temp = instruccion[1].replace("(", "");
+              String cond = temp.replace(")", "");
+              String registro = obtenerRegistro(cond);
+              String temp2 = instruccion[3].replace("(", "");
+              String tack = temp2.replace(")", "");   
+              String inst = "";
+              inst += "     beq $"+ registro+ ", 1, "+tack;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
+          else if(linea.contains("goto")){
+              String[] instruccion = linea.split(" ");
+              String temp = instruccion[1].replace("(", "");
+              String tack = temp.replace(")", "");
+              String inst = "";
+              inst += "     j "+tack;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
+          else if(linea.contains("IF_") || linea.contains("ELIF_") || linea.contains("ELSE_")){
+              String inst = "";
+              inst += linea;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
           else if (linea.contains("=") ){
               String[] instruccion = linea.split("=");
               instruccion[0] = instruccion[0].trim();

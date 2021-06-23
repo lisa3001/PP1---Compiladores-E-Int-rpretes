@@ -1,31 +1,19 @@
-char extra(int carro){
-	
+int extra(){
 	if ( 23 > 24 == false){
-		return 'a';
+		return 8;
 	}
 	elif (true == false){
-		print("ok");
+		return 4;
 	}
 	elif (true != false){
-		print("not");
+		return 8;
 	}
-
-	if (true){
-		for(int i = 0; i <= 10; ++i){
-			if (i ~ 2 == 0){
-				break;
-			}
-			else{
-				print(34.5);
-			}
-		}
+	else{
+		return 10;
 	}
-	return 'b';
+	return 0;
 }
 
 int main () {
-	string str1 = "Hola MUndo ^ { } % * + - -- ++ $";
-	bool miBoolean2 = not(false);
-	miBoolean2 = not(miBoolean2) != true;
 	return 1;
 }
