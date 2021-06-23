@@ -326,19 +326,26 @@ public class Codigo3Direcciones {
                 }
                 codigo3d += "IF_" + ifNumber + ":\n";
                 generarBloque(ifSentence.getIfSentences());
+                // salto final
+                codigo3d += "goto (IF_"+ifNumber+"_END)\n";
                 
                 if (ifSentence.getElifSentences().size() > 0){
                     int i = 0;
                     for(Elif elifSentence: ifSentence.getElifSentences()){
                         codigo3d += elifNumbers.get(i) + ":\n";
                         generarBloque(elifSentence.getSentences());
+                        // salto final
+                        codigo3d += "goto (IF_"+ifNumber+"_END)\n";
                         i++;
                     }
+                    
                 }
                 if (!(ifSentence.getElseSentences() == null )){
                     codigo3d += "ELSE_" + elseNumber + ":\n";
                     generarBloque(ifSentence.getElseSentences());
                 }
+                // final
+                codigo3d += "IF_"+ifNumber+"_END:\n";
             }
         }
     }
@@ -528,7 +535,7 @@ public class Codigo3Direcciones {
             CharLiteral sentencia = (CharLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
             String var = identificador + "_" + temporal;
-            codigo3d += var + " = " + valor + "\n";
+            codigo3d += var + " = '" + valor + "'\n";
             dato = var;
             uso = 1;
             tempRenov.add(temporal);
@@ -536,8 +543,11 @@ public class Codigo3Direcciones {
         else if(op instanceof BoolLiteral){
             BoolLiteral sentencia = (BoolLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
+            int mipsValor;
+            if(valor == "true") mipsValor = 1;
+            else mipsValor = 0;
             String var = identificador + "_" + temporal;
-            codigo3d += var + " = " + valor + "\n";
+            codigo3d += var + " = " + mipsValor + "\n";
             dato = var;
             uso = 1;
             tempRenov.add(temporal);

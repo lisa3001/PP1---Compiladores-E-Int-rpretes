@@ -102,11 +102,30 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
-          else if(linea.contains("call")){
+          else if(linea.contains("if_go")){
               String[] instruccion = linea.split(" ");
-              instruccion[0] = instruccion[0].trim();
-              instruccion[1] = instruccion[1].trim();
-              String inst = "     jal " + instruccion[1];
+              String temp = instruccion[1].replace("(", "");
+              String cond = temp.replace(")", "");
+              String registro = obtenerRegistro(cond);
+              String temp2 = instruccion[3].replace("(", "");
+              String tack = temp2.replace(")", "");   
+              String inst = "";
+              inst += "     beq $"+ registro+ ", 1, "+tack;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
+          else if(linea.contains("goto")){
+              String[] instruccion = linea.split(" ");
+              String temp = instruccion[1].replace("(", "");
+              String tack = temp.replace(")", "");
+              String inst = "";
+              inst += "     j "+tack;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";
+          }
+          else if(linea.contains("IF_") || linea.contains("ELIF_") || linea.contains("ELSE_")){
+              String inst = "";
+              inst += linea;
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
@@ -119,6 +138,10 @@ public class Mips {
               if (instruccion[1].contains("\"")){
                   inst += "     la  ";
                   data += instruccion[0] + ":   .asciiz " + instruccion[1] + "\n";
+                  inst += "$" + registro + ", " + instruccion[0];
+              }else if ( instruccion[1].contains("\'") ){
+                  inst += "     la  ";
+                  data += instruccion[0] + ":   .byte " + instruccion[1] + "\n";
                   inst += "$" + registro + ", " + instruccion[0];
               }else if (instruccion[1].contains("null")){
                   if (instruccion[1].contains("null_str")){

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 int main(){
 	int edad = 2;
 	print("Ingresa tu edad: ");
@@ -6,3 +7,20 @@ int main(){
 	print(edad);
 	return 1;
 }
+=======
+int main () {
+	if (true == false){
+		return 4;
+	}
+	elif (true != false){
+		char x = 'a';
+		string y = "gol";
+		return 8;
+	}
+	else{
+		return 10;
+	}
+
+	return 0;
+}
+>>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
