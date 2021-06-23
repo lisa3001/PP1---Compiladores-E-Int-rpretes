@@ -3,79 +3,43 @@ main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
-<<<<<<< HEAD
 int -> INT
 edad -> IDENTIFIER
 = -> EQUAL
-19 -> INTEGER
+1 -> INTEGER
 ; -> FINAL
-if -> IF
-=======
-if -> IF
-( -> OPEN_PAREN
-true -> TRUE
-) -> CLOSE_PAREN
-{ -> OPEN_KEY
 for -> FOR
->>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
 ( -> OPEN_PAREN
+int -> INT
+i -> IDENTIFIER
+= -> EQUAL
+0 -> INTEGER
+; -> FINAL
+i -> IDENTIFIER
+< -> MINOR
+5 -> INTEGER
+; -> FINAL
+++ -> PLUS_PLUS
+i -> IDENTIFIER
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
 edad -> IDENTIFIER
-> -> GREATER
-18 -> INTEGER
-) -> CLOSE_PAREN
-{ -> OPEN_KEY
-int -> INT
-nuevaEdad -> IDENTIFIER
 = -> EQUAL
-<<<<<<< HEAD
-3 -> INTEGER
-* -> MULTI
-6 -> INTEGER
-=======
-0 -> INTEGER
-; -> FINAL
-i -> IDENTIFIER
-<= -> MINOR_EQUAL
-10 -> INTEGER
->>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
-; -> FINAL
-} -> CLOSE_KEY
-else -> ELSE
-{ -> OPEN_KEY
-<<<<<<< HEAD
-int -> INT
-nuevaEdad -> IDENTIFIER
-= -> EQUAL
-3 -> INTEGER
-; -> FINAL
-string -> STRING
-nombre -> IDENTIFIER
-= -> EQUAL
-"Stsey" -> CHARCHAIN
-=======
-if -> IF
-( -> OPEN_PAREN
-i -> IDENTIFIER
+edad -> IDENTIFIER
 + -> PLUS
-2 -> INTEGER
-== -> EQUAL_EQUAL
-0 -> INTEGER
-) -> CLOSE_PAREN
-{ -> OPEN_KEY
-break -> BREAK
+5 -> INTEGER
 ; -> FINAL
 } -> CLOSE_KEY
-else -> ELSE
-{ -> OPEN_KEY
 print -> PRINT
 ( -> OPEN_PAREN
-34.5 -> DECIMAL
+"La edad nueva es " -> CHARCHAIN
 ) -> CLOSE_PAREN
->>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
 ; -> FINAL
-} -> CLOSE_KEY
-} -> CLOSE_KEY
-} -> CLOSE_KEY
+print -> PRINT
+( -> OPEN_PAREN
+edad -> IDENTIFIER
+) -> CLOSE_PAREN
+; -> FINAL
 return -> RETURN
 0 -> INTEGER
 ; -> FINAL

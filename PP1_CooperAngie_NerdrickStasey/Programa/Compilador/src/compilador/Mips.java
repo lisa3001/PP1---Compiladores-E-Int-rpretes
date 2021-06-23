@@ -434,12 +434,43 @@ public class Mips {
         return resultado;
     }
     
+   
+    public boolean isInteger(char var){
+        try 
+        {
+            Integer.parseInt(String.valueOf(var));
+            return true;
+        } 
+        catch (NumberFormatException e) 
+        {
+            return false;
+        }
+    }
+    
     public String obtenerRegistro(String etiqueta){
         String resultado = "";
         int contador = etiqueta.lastIndexOf("t");
+        boolean probar = false;
+        if (contador >= 0){
+            if (contador < etiqueta.length() - 1){
+                if (!isInteger(etiqueta.charAt(contador + 1))){
+                    contador = -1;
+                    probar = true;
+                }
+            }
+        }else probar = true;
+        if (probar){
+            contador = etiqueta.lastIndexOf("s");
+            if (contador >= 0){
+                if (contador < etiqueta.length() - 1){
+                    if (!isInteger(etiqueta.charAt(contador + 1))){
+                        contador = -1;
+                    }
+                }
+            }
+        }
         if (contador >= 0){
             while(contador<etiqueta.length()){
-            
             if (etiqueta.charAt(contador) == '_') contador = etiqueta.length();
             else{
                 resultado += etiqueta.charAt(contador);

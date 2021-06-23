@@ -1,23 +1,10 @@
 int main () {
-<<<<<<< HEAD
-	int edad = 19;
-	if (edad > 18){
-		int nuevaEdad = 3 * 6;
-	}else{
-		int nuevaEdad = 3;
-		string nombre = "Stsey";
-=======
-	if (true){
-		for(int i = 0; i <= 10; ++i){
-			if (i + 2 == 0){
-				break;
-			}
-			else{
-				print(34.5);
-			}
-		}
->>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+	int edad = 1;
+	for (int i = 0; i < 5; ++i){
+	   edad = edad + 5;
 	}
+	print("La edad nueva es ");
+	print(edad);
 	return 0;
 }
 

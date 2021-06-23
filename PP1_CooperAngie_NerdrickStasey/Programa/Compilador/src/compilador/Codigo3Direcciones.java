@@ -114,6 +114,7 @@ public class Codigo3Direcciones {
     public void generarMain(Main main){
             temp = new ArrayList<String>(Arrays.asList("t0","t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"));
             tablaSimbolos = new Vector<Vector<String>>();
+            extras = 0;
             codigo3d += "func begin main \n";
             generarBloque(main.getBlock().getSentences());
             codigo3d += "func end main \n\n";
@@ -135,6 +136,7 @@ public class Codigo3Direcciones {
         for(Function tempFuncion: funciones){
             temp = new ArrayList<String>(Arrays.asList("t0","t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"));
             tablaSimbolos = new Vector<Vector<String>>();
+            extras = 0;
             String nombreF = tempFuncion.getIdentifier().getName();
             codigo3d += "func begin " + nombreF + "\n";
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
@@ -176,7 +178,7 @@ public class Codigo3Direcciones {
                CreateVar declaracion = (CreateVar)tempSentence;
                String valor = generarOperacion(declaracion.getOperation(), "var" + String.valueOf(varcont));
                String name = declaracion.getIdentifier().getName();
-               temp.addAll(tempRenov);
+               union(temp, tempRenov);//temp.addAll(tempRenov);
                tempRenov = new ArrayList<String>();
                 if (temp.size() == 0){
                     temp.add("s" + String.valueOf(extras));
@@ -184,7 +186,7 @@ public class Codigo3Direcciones {
                 }
                String var = name + "_" + temp.get(0);
                if(valor == ""){
-                   if (declaracion.getType().getTipo().equals("Integer")){
+                   if (declaracion.getType().getTipo().equals("Integer") || declaracion.getType().getTipo().equals("Float") || declaracion.getType().getTipo().equals("Boolean")){
                       codigo3d += var + " = " + "null_int" + "\n";
                    }else{
                       codigo3d += var + " = " + "null_str" + "\n"; 
@@ -199,7 +201,6 @@ public class Codigo3Direcciones {
                varcont+=1;
                if (anidado){
                    tempAnidado.add(temp.get(0));
-                   System.out.println("El temporal anidado es " + temp.get(0));
                }
                if (temp.size() > 0){
                 temp = cutHead(temp);   
@@ -212,7 +213,7 @@ public class Codigo3Direcciones {
                 String var = getTablaDeSimbolosData(declaracion.getIdentifier().getName());
                 if (!var.equals(valor))codigo3d += var + " = " + valor + "\n";
                 assingcont+=1;
-                temp.addAll(tempRenov);
+                union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
             }
             //Operacion
@@ -220,7 +221,7 @@ public class Codigo3Direcciones {
                 OperationSentence declaracion = (OperationSentence)tempSentence;
                 Operation op = (Operation)declaracion.getOperation();
                 generarOperacion(op, "as");
-                temp.addAll(tempRenov);
+                union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
             }
             else if(tempSentence instanceof For){
@@ -269,7 +270,7 @@ public class Codigo3Direcciones {
                 codigo3d += nombre + " = " + tempUnary + "\n"; 
 
                 anidado = false;
-                temp.addAll(tempAnidado);
+                union(temp, tempAnidado);//temp.addAll(tempAnidado);
                 tempAnidado = new ArrayList<String>();
                 reiniciarTabla();
                 corteTabla = 0;
@@ -283,7 +284,7 @@ public class Codigo3Direcciones {
                 String valor = generarOperacion(declaracion.getReturnOp(), "return" + String.valueOf(returncont));
                 codigo3d += "return " + valor + "\n";
                 returncont+=1;
-                temp.addAll(tempRenov);
+                union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
             }
             //Break
@@ -297,7 +298,7 @@ public class Codigo3Direcciones {
                 String valor = generarOperacion(declaracion.getOperation(), "print");
                 codigo3d += "print_param" + " = " + valor + "\n";
                 codigo3d += "call " + "print" + "_" + printOp + "\n";
-                temp.addAll(tempRenov);
+                union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
             }
             //Read
@@ -332,7 +333,7 @@ public class Codigo3Direcciones {
                 int elseNumber = elsecont;
                 Vector<String> elifNumbers = new Vector<String>();
                 String condition = generarOperacion(ifSentence.getOperation(), "as");
-                temp.addAll(tempRenov);
+                union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
                 codigo3d += "if_go (" + condition + ") goto (IF_" + ifNumber + ")\n";
                 if (ifSentence.getElifSentences().size() > 0){
@@ -340,7 +341,7 @@ public class Codigo3Direcciones {
                         String elifNumber = "ELIF_" + elifcont;
                         elifNumbers.add(elifNumber);
                         String elifCondition = generarOperacion(elifSentence.getOperation(), "as");
-                        temp.addAll(tempRenov);
+                        union(temp, tempRenov);//temp.addAll(tempRenov);
                         tempRenov = new ArrayList<String>();
                         elifcont++;
                         codigo3d += "if_go (" + elifCondition + ") goto (" + elifNumber + ")\n";
@@ -353,7 +354,7 @@ public class Codigo3Direcciones {
                 }
                 codigo3d += "IF_" + ifNumber + ":\n";
                 generarBloque(ifSentence.getIfSentences());
-                temp.addAll(tempAnidado);
+                union(temp, tempAnidado);//temp.addAll(tempAnidado);
                 tempAnidado = new ArrayList<String>();
                 reiniciarTabla();
                 // salto final
@@ -364,7 +365,7 @@ public class Codigo3Direcciones {
                     for(Elif elifSentence: ifSentence.getElifSentences()){
                         codigo3d += elifNumbers.get(i) + ":\n";
                         generarBloque(elifSentence.getSentences());
-                        temp.addAll(tempAnidado);
+                        union(temp, tempAnidado);//temp.addAll(tempAnidado);
                         tempAnidado = new ArrayList<String>();
                         reiniciarTabla();
                         // salto final
@@ -376,7 +377,7 @@ public class Codigo3Direcciones {
                 if (!(ifSentence.getElseSentences() == null )){
                     codigo3d += "ELSE_" + elseNumber + ":\n";
                     generarBloque(ifSentence.getElseSentences());
-                    temp.addAll(tempAnidado);
+                    union(temp, tempAnidado);//temp.addAll(tempAnidado);
                     tempAnidado = new ArrayList<String>();
                     reiniciarTabla();
                 }
@@ -384,6 +385,14 @@ public class Codigo3Direcciones {
                 codigo3d += "IF_"+ifNumber+"_END:\n";
                 anidado = false;
                 corteTabla = 0;
+            }
+        }
+    }
+    
+    public void union(List<String> lista1, List<String> lista2){
+        for(String i:lista2){
+            if(!lista1.contains(i)){
+                lista1.add(i);
             }
         }
     }
