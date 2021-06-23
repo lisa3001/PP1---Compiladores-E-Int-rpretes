@@ -202,8 +202,13 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";   
               registroA+=1;
-              
-              System.out.println(java.util.Arrays.toString(instruccion));
+          }
+          else if( linea.contains("createarray") ){
+              String[] instruccion = linea.split("_");
+              String nombre = instruccion[1];
+              String largo = instruccion[2];
+              String inst = nombre + ":      .space " + largo + "\n";
+              data += inst;
           }
           //Parámetros para llamar función
           //Objetivo: Se guardan el valor de los parámetros para utilizarlos cuandos se llaman funciones
@@ -452,12 +457,43 @@ public class Mips {
         return resultado;
     }
     
+   
+    public boolean isInteger(char var){
+        try 
+        {
+            Integer.parseInt(String.valueOf(var));
+            return true;
+        } 
+        catch (NumberFormatException e) 
+        {
+            return false;
+        }
+    }
+    
     public String obtenerRegistro(String etiqueta){
         String resultado = "";
         int contador = etiqueta.lastIndexOf("t");
+        boolean probar = false;
+        if (contador >= 0){
+            if (contador < etiqueta.length() - 1){
+                if (!isInteger(etiqueta.charAt(contador + 1))){
+                    contador = -1;
+                    probar = true;
+                }
+            }
+        }else probar = true;
+        if (probar){
+            contador = etiqueta.lastIndexOf("s");
+            if (contador >= 0){
+                if (contador < etiqueta.length() - 1){
+                    if (!isInteger(etiqueta.charAt(contador + 1))){
+                        contador = -1;
+                    }
+                }
+            }
+        }
         if (contador >= 0){
             while(contador<etiqueta.length()){
-            
             if (etiqueta.charAt(contador) == '_') contador = etiqueta.length();
             else{
                 resultado += etiqueta.charAt(contador);

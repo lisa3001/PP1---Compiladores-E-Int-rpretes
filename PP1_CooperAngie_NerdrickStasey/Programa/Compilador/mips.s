@@ -1,71 +1,31 @@
 .data
-var3_t8:   .asciiz "Stsey"
+print_t4:   .asciiz "El resultado es "
 
 .text
 .globl main
 main:
-<<<<<<< HEAD
-     li  $t0, 123
+     li  $t0, 6
      move  $t1, $t0
-     li  $t2, 0
-     move  $v0, $t2
-=======
-<<<<<<< HEAD
-     li  $t0, 19
-     move  $t1, $t0
-     li  $t2, 18
-     sgtu $t2, $t1 ,$t2
-     beq $t2, 1, IF_0
-     j ELSE_0
-IF_0:
-     li  $t3, 3
-     li  $t4, 6
-     mulo $t3, $t3 ,$t4
-     move  $t5, $t3
-     j IF_0_END
-ELSE_0:
-     li  $t6, 3
-     move  $t7, $t6
-     la  $t8, var3_t8
-     move  $t9, $t8
-IF_0_END:
-     li  $t0, 0
-     move  $v0, $t0
-=======
-     li  $t0, 1
-     beq $t0, 1, IF_0
-IF_0:
-     li  $t1, 0
-     move  $t2, $t1
-FOR_0:
-     li  $t3, 10
-     sleu $t2, $t2 ,$t3
-     move  $t4, $t2
-     beq $t4, 0, end_for_0
-     li  $t5, 2
-     add $t2, $t2 ,$t5
-     li  $t6, 0
-     seq $t2, $t2 ,$t6
-     beq $t2, 1, IF_1
-     j ELSE_0
-IF_1:
-     j IF_1_END
-ELSE_0:
-     li  $t7, 34.5
-     move $a0, $t7
+     jal guardarRegistros
+     jal mult2
+     jal cargarRegistros
+     move $t2, $v0
+     move  $t3, $t2
+     la  $t4, print_t4
+     move $a0, $t4
+     jal print_str
+     move $a0, $t3
      jal print_int
-IF_1_END:
-     add $t2, $t2, 1
-     move  $t2, $t2
-     j For_0
-end_for_0:
-     j IF_0_END
-IF_0_END:
-     li  $t8, 0
-     move  $v0, $t8
->>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
->>>>>>> 81345f279e657a96e1d4a614cb21b3b0b905b1f3
+     li  $t5, 0
+     move  $v0, $t5
      j end
+mult2:
+     move $s7, $ra
+     move $t0, $a0
+     li  $t1, 2
+     move $t0, $a1
+     move  $v0, $t0
+     jr $s7
 print_str:
 	li $v0, 4
      	syscall  
