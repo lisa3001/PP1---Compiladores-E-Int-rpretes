@@ -1,32 +1,19 @@
 .data
-print_t5:   .asciiz "El resultado es "
+print_t2:   .asciiz "El mi edad es: "
 
 .text
 .globl main
 main:
-     li  $t0, 6
+     li  $t0, 22
      move  $t1, $t0
-     li $a2, num_t1
-     jal guardarRegistros
-     jal mult2
-     jal cargarRegistros
-     move $t2, $v0
-     move  $t4, $t2
-     la  $t5, print_t5
-     move $a0, $t5
+     la  $t2, print_t2
+     move $a0, $t2
      jal print_str
-     move $a0, $t4
+     move $a0, $t1
      jal print_int
-     li  $t6, 0
-     move  $v0, $t6
+     li  $t3, 0
+     move  $v0, $t3
      j end
-mult2:
-     move $s7, $ra
-     move $t0, $a0
-     li  $t1, 2
-     move $t1, $a1
-     move  $v0, $t1
-     jr $s7
 print_str:
 	li $v0, 4
      	syscall  

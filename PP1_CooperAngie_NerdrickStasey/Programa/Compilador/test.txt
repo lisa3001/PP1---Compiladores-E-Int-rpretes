@@ -1,12 +1,6 @@
-int mult2(int valor){
-	return valor * 2;
-}
-
 int main () {
-	int num = 6;
-	int res = mult2(num);
-	print("El resultado es ");
-	print(res);
+	int edad = 22;
+	print("El mi edad es: ");
+	print(edad);
 	return 0;
 }
-

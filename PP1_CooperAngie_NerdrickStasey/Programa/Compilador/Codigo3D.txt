@@ -1,25 +1,12 @@
-func begin mult2
-begin params
-mult2_t0_fpa = valor
-end params
-return0_t1 = 2
-return0_t1 = mult2_t0_fpa * return0_t1
-return return0_t1
-func end mult2
-
 func begin main 
-var0_t0 = 6
-num_t1 = var0_t0
-param0_t2 = num_t1
-call mult2
-var1_t2 = return 
-res_t4 = var1_t2
-print_t5 = "El resultado es "
-print_param = print_t5
+var0_t0 = 22
+edad_t1 = var0_t0
+print_t2 = "El mi edad es: "
+print_param = print_t2
 call print_str
-print_param = res_t4
+print_param = edad_t1
 call print_int
-return0_t6 = 0
-return return0_t6
+return0_t3 = 0
+return return0_t3
 func end main 
 

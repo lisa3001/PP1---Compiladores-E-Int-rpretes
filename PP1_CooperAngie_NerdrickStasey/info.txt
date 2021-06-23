@@ -2,6 +2,6 @@ Compiladores e Intérpretes
 Semestre I, año 2021
 Stasey Nerdrick Carvajal - 2017124886
 Angie Cooper García - 2017120209
-Proyecto #2
-Fecha de entrega: 2/06/2021
-Estatus: Excelente
+Proyecto #3
+Fecha de entrega: 23/06/2021
+Estatus: Muy buena
