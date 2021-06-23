@@ -1,49 +1,20 @@
-func begin extra
+func begin suma
 begin params
-extra_p0 = num
-extra_p1 = besito
+suma_t0 = a
+suma_t1 = b
 end params
-as_t0 = 23
-as_t1 = 24
-as_t0 = as_t0 > as_t1
-as_t2 = 0
-as_t0 = as_t0 @@ as_t2
-if_go (as_t0) goto (IF_0)
-as_t3 = 1
-as_t4 = 0
-as_t3 = as_t3 @@ as_t4
-if_go (as_t3) goto (ELIF_0)
-as_t5 = 1
-as_t6 = 0
-as_t5 = as_t5 !@ as_t6
-if_go (as_t5) goto (ELIF_1)
-goto (ELSE_0)
-IF_0:
-return0_t7 = 8
-return return0_t7
-goto (IF_0_END)
-ELIF_0:
-return1_t8 = 4
-return return1_t8
-goto (IF_0_END)
-ELIF_1:
-return2_t9 = 8
-return return2_t9
-goto (IF_0_END)
-ELSE_0:
-return3_t0 = 10
-return return3_t0
-IF_0_END:
-return4_t0 = 0
-return return4_t0
-func end extra
+return0_t2 = 3
+return0_t3 = 2
+return0_t2 = return0_t2 + return0_t3
+return return0_t2
+func end suma
 
 func begin main 
-param0_t0 = 1
+param0_t0 = 2
 param1_t1 = 3
-call extra
-as_t0 = return 
-return0_t3 = 0
-return return0_t3
+call suma
+var0_t0 = return 
+b_t3 = var0_t0
+return b_t3
 func end main 
 

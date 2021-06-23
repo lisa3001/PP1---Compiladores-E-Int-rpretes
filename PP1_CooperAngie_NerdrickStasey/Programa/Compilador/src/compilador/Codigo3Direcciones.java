@@ -110,6 +110,7 @@ public class Codigo3Direcciones {
     //Objetivo: Generar el código de 3 direcciones del scope del main 
     public void generarMain(Main main){
             temp = new ArrayList<String>(Arrays.asList("t0","t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"));
+            tablaSimbolos = new Vector<Vector<String>>();
             codigo3d += "func begin main \n";
             generarBloque(main.getBlock().getSentences());
             codigo3d += "func end main \n\n";
@@ -130,6 +131,7 @@ public class Codigo3Direcciones {
     public void generarFuncionesScope(Vector<Function> funciones){
         for(Function tempFuncion: funciones){
             temp = new ArrayList<String>(Arrays.asList("t0","t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9"));
+            tablaSimbolos = new Vector<Vector<String>>();
             String nombreF = tempFuncion.getIdentifier().getName();
             codigo3d += "func begin " + nombreF + "\n";
             Vector<Parameters> parametros = tempFuncion.getParameterList().getParameters(); //Guarda los parámetros de la función en un vector
@@ -255,6 +257,7 @@ public class Codigo3Direcciones {
             }
             //Return
             else if(tempSentence instanceof Return){
+                System.out.println("Entra al returnnn");
                 Return declaracion = (Return)tempSentence;
                 String valor = generarOperacion(declaracion.getReturnOp(), "return" + String.valueOf(returncont));
                 codigo3d += "return " + valor + "\n";
@@ -555,6 +558,7 @@ public class Codigo3Direcciones {
         }
         else if(op instanceof Identifier){
            Identifier identifier = (Identifier)op;
+           System.out.println("El identificador es " + identifier.getName());
            String var = getTablaDeSimbolosData(identifier.getName());
            dato = var;
            printOp = getTablaDeSimbolosDataType(identifier.getName());
