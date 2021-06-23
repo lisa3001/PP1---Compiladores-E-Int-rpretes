@@ -1,25 +1,11 @@
 .data
-<<<<<<< HEAD
-print_t2:   .asciiz "El mi edad es: "
-=======
 print_t6:   .asciiz "El resultado es "
->>>>>>> 47d9455e3b24eb5057ce2aa3bb1874d8ffe894fa
 
 .text
 .globl main
 main:
-     li  $t0, 22
+     li  $t0, 6
      move  $t1, $t0
-<<<<<<< HEAD
-     la  $t2, print_t2
-     move $a0, $t2
-     jal print_str
-     move $a0, $t1
-     jal print_int
-     li  $t3, 0
-     move  $v0, $t3
-     j end
-=======
      li  $t2, 8
      move  $t3, $t2
      move $a0, $t1
@@ -42,10 +28,9 @@ mult2:
      move $t0, $a0
      move $t1, $a1
      li  $t2, 2
-     move $t2, $a2
+     mulo $t2, $t0,$t2
      move  $v0, $t2
      jr $s7
->>>>>>> 47d9455e3b24eb5057ce2aa3bb1874d8ffe894fa
 print_str:
 	li $v0, 4
      	syscall  
