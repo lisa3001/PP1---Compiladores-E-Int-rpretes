@@ -1,5 +1,6 @@
-func begin extra
+func begin suma
 begin params
+<<<<<<< HEAD
 extra_t0_fpa = num
 extra_t1_fpa = besito
 end params
@@ -37,13 +38,23 @@ IF_0_END:
 return4_t3 = 0
 return return4_t3
 func end extra
+=======
+suma_t0 = a
+suma_t1 = b
+end params
+return0_t2 = 3
+return0_t3 = 2
+return0_t2 = return0_t2 + return0_t3
+return return0_t2
+func end suma
+>>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
 
 func begin main 
-param0_t0 = 1
+param0_t0 = 2
 param1_t1 = 3
-call extra
-as_t0 = return 
-return0_t3 = 0
-return return0_t3
+call suma
+var0_t0 = return 
+b_t3 = var0_t0
+return b_t3
 func end main 
 

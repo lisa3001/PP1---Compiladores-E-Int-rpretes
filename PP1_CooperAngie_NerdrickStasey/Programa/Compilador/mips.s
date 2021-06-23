@@ -3,15 +3,18 @@
 .text
 .globl main
 main:
-     li $a0, 1
+     li $a0, 2
      li $a1, 3
-     jal extra
+     jal guardarRegistros
+     jal suma
+     jal cargarRegistros
      move $t0, $v0
-     li  $t3, 0
-     move  $v1, $t3
+     move  $t3, $t0
+     move  $v0, $t3
      j end
-extra:
+suma:
      move $s7, $ra
+<<<<<<< HEAD
      move $t0, $a0
      move $t1, $a1
      li  $t2, 23
@@ -51,6 +54,14 @@ ELSE_0:
 IF_0_END:
      li  $t3, 0
      move  $v1, $t3
+=======
+     li  $t0, a
+     li  $t1, b
+     li  $t2, 3
+     li  $t3, 2
+     add $t2, $t2 ,$t3
+     move  $v0, $t2
+>>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
      jr $s7
 print_str:
 	li $v0, 4
@@ -90,7 +101,12 @@ guardarRegistros:
      sw  $t8, 0($sp)
      sub $sp, $sp, 4
      sw  $t9, 0($sp)
+<<<<<<< HEAD
      jr $racargarRegistros:
+=======
+     jr $ra
+cargarRegistros:
+>>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
      lw $t9, 0($sp)
      addi $sp, $sp, 4
      lw $t8, 0($sp)
@@ -111,6 +127,44 @@ guardarRegistros:
      addi $sp, $sp, 4
      lw $t0, 0($sp)
      addi $sp, $sp, 4
+<<<<<<< HEAD
      jr $raend:
+=======
+     jr $ra
+Potencia:
+	move $s7, $ra
+	move $t1, $a0
+	move $t2, $a1
+	seq $t3, $t2, $zero
+	bgtz $t3, ExponenteCero
+	li $t4, 1
+	seq $t3, $t2, $t4
+	neg $t3, $t3
+	beq $t3, -1 ,ExponenteUno
+	sub $t2, $t2, 1 
+	move $t4, $t1
+	li   $t5, 0
+	jal ForPotencia
+
+ExponenteCero:
+	li $v0, 1 
+	jr $s7
+
+ExponenteUno:
+	move $v0, $t1 
+	jr $s7
+
+ForPotencia:
+	seq $t3, $t5, $t2
+	bgtz $t3, FinForPotencia
+	mulo $t4, $t4, $t1
+	addi $t5, $t5, 1
+	jal ForPotencia
+
+FinForPotencia:
+	move $v0, $t4 
+	jr $s7
+end:
+>>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
       li $v0, 10
        syscall

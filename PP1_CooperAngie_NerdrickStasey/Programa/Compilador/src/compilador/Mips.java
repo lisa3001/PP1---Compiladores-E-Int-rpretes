@@ -57,7 +57,7 @@ public class Mips {
 "     sw  $t8, 0($sp)\n" +
 "     sub $sp, $sp, 4\n" +
 "     sw  $t9, 0($sp)\n" +
-"     jr $ra";
+"     jr $ra\n";
    
    private String cargarRegistros = "cargarRegistros:\n" +
 "     lw $t9, 0($sp)\n" +
@@ -80,7 +80,42 @@ public class Mips {
 "     addi $sp, $sp, 4\n" +
 "     lw $t0, 0($sp)\n" +
 "     addi $sp, $sp, 4\n" +
-"     jr $ra";
+"     jr $ra\n";
+   
+   private String potenciaFunc = "Potencia:\n" +
+"	move $s7, $ra\n" +
+"	move $t1, $a0\n" +
+"	move $t2, $a1\n" +
+"	seq $t3, $t2, $zero\n" +
+"	bgtz $t3, ExponenteCero\n" +
+"	li $t4, 1\n" +
+"	seq $t3, $t2, $t4\n" +
+"	neg $t3, $t3\n" +
+"	beq $t3, -1 ,ExponenteUno\n" +
+"	sub $t2, $t2, 1 \n" +
+"	move $t4, $t1\n" +
+"	li   $t5, 0\n" +
+"	jal ForPotencia\n" +
+"\n" +
+"ExponenteCero:\n" +
+"	li $v0, 1 \n" +
+"	jr $s7\n" +
+"\n" +
+"ExponenteUno:\n" +
+"	move $v0, $t1 \n" +
+"	jr $s7\n" +
+"\n" +
+"ForPotencia:\n" +
+"	seq $t3, $t5, $t2\n" +
+"	bgtz $t3, FinForPotencia\n" +
+"	mulo $t4, $t4, $t1\n" +
+"	addi $t5, $t5, 1\n" +
+"	jal ForPotencia\n" +
+"\n" +
+"FinForPotencia:\n" +
+"	move $v0, $t4 \n" +
+"	jr $s7\n";
+   
     
     
     //Constructor de la clase
@@ -147,7 +182,7 @@ public class Mips {
               String inst = "";
               String registro = obtenerRegistro(instruccion[1]);
               inst += "     move  ";
-              inst += "$v1" + ", $" + registro;
+              inst += "$v0" + ", $" + registro;
               if (esMain == 1)main += inst + "\n";
               else{
                   inst += "\n     jr $s7";
@@ -166,7 +201,7 @@ public class Mips {
               
               System.out.println(java.util.Arrays.toString(instruccion));
           }
-          else if( linea.contains("param") && linea.contains("=")){
+          else if( linea.contains("param") && linea.contains("=") && !linea.contains("print_param") && !linea.contains("read_param")){
               String[] instruccion = linea.split(" ");
               String[] registro = instruccion[0].split("_");
               String numRegistro = registro[1].replace("t", "");
@@ -178,7 +213,13 @@ public class Mips {
           else if( linea.contains("call") ){
               String[] instruccion = linea.split(" ");
               String inst = "";
-              inst += "     jal "+ instruccion[1];
+              if (instruccion[1].contains("print") || instruccion[1].contains("read")){
+                  inst += "     jal "+ instruccion[1];
+              }else{
+                  inst += "     jal guardarRegistros\n";
+                  inst += "     jal "+ instruccion[1] + "\n";
+                  inst += "     jal cargarRegistros";
+              }
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";  
           }
@@ -258,6 +299,17 @@ public class Mips {
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     mulo ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  }else if (instruccion[1].contains("**")){
+                     String[] operandos = instruccion[1].split(" "); 
+                     String operando1 = obtenerRegistro(operandos[0]);
+                     String operando2 = obtenerRegistro(operandos[2]);
+                     inst += "     move $a0, $" + operando1 + "\n";
+                     inst += "     move $a1, $" + operando2 + "\n";
+                     inst += "     jal guardarRegistros \n";
+                     inst += "     jal Potencia \n";
+                     inst += "     jal cargarRegistros \n";
+                     inst += "     move ";
+                     inst += "$" + registro + ", $v0";
                   }else if (instruccion[1].contains("/")){
                      String[] operandos = instruccion[1].split("/"); 
                      String operando1 = obtenerRegistro(operandos[0]);
@@ -361,6 +413,7 @@ public class Mips {
       funciones += readFunctions;
       funciones += guardarRegistros;
       funciones += cargarRegistros;
+      funciones += potenciaFunc;
       funciones += "end:\n      li $v0, 10\n       syscall";
       guardarCodigoMips();
     }
