@@ -152,6 +152,23 @@ public class Mips {
                   funciones += inst + "\n";
               } 
           }
+          else if( linea.contains("param") && linea.contains("=")){
+              String[] instruccion = linea.split(" ");
+              String[] registro = instruccion[0].split("_");
+              String numRegistro = registro[1].replace("t", "");
+              String inst = "";
+              inst += "     li $a"+ numRegistro+ ", " +instruccion[2];
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";               
+          }
+          else if( linea.contains("call") ){
+              String[] instruccion = linea.split(" ");
+              String inst = "";
+              inst += "     jal "+ instruccion[1];
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";  
+              System.out.println(inst);
+          }
           else if(linea.contains("if_go")){
               String[] instruccion = linea.split(" ");
               String temp = instruccion[1].replace("(", "");

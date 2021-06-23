@@ -584,7 +584,7 @@ public class Codigo3Direcciones {
            Vector<Operation> param = sentencia.getParameterList().getParameterList();
            int contador = 0;
            for(Operation op1: param){
-               generarOperacion(op1, "p" + contador);
+               generarOperacion(op1, "param" + contador);
                contador+=1;
            }
            codigo3d += "call " + name + "\n";
