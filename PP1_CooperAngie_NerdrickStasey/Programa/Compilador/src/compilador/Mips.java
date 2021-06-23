@@ -34,6 +34,52 @@ public class Mips {
 "	li $v0, 8\n" +
 "	syscall\n" +
 "	jr $ra\n";
+   
+   private String guardarRegistros = "guardarRegistros:\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t0, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t1, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t2, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t3, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t4, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t5, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t6, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t7, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t8, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +
+"     sw  $t9, 0($sp)\n" +
+"     jr $ra";
+   
+   private String cargarRegistros = "cargarRegistros:\n" +
+"     lw $t9, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t8, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t7, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t6, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t5, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t4, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t3, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t2, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t1, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     lw $t0, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
+"     jr $ra";
     
     
     //Constructor de la clase
@@ -300,6 +346,8 @@ public class Mips {
       main += "     j end\n";
       funciones += printFunctions;
       funciones += readFunctions;
+      funciones += guardarRegistros;
+      funciones += cargarRegistros;
       funciones += "end:\n      li $v0, 10\n       syscall";
       guardarCodigoMips();
     }
