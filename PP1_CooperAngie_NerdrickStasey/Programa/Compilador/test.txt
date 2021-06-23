@@ -1,7 +1,10 @@
 int main () {
-	int b = 0;
-	for(int i = 0; i < 5; ++i){
-		b = b+1;
+	int edad = 19;
+	if (edad > 18){
+		int nuevaEdad = 3 * 6;
+	}else{
+		int nuevaEdad = 3;
+		string nombre = "Stsey";
 	}
 	return 0;
 }

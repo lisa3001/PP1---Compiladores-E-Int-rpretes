@@ -30,21 +30,17 @@ public class AnalizadorSemantico {
     public boolean verficar(){
         hayErrores = false;
         if(!mainExisteReturn()) {
-            System.out.print("1");
             return false;
         }
         if(!FuncionExisteReturn()){
-            System.out.print("2 ese es");
             return false;
         }
         if(!verificacionNombreFunciones()){
-            System.out.print("3");
             return false;
         }
         validarScopeFuncion(program.getFunctions().getFunctions());
         validarScopeMain(program.getMain());
         if(hayErrores){
-            System.out.print("4");
             return false;
         }
         return true;
@@ -144,6 +140,32 @@ public class AnalizadorSemantico {
         return tipo;
     }
     
+    public Vector<CreateVar> actualizarVariables(Vector<CreateVar> variables, int corte){
+        Vector<CreateVar> nueva = new Vector<CreateVar>();
+        int contador = 0;
+        for(CreateVar i: variables){
+            if (contador == corte) break;
+            else{
+                nueva.add(i);
+                contador += 1;
+            }
+        }
+        return nueva;
+    }
+    
+    public Vector<CreateArray> actualizarArrays(Vector<CreateArray> variables, int corte){
+        Vector<CreateArray> nueva = new Vector<CreateArray>();
+        int contador = 0;
+        for(CreateArray i: variables){
+            if (contador == corte) break;
+            else{
+                nueva.add(i);
+                contador += 1;
+            }
+        }
+        return nueva;
+    }
+    
     //Entrada: Recibe un objeto Sentence que son las sentencias de un bloque de código, así como un un array con las variables, otro con los parámetros y otro con los array de la función y un objeto tipo function
     //Salida: Retorna un booleano indicando si el bloque de código no tiene errores
     //Objetivo: Validar un bloque de código
@@ -192,8 +214,6 @@ public class AnalizadorSemantico {
                                ArrayListAssigment arrLS = (ArrayListAssigment)declaracion.getOperation();
                                ArrayList arrL = (ArrayList)arrLS.getArrayList();
                                String tipoArrl = tipoArrayList(arrL, variablesLocales, parametros, arraysLocales);
-                               System.out.println(arrL.size());
-                               System.out.println(arr.getLength());
                                if(!tipoArrl.equals(arr.getType().getTipo())){
                                    imprimirError("El tipo de la variable y el de su asignación no coinciden", declaracion.getIdentifier().getPosition()[0], declaracion.getIdentifier().getPosition()[1]);
                                     hayErrores = true;
@@ -220,19 +240,29 @@ public class AnalizadorSemantico {
             }
             //If
             else if(tempSentence instanceof If){
+                int corteVar = variablesLocales.size();
+                int corteArr = arraysLocales.size();
                 If declaracion = (If)tempSentence;
                 Operation op = (Operation)declaracion.getOperation();
                 String opS = validarOperation(op, variablesLocales, parametros, arraysLocales);
                 if(opS.equals("Boolean")){
                     validarBloque(declaracion.getIfSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
+                    variablesLocales = actualizarVariables(variablesLocales, corteVar);
+                    arraysLocales = actualizarArrays(arraysLocales, corteArr);
                     for (Elif elifTemp: declaracion.getElifSentences()){
                       Operation opElf = (Operation)elifTemp.getOperation();
                       String opSe = validarOperation(opElf, variablesLocales, parametros, arraysLocales);
                       if(opSe.equals("Boolean")){
-                        validarBloque(elifTemp.getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);  
+                        validarBloque(elifTemp.getSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
+                        variablesLocales = actualizarVariables(variablesLocales, corteVar);
+                        arraysLocales = actualizarArrays(arraysLocales, corteArr);
                       }
                     }
-                    if(declaracion.getElseSentences() != null) validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
+                    if(declaracion.getElseSentences() != null){
+                        validarBloque(declaracion.getElseSentences(), variablesLocales, parametros, arraysLocales, tempFuncion);
+                        variablesLocales = actualizarVariables(variablesLocales, corteVar);
+                        arraysLocales = actualizarArrays(arraysLocales, corteArr);
+                    }
                 }else{
                    imprimirError("La condición del if debe retornar un booleano", declaracion.getPosition()[0], declaracion.getPosition()[1]);
                    hayErrores = true;
@@ -313,6 +343,8 @@ public class AnalizadorSemantico {
             // que debe tener la variable, condición y manejo coinciden con lo que acepta For.
             }
             else if(tempSentence instanceof For){
+                int corteVar = variablesLocales.size();
+                int corteArr = arraysLocales.size();
                 For forSentence = ((For) tempSentence);
                 Sentences sentences = new Sentences();
                 sentences.addSentence(forSentence.getStructure().getVar());
@@ -335,6 +367,8 @@ public class AnalizadorSemantico {
                             //verifica que en el manejo se utilice una operación unaria
                             if (forManager instanceof MinusMinus || forManager instanceof PlusPlus) {
                                 validarBloque(forSentence.getSentences().getSentences(),variablesTemp, parametros, arraysLocales, tempFuncion);
+                                variablesLocales = actualizarVariables(variablesLocales, corteVar);
+                                arraysLocales = actualizarArrays(arraysLocales, corteArr);
                             }
                             else{
                                 imprimirError("la operación es inválida. ", forCreateVar.getPosition()[0], forCreateVar.getPosition()[1]);

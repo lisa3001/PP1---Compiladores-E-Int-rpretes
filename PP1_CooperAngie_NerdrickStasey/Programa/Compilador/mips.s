@@ -1,78 +1,30 @@
 .data
+var3_t8:   .asciiz "Stsey"
 
 .text
 .globl main
 main:
-     li  $t0, 0
+     li  $t0, 19
      move  $t1, $t0
-     li  $t2, 0
-     move  $t3, $t2
-     li  $t4, 5
-     sltu $t3, $t3 ,$t4
-     move  $t5, $t3
-     beq $t5, 1, end
-     li  $t6, 1
-     add $t1, $t1 ,$t6
-     add $t3, $t3, 1
-     move  $t3, $t3
-     j for_0
-     li  $t7, 0
-     move  $v0, $t7
-     j end
-<<<<<<< HEAD
-=======
-suma:
-     move $s7, $ra
-<<<<<<< HEAD
-     move $t0, $a0
-     move $t1, $a1
-     li  $t2, 23
-     li  $t3, 24
-     sgtu $t2, $t2 ,$t3
-     li  $t4, 0
-     seq $t2, $t2 ,$t4
+     li  $t2, 18
+     sgtu $t2, $t1 ,$t2
      beq $t2, 1, IF_0
-     li  $t5, 1
-     li  $t6, 0
-     seq $t5, $t5 ,$t6
-     beq $t5, 1, ELIF_0
-     li  $t7, 1
-     li  $t8, 0
-     sne $t7, $t7 ,$t8
-     beq $t7, 1, ELIF_1
      j ELSE_0
 IF_0:
-     li  $t9, 8
-     move  $v1, $t9
-     jr $s7
-     j IF_0_END
-ELIF_0:
-     li  $t2, 4
-     move  $v1, $t2
-     jr $s7
-     j IF_0_END
-ELIF_1:
-     li  $t2, 8
-     move  $v1, $t2
-     jr $s7
+     li  $t3, 3
+     li  $t4, 6
+     mulo $t3, $t3 ,$t4
+     move  $t5, $t3
      j IF_0_END
 ELSE_0:
-     li  $t3, 10
-     move  $v1, $t3
-     jr $s7
+     li  $t6, 3
+     move  $t7, $t6
+     la  $t8, var3_t8
+     move  $t9, $t8
 IF_0_END:
-     li  $t3, 0
-     move  $v1, $t3
-=======
-     li  $t0, a
-     li  $t1, b
-     li  $t2, 3
-     li  $t3, 2
-     add $t2, $t2 ,$t3
-     move  $v0, $t2
->>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
-     jr $s7
->>>>>>> 602c9d8a522a4a6325fe05b910acc09897c609fe
+     li  $t0, 0
+     move  $v0, $t0
+     j end
 print_str:
 	li $v0, 4
      	syscall  
@@ -111,12 +63,8 @@ guardarRegistros:
      sw  $t8, 0($sp)
      sub $sp, $sp, 4
      sw  $t9, 0($sp)
-<<<<<<< HEAD
-     jr $racargarRegistros:
-=======
      jr $ra
 cargarRegistros:
->>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
      lw $t9, 0($sp)
      addi $sp, $sp, 4
      lw $t8, 0($sp)
@@ -137,9 +85,6 @@ cargarRegistros:
      addi $sp, $sp, 4
      lw $t0, 0($sp)
      addi $sp, $sp, 4
-<<<<<<< HEAD
-     jr $raend:
-=======
      jr $ra
 Potencia:
 	move $s7, $ra
@@ -175,6 +120,5 @@ FinForPotencia:
 	move $v0, $t4 
 	jr $s7
 end:
->>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
       li $v0, 10
        syscall
