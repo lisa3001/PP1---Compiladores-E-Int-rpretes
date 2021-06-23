@@ -213,6 +213,7 @@ public class Mips {
           //Parámetros para llamar función
           //Objetivo: Se guardan el valor de los parámetros para utilizarlos cuandos se llaman funciones
           else if( linea.contains("param") && linea.contains("=") && !linea.contains("print_param") && !linea.contains("read_param")){
+              
               String[] instruccion = linea.split(" ");
               String[] registro = instruccion[0].split("_");
               String numRegistro = registro[0].replace("param", "");
@@ -224,12 +225,12 @@ public class Mips {
                   tipoInstruccion += "li";
               }catch (Exception e){
                   String regis = obtenerRegistro(instruccion[2]);
-                  result += regis;
+                  result += "$" + regis;
                   tipoInstruccion += "move";
               }
               
               String inst = "";
-              inst += "     "+tipoInstruccion+" $a"+ numRegistro+ ", $" +result;
+              inst += "     "+tipoInstruccion+" $a"+ numRegistro+ ", " +result;
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";               
           }
@@ -291,7 +292,6 @@ public class Mips {
           //Objetivo: Crea un split en las instrucciones que tienen una igualdad 
           //para realizar acciones a partir de esto
           else if (linea.contains("=") ){
-              System.out.println(linea);
               String[] instruccion = linea.split("=");
               instruccion[0] = instruccion[0].trim();
               instruccion[1] = instruccion[1].trim();
@@ -345,7 +345,6 @@ public class Mips {
                   //MULTIPLICACIÓN
                   //Objetivo: Crea la instrucción de multiplicación para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("*") && !instruccion[1].contains("**")){
-                     System.out.println("multi");
                      String[] operandos = instruccion[1].split("\\*"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);

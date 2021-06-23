@@ -1,35 +1,31 @@
 .data
-print_t6:   .asciiz "El resultado es "
+print_t2:   .asciiz "jejejeeje"
 
 .text
 .globl main
 main:
-     li  $t0, 6
-     move  $t1, $t0
-     li  $t2, 8
-     move  $t3, $t2
-     move $a0, $t1
-     move $a1, $t3
+     li  $t0, 3
+     move $a0, $t0
+     li  $t1, 2
+     move $a1, $t1
      jal guardarRegistros
      jal mult2
      jal cargarRegistros
-     move $t4, $v0
-     move  $t5, $t4
-     la  $t6, print_t6
-     move $a0, $t6
-     jal print_str
-     move $a0, $t5
-     jal print_int
-     li  $t7, 0
-     move  $v0, $t7
+     move $t0, $v0
+     move  $t3, $t0
+     li  $t4, 0
+     move  $v0, $t4
      j end
 mult2:
      move $s7, $ra
      move $t0, $a0
      move $t1, $a1
-     li  $t2, 2
-     mulo $t2, $t0,$t2
-     move  $v0, $t2
+     la  $t2, print_t2
+     move $a0, $t2
+     jal print_str
+     li  $t3, 2
+     mulo $t3, $t0,$t3
+     move  $v0, $t3
      jr $s7
 print_str:
 	li $v0, 4

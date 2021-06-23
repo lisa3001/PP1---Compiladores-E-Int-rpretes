@@ -1,12 +1,9 @@
 int mult2(int valor, int otro){
+	print("jejejeeje");
 	return valor * 2;
 }
 
 int main () {
-	int num = 6;
-	int x = 8;
-	int res = mult2(num, x);
-	print("El resultado es ");
-	print(res);
+	int b = mult2(3, 2);
 	return 0;
 }
