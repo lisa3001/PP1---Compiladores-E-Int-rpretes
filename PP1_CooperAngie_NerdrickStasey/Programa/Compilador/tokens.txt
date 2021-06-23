@@ -3,11 +3,87 @@ main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+<<<<<<< HEAD
 int -> INT
 x -> IDENTIFIER
 = -> EQUAL
 123.54 -> DECIMAL
 ; -> FINAL
+=======
+<<<<<<< HEAD
+int -> INT
+edad -> IDENTIFIER
+= -> EQUAL
+19 -> INTEGER
+; -> FINAL
+if -> IF
+=======
+if -> IF
+( -> OPEN_PAREN
+true -> TRUE
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+for -> FOR
+>>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+( -> OPEN_PAREN
+edad -> IDENTIFIER
+> -> GREATER
+18 -> INTEGER
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+int -> INT
+nuevaEdad -> IDENTIFIER
+= -> EQUAL
+<<<<<<< HEAD
+3 -> INTEGER
+* -> MULTI
+6 -> INTEGER
+=======
+0 -> INTEGER
+; -> FINAL
+i -> IDENTIFIER
+<= -> MINOR_EQUAL
+10 -> INTEGER
+>>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+; -> FINAL
+} -> CLOSE_KEY
+else -> ELSE
+{ -> OPEN_KEY
+<<<<<<< HEAD
+int -> INT
+nuevaEdad -> IDENTIFIER
+= -> EQUAL
+3 -> INTEGER
+; -> FINAL
+string -> STRING
+nombre -> IDENTIFIER
+= -> EQUAL
+"Stsey" -> CHARCHAIN
+=======
+if -> IF
+( -> OPEN_PAREN
+i -> IDENTIFIER
++ -> PLUS
+2 -> INTEGER
+== -> EQUAL_EQUAL
+0 -> INTEGER
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+break -> BREAK
+; -> FINAL
+} -> CLOSE_KEY
+else -> ELSE
+{ -> OPEN_KEY
+print -> PRINT
+( -> OPEN_PAREN
+34.5 -> DECIMAL
+) -> CLOSE_PAREN
+>>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+; -> FINAL
+} -> CLOSE_KEY
+} -> CLOSE_KEY
+} -> CLOSE_KEY
+>>>>>>> 81345f279e657a96e1d4a614cb21b3b0b905b1f3
 return -> RETURN
 0 -> INTEGER
 ; -> FINAL

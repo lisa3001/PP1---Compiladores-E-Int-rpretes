@@ -1,7 +1,66 @@
 func begin main 
+<<<<<<< HEAD
 var0_t0 = 123
 x_t1 = var0_t0
 return0_t2 = 0
 return return0_t2
+=======
+<<<<<<< HEAD
+var0_t0 = 19
+edad_t1 = var0_t0
+as_t2 = 18
+as_t2 = edad_t1 > as_t2
+if_go (as_t2) goto (IF_0)
+goto (ELSE_0)
+IF_0:
+var1_t3 = 3
+var1_t4 = 6
+var1_t3 = var1_t3 * var1_t4
+nuevaEdad_t5 = var1_t3
+goto (IF_0_END)
+ELSE_0:
+var2_t6 = 3
+nuevaEdad_t7 = var2_t6
+var3_t8 = "Stsey"
+nombre_t9 = var3_t8
+IF_0_END:
+return0_t0 = 0
+return return0_t0
+=======
+as_t0 = 1
+if_go (as_t0) goto (IF_0)
+IF_0:
+begin_for_0
+as_t1 = 0
+as_t2 = as_t1
+FOR_0:
+as_t3 = 10
+as_t2 = as_t2 << as_t3
+as_t4 = as_t2
+if_go !(as_t4) goto (end_for_0)
+as_t5 = 2
+as_t2 = as_t2 + as_t5
+as_t6 = 0
+as_t2 = as_t2 @@ as_t6
+if_go (as_t2) goto (IF_1)
+goto (ELSE_0)
+IF_1:
+break
+goto (IF_1_END)
+ELSE_0:
+print_t7 = 34.5
+print_param = print_t7
+call print_int
+IF_1_END:
+as_t2 = ++as_t2
+as_t2 = as_t2
+goto (For_0)
+end_for_0:
+goto (IF_0_END)
+IF_0_END:
+return0_t8 = 0
+return return0_t8
+>>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+>>>>>>> 81345f279e657a96e1d4a614cb21b3b0b905b1f3
 func end main 
 
