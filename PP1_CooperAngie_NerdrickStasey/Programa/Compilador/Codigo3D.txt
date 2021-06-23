@@ -1,75 +1,36 @@
-<<<<<<< HEAD
-=======
-func begin suma
-begin params
-<<<<<<< HEAD
-extra_t0_fpa = num
-extra_t1_fpa = besito
-end params
-as_t2 = 23
-as_t3 = 24
-as_t2 = as_t2 > as_t3
-as_t4 = 0
-as_t2 = as_t2 @@ as_t4
-if_go (as_t2) goto (IF_0)
-as_t5 = 1
-as_t6 = 0
-as_t5 = as_t5 @@ as_t6
-if_go (as_t5) goto (ELIF_0)
-as_t7 = 1
-as_t8 = 0
-as_t7 = as_t7 !@ as_t8
-if_go (as_t7) goto (ELIF_1)
-goto (ELSE_0)
-IF_0:
-return0_t9 = 8
-return return0_t9
-goto (IF_0_END)
-ELIF_0:
-return1_t2 = 4
-return return1_t2
-goto (IF_0_END)
-ELIF_1:
-return2_t2 = 8
-return return2_t2
-goto (IF_0_END)
-ELSE_0:
-return3_t3 = 10
-return return3_t3
-IF_0_END:
-return4_t3 = 0
-return return4_t3
-func end extra
-=======
-suma_t0 = a
-suma_t1 = b
-end params
-return0_t2 = 3
-return0_t3 = 2
-return0_t2 = return0_t2 + return0_t3
-return return0_t2
-func end suma
->>>>>>> 70643d90bae15f71ab86f7140c592e6e3c82a422
-
->>>>>>> 602c9d8a522a4a6325fe05b910acc09897c609fe
 func begin main 
-var0_t0 = 0
-b_t1 = var0_t0
-begin for_0
-as_t2 = 0
-as_t3 = as_t2
-for_0
-as_t4 = 5
-as_t3 = as_t3 < as_t4
-as_t5 = as_t3
-if_go !(as_t5) goto (end for)
-as_t6 = 1
-b_t1 = b_t1 + as_t6
-as_t3 = ++as_t3
-as_t3 = as_t3
-goto (for_0)
-end for_0
-return0_t7 = 0
-return return0_t7
+as_t0 = 1
+if_go (as_t0) goto (IF_0)
+IF_0:
+begin_for_0
+as_t1 = 0
+as_t2 = as_t1
+FOR_0:
+as_t3 = 10
+as_t2 = as_t2 << as_t3
+as_t4 = as_t2
+if_go !(as_t4) goto (end_for_0)
+as_t5 = 2
+as_t2 = as_t2 + as_t5
+as_t6 = 0
+as_t2 = as_t2 @@ as_t6
+if_go (as_t2) goto (IF_1)
+goto (ELSE_0)
+IF_1:
+break
+goto (IF_1_END)
+ELSE_0:
+print_t7 = 34.5
+print_param = print_t7
+call print_int
+IF_1_END:
+as_t2 = ++as_t2
+as_t2 = as_t2
+goto (For_0)
+end_for_0:
+goto (IF_0_END)
+IF_0_END:
+return0_t8 = 0
+return return0_t8
 func end main 
 

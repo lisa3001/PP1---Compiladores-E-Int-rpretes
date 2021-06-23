@@ -227,7 +227,7 @@ public class Codigo3Direcciones {
                 int forNumber = forcont;
                 forcont += 1;
                 
-                codigo3d += "begin for_" + forNumber + "\n";
+                codigo3d += "begin_for_" + forNumber + "\n";
                 String tempCreateVar = generarOperacion(forCreateVar.getOperation(), "as");
                 String nombre = "as_" + temp.get(0);
                 
@@ -243,7 +243,7 @@ public class Codigo3Direcciones {
                 
                 codigo3d += nombre + " = " + tempCreateVar + "\n";  
                 
-                codigo3d += "for_" + forNumber + "\n";
+                codigo3d += "FOR_" + forNumber + ":\n";
                 String tempConditional = generarOperacion(forCondition, "as");
                 String nombre2 = "as_" + temp.get(0);
                 
@@ -252,15 +252,15 @@ public class Codigo3Direcciones {
                }
                 
                 codigo3d += nombre2 + " = " + tempConditional + "\n"; 
-                codigo3d += "if_go !(" + nombre2 + ") goto (end for)" + "\n";
+                codigo3d += "if_go !(" + nombre2 + ") goto (end_for_" +forNumber+ ")\n";
                 
                 generarBloque(forSentence.getSentences().getSentences());
                 
                 String tempUnary = generarOperacion(forManager, "as");
                 codigo3d += nombre + " = " + tempUnary + "\n"; 
                 
-                codigo3d += "goto (for_" + forNumber + ")\n";
-                codigo3d += "end for_" + forNumber + "\n";
+                codigo3d += "goto (For_" + forNumber + ")\n";
+                codigo3d += "end_for_" + forNumber + ":\n";
                 
             }
             //Return

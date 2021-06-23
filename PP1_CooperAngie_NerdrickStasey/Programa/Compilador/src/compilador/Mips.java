@@ -231,7 +231,11 @@ public class Mips {
               String temp2 = instruccion[3].replace("(", "");
               String tack = temp2.replace(")", "");   
               String inst = "";
-              inst += "     beq $"+ registro+ ", 1, "+tack;
+              if(linea.contains("end_for")){
+                inst += "     beq $"+ registro+ ", 0, "+tack;
+              }else{
+                inst += "     beq $"+ registro+ ", 1, "+tack;
+              }
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
@@ -244,7 +248,8 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
-          else if(linea.contains("IF_") || linea.contains("ELIF_") || linea.contains("ELSE_")){
+          else if(linea.contains("IF_") || linea.contains("ELIF_") || linea.contains("ELSE_") || linea.contains("FOR_")
+                  || linea.contains("end_for") ){
               String inst = "";
               inst += linea;
               if (esMain == 1)main += inst + "\n";
