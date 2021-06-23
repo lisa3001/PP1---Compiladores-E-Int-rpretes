@@ -88,6 +88,7 @@ public class Mips {
               }
               else{
                   funciones += function +":\n";
+                  funciones += "     move $s7, $ra\n";
                   esMain = 0;
               }     
           }
@@ -100,7 +101,10 @@ public class Mips {
               inst += "     move  ";
               inst += "$v1" + ", $" + registro;
               if (esMain == 1)main += inst + "\n";
-              else funciones += inst + "\n";
+              else{
+                  inst += "\n     jr $s7";
+                  funciones += inst + "\n";
+              } 
           }
           else if(linea.contains("if_go")){
               String[] instruccion = linea.split(" ");

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 func begin extra
 begin params
 extra_p0 = num
@@ -9,29 +8,6 @@ as_t1 = 24
 as_t0 = as_t0 > as_t1
 as_t2 = 0
 as_t0 = as_t0 @@ as_t2
-=======
-func begin main 
-<<<<<<< HEAD
-var0_t0 = 2
-edad_t1 = var0_t0
-print_t2 = "Ingresa tu edad: "
-print_param = print_t2
-call print_str
-read_param = edad_t1
-call read_int
-edad_t1 = return 
-print_t3 = "Tu edad es: "
-print_param = print_t3
-call print_str
-print_param = edad_t1
-call print_int
-return0_t4 = 1
-return return0_t4
-=======
-as_t0 = 1
-as_t1 = 0
-as_t0 = as_t0 @@ as_t1
->>>>>>> 3a167617b9751aaae8af32a683b67c81550771c1
 if_go (as_t0) goto (IF_0)
 as_t3 = 1
 as_t4 = 0
@@ -58,53 +34,12 @@ ELSE_0:
 return3_t0 = 10
 return return3_t0
 IF_0_END:
-<<<<<<< HEAD
-as_t0 = 23
-as_t1 = 24
-as_t0 = as_t0 > as_t1
-as_t1 = 0
-as_t0 = as_t0 @@ as_t1
-if_go (as_t0) goto (IF_1)
-as_t2 = 1
-as_t3 = 0
-as_t2 = as_t2 @@ as_t3
-if_go (as_t2) goto (ELIF_2)
-as_t4 = 1
-as_t5 = 0
-as_t4 = as_t4 !@ as_t5
-if_go (as_t4) goto (ELIF_3)
-goto (ELSE_1)
-IF_1:
-return4_t6 = 8
-return return4_t6
-goto (IF_1_END)
-ELIF_2:
-return5_t7 = 4
-return return5_t7
-goto (IF_1_END)
-ELIF_3:
-return6_t7 = 8
-return return6_t7
-goto (IF_1_END)
-ELSE_1:
-return7_t8 = 10
-return return7_t8
-IF_1_END:
-return8_t8 = 0
-return return8_t8
+return4_t0 = 0
+return return4_t0
 func end extra
 
 func begin main 
-p0_t0 = 1
-p1_t1 = 8
-call extra, 2
-as_t0 = return 
-return0_t3 = 0
-return return0_t3
-=======
-return3_t1 = 0
-return return3_t1
->>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
->>>>>>> 3a167617b9751aaae8af32a683b67c81550771c1
+return0_t0 = 0
+return return0_t0
 func end main 
 
