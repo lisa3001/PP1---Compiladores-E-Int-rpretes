@@ -1,14 +1,5 @@
 int main () {
-	if (true){
-		for(int i = 0; i <= 10; ++i){
-			if (i + 2 == 0){
-				break;
-			}
-			else{
-				print(34.5);
-			}
-		}
-	}
+	int x = 123.54;
 	return 0;
 }
 
