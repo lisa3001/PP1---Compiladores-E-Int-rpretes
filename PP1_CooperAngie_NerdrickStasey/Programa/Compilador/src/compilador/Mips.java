@@ -17,6 +17,7 @@ public class Mips {
     private String funciones = "";
     private ArrayList<Object> bloquemain = new ArrayList();
     private ArrayList<Object> bloquefunc = new ArrayList();
+    private int registroA = 0;
     private String printFunctions = "print_str:\n" +
 "	li $v0, 4\n" +
 "     	syscall  \n" +
@@ -136,7 +137,8 @@ public class Mips {
                   funciones += function +":\n";
                   funciones += "     move $s7, $ra\n";
                   esMain = 0;
-              }     
+              }
+              registroA = 0;
           }
           else if(linea.contains("return") && !linea.contains("=")){
               String[] instruccion = linea.split(" ");
@@ -151,6 +153,18 @@ public class Mips {
                   inst += "\n     jr $s7";
                   funciones += inst + "\n";
               } 
+          }
+          else if( linea.contains("_fpa") ){
+              String[] instruccion = linea.split(" ");
+              String registroTemp = instruccion[0].replace("_fpa", "");
+              String registro = obtenerRegistro(registroTemp);
+              String inst = "";
+              inst += "     move $"+ registro+ ", $a" +registroA;
+              if (esMain == 1)main += inst + "\n";
+              else funciones += inst + "\n";   
+              registroA+=1;
+              
+              System.out.println(java.util.Arrays.toString(instruccion));
           }
           else if( linea.contains("param") && linea.contains("=")){
               String[] instruccion = linea.split(" ");
@@ -167,7 +181,6 @@ public class Mips {
               inst += "     jal "+ instruccion[1];
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";  
-              System.out.println(inst);
           }
           else if(linea.contains("if_go")){
               String[] instruccion = linea.split(" ");

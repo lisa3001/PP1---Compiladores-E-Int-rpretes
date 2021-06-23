@@ -136,7 +136,7 @@ public class Codigo3Direcciones {
             codigo3d += "begin params\n";
             int cont_param = 0;
             for(Parameters temppam: parametros){
-               String nombreP = nombreF + "_" + temp.get(0);
+               String nombreP = nombreF + "_" + temp.get(0) + "_fpa";
                codigo3d += nombreP + " = " + temppam.getIdentifier().getName() + "\n";
                Vector<String> v1 = new Vector<String>();
                v1.add(nombreP);
