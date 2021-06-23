@@ -1,5 +1,31 @@
-int main(){
-	bool p = 2 == 4;
-	bool u = 2 != 4;
+char extra(int carro){
+	
+	if ( 23 > 24 == false){
+		return 'a';
+	}
+	elif (true == false){
+		print("ok");
+	}
+	elif (true != false){
+		print("not");
+	}
+
+	if (true){
+		for(int i = 0; i <= 10; ++i){
+			if (i ~ 2 == 0){
+				break;
+			}
+			else{
+				print(34.5);
+			}
+		}
+	}
+	return 'b';
+}
+
+int main () {
+	string str1 = "Hola MUndo ^ { } % * + - -- ++ $";
+	bool miBoolean2 = not(false);
+	miBoolean2 = not(miBoolean2) != true;
 	return 1;
 }
