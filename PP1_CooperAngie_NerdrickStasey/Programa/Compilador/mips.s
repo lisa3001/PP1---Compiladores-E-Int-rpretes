@@ -1,62 +1,53 @@
 .data
-<<<<<<< HEAD
-print_t2:   .asciiz "Ingresa tu edad: "
-print_t3:   .asciiz "Tu edad es: "
-=======
-var0_t5:   .byte 'a'
-var1_t7:   .asciiz "gol"
->>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
 
 .text
 .globl main
 main:
-<<<<<<< HEAD
-     li  $t0, 2
-     move  $t1, $t0
-     la  $t2, print_t2
-     move $a0, $t2
-     jal print_str
-     move $a0, $t1
-     li $a1, 50
-     jal read_int
-     move $t1, $v0
-     la  $t3, print_t3
-     move $a0, $t3
-     jal print_str
-     move $a0, $t1
-     jal print_int
-     li  $t4, 1
-     move  $v1, $t4
-=======
-     li  $t0, 1
-     li  $t1, 0
-     seq $t0, $t0 ,$t1
+     li  $t0, 0
+     move  $v1, $t0
+     j end
+extra:
+     move $s7, $ra
+     li  $tra, num
+     move  $tra, $to
+     li  $t0, 23
+     li  $t1, 24
+     sgtu $t0, $t0 ,$t1
+     li  $t2, 0
+     seq $t0, $t0 ,$t2
      beq $t0, 1, IF_0
-     li  $t2, 1
-     li  $t3, 0
-     sne $t2, $t2 ,$t3
-     beq $t2, 1, ELIF_0
+     li  $t3, 1
+     li  $t4, 0
+     seq $t3, $t3 ,$t4
+     beq $t3, 1, ELIF_0
+     li  $t5, 1
+     li  $t6, 0
+     sne $t5, $t5 ,$t6
+     beq $t5, 1, ELIF_1
      j ELSE_0
 IF_0:
-     li  $t4, 4
-     move  $v1, $t4
+     li  $t7, 8
+     move  $v1, $t7
+     jr $s7
      j IF_0_END
 ELIF_0:
-     la  $t5, var0_t5
-     move  $t6, $t5
-     la  $t7, var1_t7
-     move  $t8, $t7
+     li  $t8, 4
+     move  $v1, $t8
+     jr $s7
+     j IF_0_END
+ELIF_1:
      li  $t9, 8
      move  $v1, $t9
+     jr $s7
      j IF_0_END
 ELSE_0:
      li  $t0, 10
      move  $v1, $t0
+     jr $s7
 IF_0_END:
-     li  $t1, 0
-     move  $v1, $t1
->>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
-     j end
+     li  $t0, 0
+     move  $v1, $t0
+     jr $s7
 print_str:
 	li $v0, 4
      	syscall  
