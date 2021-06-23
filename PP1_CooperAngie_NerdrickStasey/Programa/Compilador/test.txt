@@ -1,5 +1,8 @@
 int main(){
-	bool p = 2 == 4;
-	bool u = 2 != 4;
+	int edad = 2;
+	print("Ingresa tu edad: ");
+	read(edad);
+	print("Tu edad es: ");
+	print(edad);
 	return 1;
 }

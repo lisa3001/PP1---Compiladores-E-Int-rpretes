@@ -1,13 +1,18 @@
 func begin main 
 var0_t0 = 2
-var0_t1 = 4
-var0_t0 = var0_t0 @@ var0_t1
-p_t2 = var0_t0
-var1_t3 = 2
-var1_t4 = 4
-var1_t3 = var1_t3 !@ var1_t4
-u_t5 = var1_t3
-return0_t6 = 1
-return return0_t6
+edad_t1 = var0_t0
+print_t2 = "Ingresa tu edad: "
+print_param = print_t2
+call print_str
+read_param = edad_t1
+call read_int
+edad_t1 = return 
+print_t3 = "Tu edad es: "
+print_param = print_t3
+call print_str
+print_param = edad_t1
+call print_int
+return0_t4 = 1
+return return0_t4
 func end main 
 
