@@ -1,15 +1,33 @@
-int main () {
-	if (true == false){
+int extra(int num, int besito){
+	if ( 23 > 24 == false){
+		return 8;
+	}
+	elif (true == false){
 		return 4;
 	}
 	elif (true != false){
-		char x = 'a';
-		string y = "gol";
 		return 8;
 	}
 	else{
 		return 10;
 	}
 
+	if ( 23 > 24 == false){
+		return 8;
+	}
+	elif (true == false){
+		return 4;
+	}
+	elif (true != false){
+		return 8;
+	}
+	else{
+		return 10;
+	}
+	return 0;
+}
+
+int main () {
+	extra(1, 8);
 	return 0;
 }

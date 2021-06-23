@@ -1,30 +1,80 @@
-func begin main 
-as_t0 = 1
-as_t1 = 0
-as_t0 = as_t0 @@ as_t1
+func begin extra
+begin params
+extra_p0 = num
+extra_p1 = besito
+end params
+as_t0 = 23
+as_t1 = 24
+as_t0 = as_t0 > as_t1
+as_t2 = 0
+as_t0 = as_t0 @@ as_t2
 if_go (as_t0) goto (IF_0)
-as_t2 = 1
-as_t3 = 0
-as_t2 = as_t2 !@ as_t3
-if_go (as_t2) goto (ELIF_0)
+as_t3 = 1
+as_t4 = 0
+as_t3 = as_t3 @@ as_t4
+if_go (as_t3) goto (ELIF_0)
+as_t5 = 1
+as_t6 = 0
+as_t5 = as_t5 !@ as_t6
+if_go (as_t5) goto (ELIF_1)
 goto (ELSE_0)
 IF_0:
-return0_t4 = 4
-return return0_t4
+return0_t7 = 8
+return return0_t7
 goto (IF_0_END)
 ELIF_0:
-var0_t5 = 'a'
-x_t6 = var0_t5
-var1_t7 = "gol"
-y_t8 = var1_t7
-return1_t9 = 8
-return return1_t9
+return1_t8 = 4
+return return1_t8
+goto (IF_0_END)
+ELIF_1:
+return2_t9 = 8
+return return2_t9
 goto (IF_0_END)
 ELSE_0:
-return2_t0 = 10
-return return2_t0
+return3_t0 = 10
+return return3_t0
 IF_0_END:
-return3_t1 = 0
-return return3_t1
+as_t0 = 23
+as_t1 = 24
+as_t0 = as_t0 > as_t1
+as_t1 = 0
+as_t0 = as_t0 @@ as_t1
+if_go (as_t0) goto (IF_1)
+as_t2 = 1
+as_t3 = 0
+as_t2 = as_t2 @@ as_t3
+if_go (as_t2) goto (ELIF_2)
+as_t4 = 1
+as_t5 = 0
+as_t4 = as_t4 !@ as_t5
+if_go (as_t4) goto (ELIF_3)
+goto (ELSE_1)
+IF_1:
+return4_t6 = 8
+return return4_t6
+goto (IF_1_END)
+ELIF_2:
+return5_t7 = 4
+return return5_t7
+goto (IF_1_END)
+ELIF_3:
+return6_t7 = 8
+return return6_t7
+goto (IF_1_END)
+ELSE_1:
+return7_t8 = 10
+return return7_t8
+IF_1_END:
+return8_t8 = 0
+return return8_t8
+func end extra
+
+func begin main 
+p0_t0 = 1
+p1_t1 = 8
+call extra, 2
+as_t0 = return 
+return0_t3 = 0
+return return0_t3
 func end main 
 
