@@ -175,6 +175,8 @@ public class Mips {
               }
               registroA = 0;
           }
+          //RETURN
+          //Objetivo: Crear instrucciones de return mips, a partir de código intermedio
           else if(linea.contains("return") && !linea.contains("=")){
               String[] instruccion = linea.split(" ");
               instruccion[0] = instruccion[0].trim();
@@ -189,6 +191,8 @@ public class Mips {
                   funciones += inst + "\n";
               } 
           }
+          //Parámetros de función
+          //Objetivo: Crear instrucciones de parámetros de funciones, a partir de código intermedio
           else if( linea.contains("_fpa") ){
               String[] instruccion = linea.split(" ");
               String registroTemp = instruccion[0].replace("_fpa", "");
@@ -201,6 +205,8 @@ public class Mips {
               
               System.out.println(java.util.Arrays.toString(instruccion));
           }
+          //Parámetros para llamar función
+          //Objetivo: Se guardan el valor de los parámetros para utilizarlos cuandos se llaman funciones
           else if( linea.contains("param") && linea.contains("=") && !linea.contains("print_param") && !linea.contains("read_param")){
               String[] instruccion = linea.split(" ");
               String[] registro = instruccion[0].split("_");
@@ -210,6 +216,8 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";               
           }
+          //Llamar una función
+          //Objetivo: Se realiza un read, se reliza un print o se llama una fucnión, dependiendo de la instrucción
           else if( linea.contains("call") ){
               String[] instruccion = linea.split(" ");
               String inst = "";
@@ -223,6 +231,9 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";  
           }
+          //If go
+          //Objetivo: Realiza un if al verficar una operación con 1 o 0, dependiendo de si se usa en
+          //un IF o un FOR
           else if(linea.contains("if_go")){
               String[] instruccion = linea.split(" ");
               String temp = instruccion[1].replace("(", "");
@@ -239,6 +250,8 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
+          //GO TO
+          //Objetivo: Realiza un salto a la etiqueta indicada en la linea
           else if(linea.contains("goto")){
               String[] instruccion = linea.split(" ");
               String temp = instruccion[1].replace("(", "");
@@ -248,6 +261,8 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
+          //Crea etiquetas
+          //Objetivo: Crea una etiqueta con el valor de la línea
           else if(linea.contains("IF_") || linea.contains("ELIF_") || linea.contains("ELSE_") || linea.contains("FOR_")
                   || linea.contains("end_for") ){
               String inst = "";
@@ -255,6 +270,9 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";
           }
+          //Intrucciones que tienen el símbolo =
+          //Objetivo: Crea un split en las instrucciones que tienen una igualdad 
+          //para realizar acciones a partir de esto
           else if (linea.contains("=") ){
               String[] instruccion = linea.split("=");
               instruccion[0] = instruccion[0].trim();
