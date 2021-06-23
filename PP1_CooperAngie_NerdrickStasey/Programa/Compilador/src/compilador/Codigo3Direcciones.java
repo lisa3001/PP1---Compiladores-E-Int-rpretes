@@ -136,7 +136,7 @@ public class Codigo3Direcciones {
             codigo3d += "begin params\n";
             int cont_param = 0;
             for(Parameters temppam: parametros){
-               String nombreP = nombreF + "_p" + cont_param;
+               String nombreP = nombreF + "_" + temp.get(0);
                codigo3d += nombreP + " = " + temppam.getIdentifier().getName() + "\n";
                Vector<String> v1 = new Vector<String>();
                v1.add(nombreP);
@@ -144,6 +144,7 @@ public class Codigo3Direcciones {
                v1.add(temppam.getType().getTipo());
                tablaSimbolos.add(v1);
                cont_param += 1;
+               temp = cutHead(temp);
             }
             codigo3d += "end params\n";
             generarBloque(tempFuncion.getBlock().getSentences());
