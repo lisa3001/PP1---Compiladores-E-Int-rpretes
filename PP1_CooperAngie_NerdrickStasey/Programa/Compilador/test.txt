@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 int extra(int num, int besito){
 	if ( 23 > 24 == false){
 		return 8;
@@ -16,6 +17,20 @@ int extra(int num, int besito){
 		return 8;
 	}
 	elif (true == false){
+=======
+<<<<<<< HEAD
+int main(){
+	int edad = 2;
+	print("Ingresa tu edad: ");
+	read(edad);
+	print("Tu edad es: ");
+	print(edad);
+	return 1;
+}
+=======
+int main () {
+	if (true == false){
+>>>>>>> 3a167617b9751aaae8af32a683b67c81550771c1
 		return 4;
 	}
 	elif (true != false){
@@ -31,3 +46,4 @@ int main () {
 	extra(1, 8);
 	return 0;
 }
+>>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a

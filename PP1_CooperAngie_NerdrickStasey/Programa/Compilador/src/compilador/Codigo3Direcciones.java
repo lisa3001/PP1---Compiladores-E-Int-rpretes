@@ -21,6 +21,7 @@ public class Codigo3Direcciones {
     private List<String> temp; //Contador de los temporales que se van a usar
     private List<String> tempRenov = new ArrayList<String>(); //Contador de los temporales que se van a usar
     private Vector<Vector<String>> tablaSimbolos = new Vector<Vector<String>>();
+    private String printOp = "";
     private int extras = 0;
     private int ifcont = 0;
     private int elifcont = 0;
@@ -86,6 +87,14 @@ public class Codigo3Direcciones {
         return "";
     }
     
+    
+    public String getTablaDeSimbolosDataType(String identificador){
+        for(Vector<String> i: tablaSimbolos){
+            if(i.elementAt(1).equals(identificador)) return i.elementAt(2);
+        }
+        return "";
+    }
+    
     //Entrada: No tiene
     //Salida: No tiene
     //Objetivo: Generar el código de 3 direcciones del programa fuente y escribirlo en un archivo de texto  
@@ -132,6 +141,7 @@ public class Codigo3Direcciones {
                Vector<String> v1 = new Vector<String>();
                v1.add(nombreP);
                v1.add(temppam.getIdentifier().getName());
+               v1.add(temppam.getType().getTipo());
                tablaSimbolos.add(v1);
                cont_param += 1;
             }
@@ -167,11 +177,18 @@ public class Codigo3Direcciones {
                     extras += 1;
                 }
                String var = name + "_" + temp.get(0);
-               if(valor == "")codigo3d += var + " = " + "null" + "\n";
+               if(valor == ""){
+                   if (declaracion.getType().getTipo().equals("Integer")){
+                      codigo3d += var + " = " + "null_int" + "\n";
+                   }else{
+                      codigo3d += var + " = " + "null_str" + "\n"; 
+                   }
+               }
                else codigo3d += var + " = " + valor + "\n";
                Vector<String> v1 = new Vector<String>();
                v1.add(var);
                v1.add(name);
+               v1.add(declaracion.getType().getTipo());
                tablaSimbolos.add(v1);
                varcont+=1;
                if (temp.size() > 0){
@@ -215,6 +232,7 @@ public class Codigo3Direcciones {
                 Vector<String> v1 = new Vector<String>();
                 v1.add(nombre);
                 v1.add(forCreateVar.getIdentifier().getName());
+                v1.add(forCreateVar.getType().getTipo());
                 tablaSimbolos.add(v1);
                 
                 codigo3d += nombre + " = " + tempCreateVar + "\n";  
@@ -253,7 +271,7 @@ public class Codigo3Direcciones {
                 Print declaracion = (Print)tempSentence;
                 String valor = generarOperacion(declaracion.getOperation(), "print");
                 codigo3d += "print_param" + " = " + valor + "\n";
-                codigo3d += "call " + "print, 1" + "\n";
+                codigo3d += "call " + "print" + "_" + printOp + "\n";
                 temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
             }
@@ -261,9 +279,15 @@ public class Codigo3Direcciones {
             else if(tempSentence instanceof Read){
                 Read declaracion = (Read)tempSentence;
                 String var = getTablaDeSimbolosData(declaracion.getVarName().getName());
+                printOp = getTablaDeSimbolosDataType(declaracion.getVarName().getName());
+                if (printOp.equals("Integer") || printOp.equals("Boolean")){
+                    printOp="int";
+                }else{
+                    printOp="str";
+                }
                 codigo3d += "read_param" + " = " + var + "\n";
-                codigo3d += "call " + "read, 1" + "\n";
-                codigo3d += var + " = " + "return \n";
+                codigo3d += "call " + "read" + "_" + printOp + "\n";
+                if (printOp.equals("int"))codigo3d += var + " = " + "return \n";
             }
             //CreateArray
             else if(tempSentence instanceof CreateArray){
@@ -477,6 +501,7 @@ public class Codigo3Direcciones {
             dato = var;
         }
         else if(op instanceof IntLiteral){
+            printOp = "int";
             IntLiteral sentencia = (IntLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
             String var = identificador + "_" + temporal;
@@ -496,6 +521,7 @@ public class Codigo3Direcciones {
             tempRenov.add(temporal);
         }
         else if(op instanceof StringLiteral){
+            printOp = "str";
             StringLiteral sentencia = (StringLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
             String var = identificador + "_" + temporal;
@@ -505,6 +531,7 @@ public class Codigo3Direcciones {
             tempRenov.add(temporal);
         }
         else if(op instanceof CharLiteral){
+            printOp = "str";
             CharLiteral sentencia = (CharLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
             String var = identificador + "_" + temporal;
@@ -529,6 +556,12 @@ public class Codigo3Direcciones {
            Identifier identifier = (Identifier)op;
            String var = getTablaDeSimbolosData(identifier.getName());
            dato = var;
+           printOp = getTablaDeSimbolosDataType(identifier.getName());
+           if (printOp.equals("Integer") || printOp.equals("Boolean")){
+               printOp="int";
+           }else{
+               printOp="str";
+           }
         }
         else if(op instanceof ArrayPositionOperation){
             ArrayPositionOperation sentencia = (ArrayPositionOperation)op;
@@ -553,7 +586,7 @@ public class Codigo3Direcciones {
                generarOperacion(op1, "p" + contador);
                contador+=1;
            }
-           codigo3d += "call " + name + ", " + String.valueOf((contador)) + "\n";
+           codigo3d += "call " + name + "\n";
            String var = identificador + "_" + temporal;
            codigo3d += var + " = " + "return \n";
            dato = var;

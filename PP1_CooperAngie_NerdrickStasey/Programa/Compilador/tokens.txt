@@ -8,6 +8,32 @@ int -> INT
 besito -> IDENTIFIER
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+<<<<<<< HEAD
+int -> INT
+edad -> IDENTIFIER
+= -> EQUAL
+2 -> INTEGER
+; -> FINAL
+print -> PRINT
+( -> OPEN_PAREN
+"Ingresa tu edad: " -> CHARCHAIN
+) -> CLOSE_PAREN
+; -> FINAL
+read -> READ
+( -> OPEN_PAREN
+edad -> IDENTIFIER
+) -> CLOSE_PAREN
+; -> FINAL
+print -> PRINT
+( -> OPEN_PAREN
+"Tu edad es: " -> CHARCHAIN
+) -> CLOSE_PAREN
+; -> FINAL
+print -> PRINT
+( -> OPEN_PAREN
+edad -> IDENTIFIER
+) -> CLOSE_PAREN
+=======
 if -> IF
 ( -> OPEN_PAREN
 23 -> INTEGER
@@ -82,6 +108,7 @@ false -> FALSE
 { -> OPEN_KEY
 return -> RETURN
 8 -> INTEGER
+>>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
 ; -> FINAL
 } -> CLOSE_KEY
 else -> ELSE

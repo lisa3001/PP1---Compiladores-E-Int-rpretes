@@ -1,8 +1,36 @@
 .data
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+print_t2:   .asciiz "Ingresa tu edad: "
+print_t3:   .asciiz "Tu edad es: "
+=======
+var0_t5:   .byte 'a'
+var1_t7:   .asciiz "gol"
+>>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
+>>>>>>> 3a167617b9751aaae8af32a683b67c81550771c1
 
 .text
 .globl main
 main:
+<<<<<<< HEAD
+     li  $t0, 2
+     move  $t1, $t0
+     la  $t2, print_t2
+     move $a0, $t2
+     jal print_str
+     move $a0, $t1
+     li $a1, 50
+     jal read_int
+     move $t1, $v0
+     la  $t3, print_t3
+     move $a0, $t3
+     jal print_str
+     move $a0, $t1
+     jal print_int
+     li  $t4, 1
+     move  $v1, $t4
+=======
      li  $t0, 1
      li  $t1, 8
      move  $t0, $turn
@@ -47,6 +75,7 @@ IF_0_END:
      li  $t1, 24
      sgtu $t0, $t0 ,$t1
      li  $t1, 0
+<<<<<<< HEAD
      seq $t0, $t0 ,$t1
      beq $t0, 1, IF_1
      li  $t2, 1
@@ -77,13 +106,27 @@ IF_1_END:
      li  $t8, 0
      move  $v1, $t8
 Print:
+=======
+     move  $v1, $t1
+>>>>>>> 2343a4dac9a541ecf8662a394dee42881d85c91a
+     j end
+print_str:
+>>>>>>> 3a167617b9751aaae8af32a683b67c81550771c1
 	li $v0, 4
      	syscall  
 	jr $ra
-ReadOption:
+print_int:
+	li $v0, 1
+     	syscall  
+	jr $ra
+read_int:
 	li $v0, 5
 	syscall
 	move $v1, $v0
+	jr $ra
+read_str:
+	li $v0, 8
+	syscall
 	jr $ra
 end:
       li $v0, 10

@@ -11,11 +11,29 @@ import java.util.ArrayList;
 public class Mips {
     private String[] codigo3d;
     private String data = ".data\n";
+    private ArrayList<String> datos = new ArrayList<String>();
     private String[] sentences;
     private String main = "\n.text\n.globl main\n";
     private String funciones = "";
     private ArrayList<Object> bloquemain = new ArrayList();
     private ArrayList<Object> bloquefunc = new ArrayList();
+    private String printFunctions = "print_str:\n" +
+"	li $v0, 4\n" +
+"     	syscall  \n" +
+"	jr $ra\n" +
+        "print_int:\n" +
+"	li $v0, 1\n" +
+"     	syscall  \n" +
+"	jr $ra\n";
+   private String readFunctions = "read_int:\n" +
+"	li $v0, 5\n" +
+"	syscall\n" +
+"	move $v1, $v0\n" +
+"	jr $ra\n" +
+        "read_str:\n" +
+"	li $v0, 8\n" +
+"	syscall\n" +
+"	jr $ra\n";
     
     
     //Constructor de la clase
@@ -125,6 +143,15 @@ public class Mips {
                   inst += "     la  ";
                   data += instruccion[0] + ":   .byte " + instruccion[1] + "\n";
                   inst += "$" + registro + ", " + instruccion[0];
+              }else if (instruccion[1].contains("null")){
+                  if (instruccion[1].contains("null_str")){
+                    inst += "     la  ";
+                    data += instruccion[0] + ":   .space 50 \n";
+                    inst += "$" + registro + ", " + instruccion[0];
+                  }else{
+                    inst += "     li  ";
+                    inst += "$" + registro + ", 0";   
+                  }
               }else{
                   if (instruccion[1].contains("+") && !instruccion[1].contains("++")){
                      String[] operandos = instruccion[1].split("\\+"); 
@@ -221,6 +248,19 @@ public class Mips {
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sne ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  }else if (instruccion[0].contains("print_param") ){ 
+                     String operando1 = obtenerRegistro(instruccion[1]);
+                     inst += "     move ";
+                     inst += "$a0" + ", $" + operando1;
+                  }else if (instruccion[0].contains("read_param") ){ 
+                     String operando1 = obtenerRegistro(instruccion[1]);
+                     inst += "     move ";
+                     inst += "$a0" + ", $" + operando1 + "\n";
+                     inst += "     li ";
+                     inst += "$a1" + ", 50";
+                  }else if (instruccion[1].equals("return")){
+                     inst += "     move ";
+                     inst += "$" + registro + ", $v0";
                   }else{
                       String asignacion = obtenerRegistro(instruccion[1]);
                       if (asignacion != ""){
@@ -237,15 +277,8 @@ public class Mips {
           }
       }
       main += "     j end\n";
-      funciones += "Print:\n" +
-"	li $v0, 4\n" +
-"     	syscall  \n" +
-"	jr $ra\n";
-      funciones += "ReadOption:\n" +
-"	li $v0, 5\n" +
-"	syscall\n" +
-"	move $v1, $v0\n" +
-"	jr $ra\n";
+      funciones += printFunctions;
+      funciones += readFunctions;
       funciones += "end:\n      li $v0, 10\n       syscall";
       guardarCodigoMips();
     }
