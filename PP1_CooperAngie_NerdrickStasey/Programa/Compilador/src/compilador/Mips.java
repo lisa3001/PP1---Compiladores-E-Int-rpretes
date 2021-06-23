@@ -215,9 +215,21 @@ public class Mips {
           else if( linea.contains("param") && linea.contains("=") && !linea.contains("print_param") && !linea.contains("read_param")){
               String[] instruccion = linea.split(" ");
               String[] registro = instruccion[0].split("_");
-              String numRegistro = registro[1].replace("t", "");
+              String numRegistro = registro[0].replace("param", "");
+              String result = "";
+              String tipoInstruccion = "";
+              try{
+                  int num = Integer.parseInt(instruccion[2]);
+                  result += instruccion[2];
+                  tipoInstruccion += "li";
+              }catch (Exception e){
+                  String regis = obtenerRegistro(instruccion[2]);
+                  result += regis;
+                  tipoInstruccion += "move";
+              }
+              
               String inst = "";
-              inst += "     li $a"+ numRegistro+ ", " +instruccion[2];
+              inst += "     "+tipoInstruccion+" $a"+ numRegistro+ ", $" +result;
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";               
           }

@@ -722,10 +722,8 @@ public class Codigo3Direcciones {
            String var = getTablaDeSimbolosData(identifier.getName());
            dato = var;
            if(identificador.contains("param")){
-               String var1 = identificador + "_" + temporal;
+               String var1 = identificador;
                codigo3d += var1 + " = " + var + "\n";
-               uso = 1;
-               tempRenov.add(temporal);
            }
            printOp = getTablaDeSimbolosDataType(identifier.getName());
            if (printOp.equals("Integer") || printOp.equals("Boolean") || printOp.equals("Float")){

@@ -1,31 +1,35 @@
 .data
-print_t5:   .asciiz "El resultado es "
+print_t6:   .asciiz "El resultado es "
 
 .text
 .globl main
 main:
      li  $t0, 6
      move  $t1, $t0
-     li $a2, num_t1
+     li  $t2, 8
+     move  $t3, $t2
+     move $a0, $t1
+     move $a1, $t3
      jal guardarRegistros
      jal mult2
      jal cargarRegistros
-     move $t2, $v0
-     move  $t4, $t2
-     la  $t5, print_t5
-     move $a0, $t5
+     move $t4, $v0
+     move  $t5, $t4
+     la  $t6, print_t6
+     move $a0, $t6
      jal print_str
-     move $a0, $t4
+     move $a0, $t5
      jal print_int
-     li  $t6, 0
-     move  $v0, $t6
+     li  $t7, 0
+     move  $v0, $t7
      j end
 mult2:
      move $s7, $ra
      move $t0, $a0
-     li  $t1, 2
      move $t1, $a1
-     move  $v0, $t1
+     li  $t2, 2
+     move $t2, $a2
+     move  $v0, $t2
      jr $s7
 print_str:
 	li $v0, 4
