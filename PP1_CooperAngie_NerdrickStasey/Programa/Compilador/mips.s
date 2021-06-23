@@ -3,24 +3,22 @@
 .text
 .globl main
 main:
-     li $a0, 2
-     li $a1, 3
-     jal guardarRegistros
-     jal suma
-     jal cargarRegistros
-     move $t0, $v0
-     move  $t3, $t0
-     move  $v0, $t3
+     li  $t0, 0
+     move  $t1, $t0
+     li  $t2, 0
+     move  $t3, $t2
+     li  $t4, 5
+     sltu $t3, $t3 ,$t4
+     move  $t5, $t3
+     beq $t5, 1, end
+     li  $t6, 1
+     add $t1, $t1 ,$t6
+     add $t3, $t3, 1
+     move  $t3, $t3
+     j for_0
+     li  $t7, 0
+     move  $v0, $t7
      j end
-suma:
-     move $s7, $ra
-     li  $t0, a
-     li  $t1, b
-     li  $t2, 3
-     li  $t3, 2
-     add $t2, $t2 ,$t3
-     move  $v0, $t2
-     jr $s7
 print_str:
 	li $v0, 4
      	syscall  

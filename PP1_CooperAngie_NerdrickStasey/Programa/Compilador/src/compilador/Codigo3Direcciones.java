@@ -229,8 +229,11 @@ public class Codigo3Direcciones {
                 
                 codigo3d += "begin for_" + forNumber + "\n";
                 String tempCreateVar = generarOperacion(forCreateVar.getOperation(), "as");
-                String nombre = "as_t" + forcont;
-                forcont += 1;
+                String nombre = "as_" + temp.get(0);
+                
+                if (temp.size() > 0){
+                temp = cutHead(temp);   
+                }
                 
                 Vector<String> v1 = new Vector<String>();
                 v1.add(nombre);
@@ -240,9 +243,14 @@ public class Codigo3Direcciones {
                 
                 codigo3d += nombre + " = " + tempCreateVar + "\n";  
                 
+                codigo3d += "for_" + forNumber + "\n";
                 String tempConditional = generarOperacion(forCondition, "as");
-                String nombre2 = "as" + forcont;
-                forcont += 1; 
+                String nombre2 = "as_" + temp.get(0);
+                
+                if (temp.size() > 0){
+                temp = cutHead(temp);   
+               }
+                
                 codigo3d += nombre2 + " = " + tempConditional + "\n"; 
                 codigo3d += "if_go !(" + nombre2 + ") goto (end for)" + "\n";
                 
@@ -257,7 +265,6 @@ public class Codigo3Direcciones {
             }
             //Return
             else if(tempSentence instanceof Return){
-                System.out.println("Entra al returnnn");
                 Return declaracion = (Return)tempSentence;
                 String valor = generarOperacion(declaracion.getReturnOp(), "return" + String.valueOf(returncont));
                 codigo3d += "return " + valor + "\n";
@@ -369,6 +376,7 @@ public class Codigo3Direcciones {
             Plus sentencia = (Plus)op;
             String leftType = generarOperacion(sentencia.getLeftOperation(), identificador);
             String rigthType = generarOperacion(sentencia.getRightOperation(), identificador);
+            String rest = "";
             String var = leftType;
             codigo3d += var + " = " + leftType + " + " + rigthType + "\n";
             dato = var;
@@ -558,7 +566,6 @@ public class Codigo3Direcciones {
         }
         else if(op instanceof Identifier){
            Identifier identifier = (Identifier)op;
-           System.out.println("El identificador es " + identifier.getName());
            String var = getTablaDeSimbolosData(identifier.getName());
            dato = var;
            printOp = getTablaDeSimbolosDataType(identifier.getName());
@@ -610,6 +617,13 @@ public class Codigo3Direcciones {
          temp = cutHead(temp);   
         }
         return dato;
+    }
+    
+    public boolean isInTabla(String ident){
+       for(Vector<String> i: tablaSimbolos){
+            if(i.elementAt(1).equals(ident) || i.elementAt(0).equals(ident)) return true;
+       }
+       return false; 
     }
     
     public List<String> cutHead(List<String> lista){

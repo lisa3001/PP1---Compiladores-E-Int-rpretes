@@ -1,20 +1,21 @@
-func begin suma
-begin params
-suma_t0 = a
-suma_t1 = b
-end params
-return0_t2 = 3
-return0_t3 = 2
-return0_t2 = return0_t2 + return0_t3
-return return0_t2
-func end suma
-
 func begin main 
-param0_t0 = 2
-param1_t1 = 3
-call suma
-var0_t0 = return 
-b_t3 = var0_t0
-return b_t3
+var0_t0 = 0
+b_t1 = var0_t0
+begin for_0
+as_t2 = 0
+as_t3 = as_t2
+for_0
+as_t4 = 5
+as_t3 = as_t3 < as_t4
+as_t5 = as_t3
+if_go !(as_t5) goto (end for)
+as_t6 = 1
+b_t1 = b_t1 + as_t6
+as_t3 = ++as_t3
+as_t3 = as_t3
+goto (for_0)
+end for_0
+return0_t7 = 0
+return return0_t7
 func end main 
 
