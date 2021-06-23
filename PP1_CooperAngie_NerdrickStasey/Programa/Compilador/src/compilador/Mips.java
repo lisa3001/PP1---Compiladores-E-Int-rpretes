@@ -121,6 +121,10 @@ public class Mips {
                   inst += "     la  ";
                   data += instruccion[0] + ":   .asciiz " + instruccion[1] + "\n";
                   inst += "$" + registro + ", " + instruccion[0];
+              }else if ( instruccion[1].contains("\'") ){
+                  inst += "     la  ";
+                  data += instruccion[0] + ":   .byte " + instruccion[1] + "\n";
+                  inst += "$" + registro + ", " + instruccion[0];
               }else{
                   if (instruccion[1].contains("+") && !instruccion[1].contains("++")){
                      String[] operandos = instruccion[1].split("\\+"); 

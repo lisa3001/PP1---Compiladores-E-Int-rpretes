@@ -508,8 +508,7 @@ public class Codigo3Direcciones {
             CharLiteral sentencia = (CharLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
             String var = identificador + "_" + temporal;
-            System.out.println(valor);
-            codigo3d += var + " = " + valor + "\n";
+            codigo3d += var + " = '" + valor + "'\n";
             dato = var;
             uso = 1;
             tempRenov.add(temporal);

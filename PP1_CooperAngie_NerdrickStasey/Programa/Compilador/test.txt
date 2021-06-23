@@ -1,19 +1,15 @@
-int extra(){
-	if ( 23 > 24 == false){
-		return 8;
-	}
-	elif (true == false){
+int main () {
+	if (true == false){
 		return 4;
 	}
 	elif (true != false){
+		char x = 'a';
+		string y = "gol";
 		return 8;
 	}
 	else{
 		return 10;
 	}
-	return 0;
-}
 
-int main () {
-	return 1;
+	return 0;
 }

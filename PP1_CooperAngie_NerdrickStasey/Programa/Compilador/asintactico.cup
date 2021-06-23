@@ -524,7 +524,7 @@ non terminal InitProgram init_program;
                         :}
                       | CHARACTER:c
                         {:
-                            RESULT = new CharLiteral(c.getValue().toString().charAt(0), new int[] {c.getRow(), c.getColumn()});
+                            RESULT = new CharLiteral(c.getValue().toString().charAt(1), new int[] {c.getRow(), c.getColumn()});
                         :}
                       | IDENTIFIER:id
                         {:
