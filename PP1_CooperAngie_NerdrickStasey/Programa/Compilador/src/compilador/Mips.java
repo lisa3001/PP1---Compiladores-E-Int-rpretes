@@ -193,7 +193,7 @@ public class Mips {
           }
           //Parámetros de función
           //Objetivo: Crear instrucciones de parámetros de funciones, a partir de código intermedio
-          else if( linea.contains("_fpa") ){
+          else if( linea.contains("_fpa") && (linea.split(" ")).length <= 3){
               String[] instruccion = linea.split(" ");
               String registroTemp = instruccion[0].replace("_fpa", "");
               String registro = obtenerRegistro(registroTemp);
@@ -291,6 +291,7 @@ public class Mips {
           //Objetivo: Crea un split en las instrucciones que tienen una igualdad 
           //para realizar acciones a partir de esto
           else if (linea.contains("=") ){
+              System.out.println(linea);
               String[] instruccion = linea.split("=");
               instruccion[0] = instruccion[0].trim();
               instruccion[1] = instruccion[1].trim();
@@ -344,6 +345,7 @@ public class Mips {
                   //MULTIPLICACIÓN
                   //Objetivo: Crea la instrucción de multiplicación para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("*") && !instruccion[1].contains("**")){
+                     System.out.println("multi");
                      String[] operandos = instruccion[1].split("\\*"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
