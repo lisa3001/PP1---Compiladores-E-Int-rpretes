@@ -1,12 +1,52 @@
 int -> INT
+<<<<<<< HEAD
+=======
+mult2 -> IDENTIFIER
+( -> OPEN_PAREN
+int -> INT
+valor -> IDENTIFIER
+, -> COMMA
+int -> INT
+otro -> IDENTIFIER
+) -> CLOSE_PAREN
+{ -> OPEN_KEY
+return -> RETURN
+valor -> IDENTIFIER
+* -> MULTI
+2 -> INTEGER
+; -> FINAL
+} -> CLOSE_KEY
+int -> INT
+>>>>>>> 47d9455e3b24eb5057ce2aa3bb1874d8ffe894fa
 main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
 int -> INT
+<<<<<<< HEAD
 edad -> IDENTIFIER
 = -> EQUAL
 22 -> INTEGER
+=======
+num -> IDENTIFIER
+= -> EQUAL
+6 -> INTEGER
+; -> FINAL
+int -> INT
+x -> IDENTIFIER
+= -> EQUAL
+8 -> INTEGER
+; -> FINAL
+int -> INT
+res -> IDENTIFIER
+= -> EQUAL
+mult2 -> IDENTIFIER
+( -> OPEN_PAREN
+num -> IDENTIFIER
+, -> COMMA
+x -> IDENTIFIER
+) -> CLOSE_PAREN
+>>>>>>> 47d9455e3b24eb5057ce2aa3bb1874d8ffe894fa
 ; -> FINAL
 print -> PRINT
 ( -> OPEN_PAREN
