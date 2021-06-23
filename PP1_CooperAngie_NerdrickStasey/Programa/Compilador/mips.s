@@ -3,8 +3,12 @@
 .text
 .globl main
 main:
-     li  $t0, 0
-     move  $v1, $t0
+     li $a0, 1
+     li $a1, 3
+     jal extra
+     move $t0, $v0
+     li  $t3, 0
+     move  $v1, $t3
      j end
 extra:
      move $s7, $ra

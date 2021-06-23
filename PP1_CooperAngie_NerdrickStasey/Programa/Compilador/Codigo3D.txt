@@ -39,7 +39,11 @@ return return4_t0
 func end extra
 
 func begin main 
-return0_t0 = 0
-return return0_t0
+param0_t0 = 1
+param1_t1 = 3
+call extra
+as_t0 = return 
+return0_t3 = 0
+return return0_t3
 func end main 
 

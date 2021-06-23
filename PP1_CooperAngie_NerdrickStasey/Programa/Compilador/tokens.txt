@@ -58,6 +58,13 @@ main -> MAIN
 ( -> OPEN_PAREN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
+extra -> IDENTIFIER
+( -> OPEN_PAREN
+1 -> INTEGER
+, -> COMMA
+3 -> INTEGER
+) -> CLOSE_PAREN
+; -> FINAL
 return -> RETURN
 0 -> INTEGER
 ; -> FINAL
