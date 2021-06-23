@@ -302,6 +302,8 @@ public class Mips {
                     inst += "$" + registro + ", 0";   
                   }
               }else{
+                  //SUMA
+                  //Objetivo: Crea la instrucción de suma para mips, a partir del código intermedio
                   if (instruccion[1].contains("+") && !instruccion[1].contains("++")){
                      String[] operandos = instruccion[1].split("\\+"); 
                      String operando1 = obtenerRegistro(operandos[0]);
@@ -309,6 +311,8 @@ public class Mips {
                      inst += "     add ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
                   }
+                  //RESTA
+                  //Objetivo: Crea la instrucción de resta para mips, a partir del código intermedio
                   else if (instruccion[1].contains("-")){
                      instruccion[1] = instruccion[1].trim();
                      String[] operandos = instruccion[1].split("\\-");
@@ -320,13 +324,17 @@ public class Mips {
                      }else{
                          inst += "     mulo ";
                          inst += "$" + registro + ", $" + operandos[1] + ",-1";
-                     }                          
+                     } 
+                  //MULTIPLICACIÓN
+                  //Objetivo: Crea la instrucción de multiplicación para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("*") && !instruccion[1].contains("**")){
                      String[] operandos = instruccion[1].split("\\*"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     mulo ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //POTENCIA
+                  //Objetivo: Crea la instrucción de potencia para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("**")){
                      String[] operandos = instruccion[1].split(" "); 
                      String operando1 = obtenerRegistro(operandos[0]);
@@ -338,70 +346,94 @@ public class Mips {
                      inst += "     jal cargarRegistros \n";
                      inst += "     move ";
                      inst += "$" + registro + ", $v0";
+                  //DIVISIÓN
+                  //Objetivo: Crea la instrucción de división para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("/")){
                      String[] operandos = instruccion[1].split("/"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     div ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //SUMA UNARIA
+                  //Objetivo: Crea la instrucción de suma unaria para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("++")){
                      String[] operandos = instruccion[1].split("\\++");
                      String operando1 = obtenerRegistro(operandos[1]);
                      inst += "     add ";
                      inst += "$" + registro + ", $" + operando1 + ", 1";
+                  //RESTA UNARIA
+                  //Objetivo: Crea la instrucción de resta unaria para mips, a partir del código intermedio
                   }else if (instruccion[1].contains("--")){
                      String[] operandos = instruccion[1].split("\\--");
                      String operando1 = obtenerRegistro(operandos[1]);
                      inst += "     sub ";
                      inst += "$" + registro + ", $" + operando1 + ", 1";
+                  //AND
+                  //Objetivo: Crea la instrucción de and para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("&")){
                      String[] operandos = instruccion[1].split("\\&"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     and ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //OR
+                  //Objetivo: Crea la instrucción or para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("|")){
                      String[] operandos = instruccion[1].split("\\|"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     or ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //MÓDULO
+                  //Objetivo: Crea la instrucción de módulo para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("~") ){
                      String[] operandos = instruccion[1].split("\\~"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     rem ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //MENOR (operación relacional)
+                  //Objetivo: Crea la instrucción de menor para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("<") && !instruccion[1].contains("<<") ){
                      String[] operandos = instruccion[1].split("\\<"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sltu ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //MENOR O IGUAL (operación relacional)
+                  //Objetivo: Crea la instrucción de menor o igual para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("<<") ){
                      String[] operandos = instruccion[1].split("\\<<"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sleu ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //MAYOR (operación relacional)
+                  //Objetivo: Crea la instrucción de mayor para mips, a partir del código intermedio
                    }else if ( instruccion[1].contains(">") && !instruccion[1].contains(">>") ){
                      String[] operandos = instruccion[1].split("\\>"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sgtu ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //MAYOR O IGUAL (operación relacional)
+                  //Objetivo: Crea la instrucción de mayor o igual para mips, a partir del código intermedio
                    }else if (instruccion[1].contains(">>") ){
                      String[] operandos = instruccion[1].split("\\>>"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sgeu ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //IGULADAD (operación relacional)
+                  //Objetivo: Crea la instrucción de igualdad para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("@@") ){
                      String[] operandos = instruccion[1].split("\\@@"); 
                      String operando1 = obtenerRegistro(operandos[0]);
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     seq ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //DIFERENTE (operación relacional)
+                  //Objetivo: Crea la instrucción de diferente para mips, a partir del código intermedio
                    }else if (instruccion[1].contains("!@") ){
                      String[] operandos = instruccion[1].split("\\!@"); 
                      String operando1 = obtenerRegistro(operandos[0]);
@@ -457,7 +489,9 @@ public class Mips {
         return resultado;
     }
     
-   
+    //Entrada: Un char
+    //Salida: Booleano
+    //Objetivo: Verifica si el char se puede convertir a número entero.
     public boolean isInteger(char var){
         try 
         {
