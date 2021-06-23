@@ -198,8 +198,13 @@ public class Mips {
               if (esMain == 1)main += inst + "\n";
               else funciones += inst + "\n";   
               registroA+=1;
-              
-              System.out.println(java.util.Arrays.toString(instruccion));
+          }
+          else if( linea.contains("createarray") ){
+              String[] instruccion = linea.split("_");
+              String nombre = instruccion[1];
+              String largo = instruccion[2];
+              String inst = nombre + ":      .space " + largo + "\n";
+              data += inst;
           }
           else if( linea.contains("param") && linea.contains("=") && !linea.contains("print_param") && !linea.contains("read_param")){
               String[] instruccion = linea.split(" ");

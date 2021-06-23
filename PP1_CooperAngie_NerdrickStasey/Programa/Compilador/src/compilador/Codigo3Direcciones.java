@@ -321,9 +321,7 @@ public class Codigo3Direcciones {
             else if(tempSentence instanceof CreateArray){
                 CreateArray array = (CreateArray) tempSentence;
                 String tipo = array.getType().getTipo();
-                codigo3d += "array_t" + arraycont + " = " + array.getIdentifier().getName() +"\n"; 
-                codigo3d += "array_t" + arraycont + "_type" + " = " + tipo +"\n"; 
-                codigo3d += "array_t" + arraycont + "_size" + " = " + array.getLength() +"\n";
+                codigo3d += "createarray_" + array.getIdentifier().getName() + "_" + array.getLength() + "\n";
                 arraycont++;
             }
             else if(tempSentence instanceof If){
