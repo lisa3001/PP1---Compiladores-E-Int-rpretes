@@ -284,10 +284,14 @@ public class Mips {
               instruccion[1] = instruccion[1].trim();
               String inst = "";
               String registro = obtenerRegistro(instruccion[0]);
+              //Guarda valor de strings
+              //Objetivo: Sí el elemento es de tipo string lo guarda en el .data de mips
               if (instruccion[1].contains("\"")){
                   inst += "     la  ";
                   data += instruccion[0] + ":   .asciiz " + instruccion[1] + "\n";
                   inst += "$" + registro + ", " + instruccion[0];
+              //Guarda valor de chars
+              //Objetivo: Sí el elemento es de tipo char lo guarda en el .data de mips
               }else if ( instruccion[1].contains("\'") ){
                   inst += "     la  ";
                   data += instruccion[0] + ":   .byte " + instruccion[1] + "\n";
