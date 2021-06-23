@@ -267,7 +267,9 @@ public class Codigo3Direcciones {
                 generarBloque(forSentence.getSentences().getSentences());
                 
                 String tempUnary = generarOperacion(forManager, "as");
-                codigo3d += nombre + " = " + tempUnary + "\n"; 
+                codigo3d += nombre + " = " + tempUnary + "\n";                 
+                codigo3d += "goto (FOR_" + forNumber + ")\n";
+
 
                 anidado = false;
                 union(temp, tempAnidado);//temp.addAll(tempAnidado);
@@ -672,8 +674,15 @@ public class Codigo3Direcciones {
             printOp = "int";
             FloatLiteral sentencia = (FloatLiteral)op;
             String valor = String.valueOf(sentencia.getValue());
+            String nuevoValor = "";
+            for(int i = 0; i< valor.length(); i++){
+                char letra = valor.charAt(i);
+                if(letra == '.') break;
+                else nuevoValor+= String.valueOf(letra);
+                
+            }            
             String var = identificador + "_" + temporal;
-            codigo3d += var + " = " + valor + "\n";
+            codigo3d += var + " = " + nuevoValor + "\n";
             dato = var;
             uso = 1;
             tempRenov.add(temporal);

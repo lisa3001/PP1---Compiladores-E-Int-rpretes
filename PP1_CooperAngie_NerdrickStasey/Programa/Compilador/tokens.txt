@@ -4,6 +4,13 @@ main -> MAIN
 ) -> CLOSE_PAREN
 { -> OPEN_KEY
 int -> INT
+x -> IDENTIFIER
+= -> EQUAL
+123.54 -> DECIMAL
+; -> FINAL
+=======
+<<<<<<< HEAD
+int -> INT
 edad -> IDENTIFIER
 = -> EQUAL
 1 -> INTEGER
@@ -40,6 +47,13 @@ print -> PRINT
 edad -> IDENTIFIER
 ) -> CLOSE_PAREN
 ; -> FINAL
+<<<<<<< HEAD
+=======
+} -> CLOSE_KEY
+} -> CLOSE_KEY
+} -> CLOSE_KEY
+>>>>>>> 81345f279e657a96e1d4a614cb21b3b0b905b1f3
+>>>>>>> 14dce2eaf80192d351987f8aed323536cf7e43eb
 return -> RETURN
 0 -> INTEGER
 ; -> FINAL

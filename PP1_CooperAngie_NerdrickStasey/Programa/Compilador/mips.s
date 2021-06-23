@@ -4,6 +4,37 @@ print_t7:   .asciiz "La edad nueva es "
 .text
 .globl main
 main:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+     li  $t0, 123
+     move  $t1, $t0
+     li  $t2, 0
+     move  $v0, $t2
+=======
+<<<<<<< HEAD
+     li  $t0, 19
+     move  $t1, $t0
+     li  $t2, 18
+     sgtu $t2, $t1 ,$t2
+     beq $t2, 1, IF_0
+     j ELSE_0
+IF_0:
+     li  $t3, 3
+     li  $t4, 6
+     mulo $t3, $t3 ,$t4
+     move  $t5, $t3
+     j IF_0_END
+ELSE_0:
+     li  $t6, 3
+     move  $t7, $t6
+     la  $t8, var3_t8
+     move  $t9, $t8
+IF_0_END:
+     li  $t0, 0
+     move  $v0, $t0
+=======
+>>>>>>> 14dce2eaf80192d351987f8aed323536cf7e43eb
      li  $t0, 1
      move  $s1, $t0
      li  $t2, 0
@@ -27,6 +58,11 @@ end_for_0:
      jal print_int
      li  $t8, 0
      move  $v0, $t8
+<<<<<<< HEAD
+=======
+>>>>>>> d55506b001cf56ed07afd4dac44b292301ee6a78
+>>>>>>> 81345f279e657a96e1d4a614cb21b3b0b905b1f3
+>>>>>>> 14dce2eaf80192d351987f8aed323536cf7e43eb
      j end
 print_str:
 	li $v0, 4
