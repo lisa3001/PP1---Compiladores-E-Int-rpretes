@@ -34,6 +34,8 @@ public class Codigo3Direcciones {
     private int assingcont = 0;
     private int arraycont = 0;
     private int returncont = 0;
+    private int prints = 0;
+    private int reads = 0;
     
     
     //Entrada: Recibe un objeto de tipo InitProgram
@@ -297,18 +299,19 @@ public class Codigo3Direcciones {
             //Print
             else if(tempSentence instanceof Print){
                 Print declaracion = (Print)tempSentence;
-                String valor = generarOperacion(declaracion.getOperation(), "print");
+                String valor = generarOperacion(declaracion.getOperation(), "print" + prints);
                 codigo3d += "print_param" + " = " + valor + "\n";
                 codigo3d += "call " + "print" + "_" + printOp + "\n";
                 union(temp, tempRenov);//temp.addAll(tempRenov);
                 tempRenov = new ArrayList<String>();
+                prints += 1;
             }
             //Read
             else if(tempSentence instanceof Read){
                 Read declaracion = (Read)tempSentence;
                 String var = getTablaDeSimbolosData(declaracion.getVarName().getName());
                 printOp = getTablaDeSimbolosDataType(declaracion.getVarName().getName());
-                if (printOp.equals("Integer") || printOp.equals("Boolean")){
+                if (printOp.equals("Integer") || printOp.equals("Boolean") || printOp.equals("Float")){
                     printOp="int";
                 }else{
                     printOp="str";
@@ -721,10 +724,6 @@ public class Codigo3Direcciones {
            Identifier identifier = (Identifier)op;
            String var = getTablaDeSimbolosData(identifier.getName());
            dato = var;
-           if(identificador.contains("param")){
-               String var1 = identificador;
-               codigo3d += var1 + " = " + var + "\n";
-           }
            printOp = getTablaDeSimbolosDataType(identifier.getName());
            if (printOp.equals("Integer") || printOp.equals("Boolean") || printOp.equals("Float")){
                printOp="int";

@@ -1,32 +1,39 @@
 .data
-print_t2:   .asciiz "jejejeeje"
+print0_t4:   .asciiz "El resultado es "
 
 .text
 .globl main
 main:
-     li  $t0, 3
+     li  $t0, 8
      move $a0, $t0
-     li  $t1, 2
-     move $a1, $t1
      jal guardarRegistros
      jal mult2
      jal cargarRegistros
      move $t0, $v0
-     move  $t3, $t0
-     li  $t4, 0
-     move  $v0, $t4
+     move  $t2, $t0
+     li  $t3, 6
+     add $t3, $t2 ,$t3
+     move  $t2, $t3
+     la  $t4, print0_t4
+     move $a0, $t4
+     jal print_str
+     move $a0, $t2
+     jal print_int
+     li  $t5, 0
+     move  $v0, $t5
      j end
 mult2:
-     move $s7, $ra
+     move $v1, $ra
      move $t0, $a0
-     move $t1, $a1
-     la  $t2, print_t2
-     move $a0, $t2
-     jal print_str
-     li  $t3, 2
-     mulo $t3, $t0,$t3
-     move  $v0, $t3
-     jr $s7
+     li  $t1, 2
+     move $a0, $t0
+     move $a1, $t1
+     jal guardarRegistros 
+     jal Potencia 
+     jal cargarRegistros 
+     move $t1, $v0
+     move  $v0, $t1
+     jr $v1
 print_str:
 	li $v0, 4
      	syscall  
@@ -38,7 +45,6 @@ print_int:
 read_int:
 	li $v0, 5
 	syscall
-	move $v1, $v0
 	jr $ra
 read_str:
 	li $v0, 8
@@ -65,8 +71,12 @@ guardarRegistros:
      sw  $t8, 0($sp)
      sub $sp, $sp, 4
      sw  $t9, 0($sp)
+     sub $sp, $sp, 4
+     sw  $v1, 0($sp)
      jr $ra
 cargarRegistros:
+     lw $v1, 0($sp)
+     addi $sp, $sp, 4
      lw $t9, 0($sp)
      addi $sp, $sp, 4
      lw $t8, 0($sp)
@@ -89,7 +99,7 @@ cargarRegistros:
      addi $sp, $sp, 4
      jr $ra
 Potencia:
-	move $s7, $ra
+	move $v1, $ra
 	move $t1, $a0
 	move $t2, $a1
 	seq $t3, $t2, $zero
@@ -105,11 +115,11 @@ Potencia:
 
 ExponenteCero:
 	li $v0, 1 
-	jr $s7
+	jr $v1
 
 ExponenteUno:
 	move $v0, $t1 
-	jr $s7
+	jr $v1
 
 ForPotencia:
 	seq $t3, $t5, $t2
@@ -120,7 +130,7 @@ ForPotencia:
 
 FinForPotencia:
 	move $v0, $t4 
-	jr $s7
+	jr $v1
 end:
       li $v0, 10
        syscall

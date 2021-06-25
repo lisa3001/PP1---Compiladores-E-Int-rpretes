@@ -18,6 +18,7 @@ public class Mips {
     private ArrayList<Object> bloquemain = new ArrayList();
     private ArrayList<Object> bloquefunc = new ArrayList();
     private int registroA = 0;
+    //Se precargan las funciones de print(string y entero)
     private String printFunctions = "print_str:\n" +
 "	li $v0, 4\n" +
 "     	syscall  \n" +
@@ -26,16 +27,17 @@ public class Mips {
 "	li $v0, 1\n" +
 "     	syscall  \n" +
 "	jr $ra\n";
+    //Se precargan las funciones de read(string y entero)
    private String readFunctions = "read_int:\n" +
 "	li $v0, 5\n" +
 "	syscall\n" +
-"	move $v1, $v0\n" +
 "	jr $ra\n" +
         "read_str:\n" +
 "	li $v0, 8\n" +
 "	syscall\n" +
 "	jr $ra\n";
-   
+ 
+    //Se precarga la función de almacenar el contenido de los registros en la pila
    private String guardarRegistros = "guardarRegistros:\n" +
 "     sub $sp, $sp, 4\n" +
 "     sw  $t0, 0($sp)\n" +
@@ -57,9 +59,14 @@ public class Mips {
 "     sw  $t8, 0($sp)\n" +
 "     sub $sp, $sp, 4\n" +
 "     sw  $t9, 0($sp)\n" +
+"     sub $sp, $sp, 4\n" +  
+"     sw  $v1, 0($sp)\n" +
 "     jr $ra\n";
    
+   //Se precarga la función de cargar el contenido de la pila en los registros
    private String cargarRegistros = "cargarRegistros:\n" +
+"     lw $v1, 0($sp)\n" +
+"     addi $sp, $sp, 4\n" +
 "     lw $t9, 0($sp)\n" +
 "     addi $sp, $sp, 4\n" +
 "     lw $t8, 0($sp)\n" +
@@ -82,8 +89,9 @@ public class Mips {
 "     addi $sp, $sp, 4\n" +
 "     jr $ra\n";
    
+   //Se precarga la función de pontencia
    private String potenciaFunc = "Potencia:\n" +
-"	move $s7, $ra\n" +
+"	move $v1, $ra\n" +
 "	move $t1, $a0\n" +
 "	move $t2, $a1\n" +
 "	seq $t3, $t2, $zero\n" +
@@ -99,11 +107,11 @@ public class Mips {
 "\n" +
 "ExponenteCero:\n" +
 "	li $v0, 1 \n" +
-"	jr $s7\n" +
+"	jr $v1\n" +
 "\n" +
 "ExponenteUno:\n" +
 "	move $v0, $t1 \n" +
-"	jr $s7\n" +
+"	jr $v1\n" +
 "\n" +
 "ForPotencia:\n" +
 "	seq $t3, $t5, $t2\n" +
@@ -114,7 +122,7 @@ public class Mips {
 "\n" +
 "FinForPotencia:\n" +
 "	move $v0, $t4 \n" +
-"	jr $s7\n";
+"	jr $v1\n";
    
     
     
@@ -170,7 +178,7 @@ public class Mips {
               }
               else{
                   funciones += function +":\n";
-                  funciones += "     move $s7, $ra\n";
+                  funciones += "     move $v1, $ra\n";
                   esMain = 0;
               }
               registroA = 0;
@@ -187,13 +195,13 @@ public class Mips {
               inst += "$v0" + ", $" + registro;
               if (esMain == 1)main += inst + "\n";
               else{
-                  inst += "\n     jr $s7";
+                  inst += "\n     jr $v1";
                   funciones += inst + "\n";
               } 
           }
           //Parámetros de función
           //Objetivo: Crear instrucciones de parámetros de funciones, a partir de código intermedio
-          else if( linea.contains("_fpa") && (linea.split(" ")).length <= 3){
+          else if((linea.split(" "))[0].contains("_fpa")){
               String[] instruccion = linea.split(" ");
               String registroTemp = instruccion[0].replace("_fpa", "");
               String registro = obtenerRegistro(registroTemp);
@@ -309,6 +317,8 @@ public class Mips {
                   inst += "     la  ";
                   data += instruccion[0] + ":   .byte " + instruccion[1] + "\n";
                   inst += "$" + registro + ", " + instruccion[0];
+              //Gestiona cuando se encuentra un null
+              //Objetivo: Colocar la instrucción indicada dependiendo del nulo
               }else if (instruccion[1].contains("null")){
                   if (instruccion[1].contains("null_str")){
                     inst += "     la  ";
@@ -457,16 +467,22 @@ public class Mips {
                      String operando2 = obtenerRegistro(operandos[1]);
                      inst += "     sne ";
                      inst += "$" + registro + ", $" + operando1 + ",$" + operando2;
+                  //Parámetros de la función print
+                  //Objetivo: Crear la instrucción para almacenar el valor a imprimir en los registros de los parámetro
                   }else if (instruccion[0].contains("print_param") ){ 
                      String operando1 = obtenerRegistro(instruccion[1]);
                      inst += "     move ";
                      inst += "$a0" + ", $" + operando1;
+                  //Parámetros de la función read
+                  //Objetivo: Crear la instrucción para almacenar el valor obtenido de la función read en los registros de los parámetro
                   }else if (instruccion[0].contains("read_param") ){ 
                      String operando1 = obtenerRegistro(instruccion[1]);
                      inst += "     move ";
                      inst += "$a0" + ", $" + operando1 + "\n";
                      inst += "     li ";
                      inst += "$a1" + ", 50";
+                  //Parámetros de la función print
+                  //Objetivo: Crear la instrucción para guardar el retorno de una llamada a una función
                   }else if (instruccion[1].equals("return")){
                      inst += "     move ";
                      inst += "$" + registro + ", $v0";
@@ -521,6 +537,9 @@ public class Mips {
         }
     }
     
+    //Entrada: Una etiqueta(string)
+    //Salida: Registro de mips(string)
+    //Objetivo: Obtener el registro de la etiqueta recibida
     public String obtenerRegistro(String etiqueta){
         String resultado = "";
         int contador = etiqueta.lastIndexOf("t");

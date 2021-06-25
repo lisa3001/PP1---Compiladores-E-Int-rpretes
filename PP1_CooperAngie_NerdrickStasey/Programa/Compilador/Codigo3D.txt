@@ -1,25 +1,27 @@
 func begin mult2
 begin params
 mult2_t0_fpa = valor
-mult2_t1_fpa = otro
 end params
-print_t2 = "jejejeeje"
-print_param = print_t2
-call print_str
-return0_t3 = 2
-return0_t3 = mult2_t0_fpa * return0_t3
-return return0_t3
+return0_t1 = 2
+return0_t1 = mult2_t0_fpa ** return0_t1
+return return0_t1
 func end mult2
 
 func begin main 
-as_t0 = 3
+as_t0 = 8
 param0 = as_t0
-as_t1 = 2
-param1 = as_t1
 call mult2
 var0_t0 = return 
-b_t3 = var0_t0
-return0_t4 = 0
-return return0_t4
+x_t2 = var0_t0
+as_t3 = 6
+as_t3 = x_t2 + as_t3
+x_t2 = as_t3
+print0_t4 = "El resultado es "
+print_param = print0_t4
+call print_str
+print_param = x_t2
+call print_int
+return0_t5 = 0
+return return0_t5
 func end main 
 
